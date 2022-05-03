@@ -1,6 +1,8 @@
 const express = require("express")
 const fs = require("fs")
 const mongoose = require("mongoose")
+const apiRoutes = require("./api/apiRoutes.js")
+
 const app = express()
 
 const MONGOOSE_URI = "mongodb://127.0.0.1:27017/tutorria"
@@ -10,6 +12,8 @@ async function main() {
 
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
+
+    app.use("/api", apiRoutes)
 
     app.get("/", function(_, res) {
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
