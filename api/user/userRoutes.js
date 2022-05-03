@@ -36,6 +36,7 @@ router.post("/register", async function(req, res) {
         return res.fail(`Invalid user type: ${userType}`)
     }
 
+    // https://stackoverflow.com/questions/8389811/how-to-query-mongodb-to-test-if-an-item-exists
     const hasUser = await User.countDocuments({ email: email }, { limit: 1 }) == 1
     if (hasUser) {
         return res.fail("User already exists")
