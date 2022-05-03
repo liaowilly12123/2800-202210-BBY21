@@ -55,7 +55,6 @@ router.post("/register", async function(req, res) {
 })
 
 router.post("/login", async function(req, res) {
-<<<<<<< HEAD
     if (req.session.loggedIn) {
         return res.fail("User is already logged in.")
     }
@@ -64,13 +63,6 @@ router.post("/login", async function(req, res) {
 
     if (validate(res, email, "Email is undefined")) return
     if (validate(res, password, "Password is undefined")) return
-=======
-    if (req.session.loggedin) {
-        return res.fail("User is already logged in.")
-    }
-
-    const {email} = req.body
->>>>>>> f357078 (Updated /login endpoint to check if a user is already logged in.)
     
     // Create a session for the user
     req.session.loggedIn = true
