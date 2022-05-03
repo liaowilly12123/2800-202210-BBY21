@@ -2,6 +2,7 @@ const express = require("express")
 const fs = require("fs")
 const mongoose = require("mongoose")
 const apiRoutes = require("./api/apiRoutes.js")
+const responseMiddleware = require("./middleware/responseMiddleware.js")
 
 const app = express()
 
@@ -12,6 +13,8 @@ async function main() {
 
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
+
+    app.use(responseMiddleware)
 
     app.use("/api", apiRoutes)
 
