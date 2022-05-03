@@ -54,4 +54,15 @@ router.post("/register", async function(req, res) {
     res.success()
 })
 
+router.post("/login", async function(req, res) {
+    const {email} = req.body
+    
+    // Create a session for the user
+    req.session.loggedin = true
+    req.session.email = email
+    req.session.save((err) => {})
+
+    res.success()
+})
+
 module.exports = router
