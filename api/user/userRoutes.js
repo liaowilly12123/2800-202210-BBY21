@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const User = require("../../models/User.js")
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
@@ -29,6 +30,11 @@ router.post("/register", function(req, res) {
 
     const userType = body.userType
     if (validate(res, userType, "User type is undefined")) return
+
+    const possibleTypes = User.prototype.schema.paths.userType.enumValues
+    if (!possibleTypes.includes(userType)) {
+        return res.fail(`Invalid user type: ${userType}`)
+    }
 
     res.success()
 })
