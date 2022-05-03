@@ -14,7 +14,10 @@ async function main() {
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
 
+    // Utility functions to send responses
     app.use(responseMiddleware)
+    // Parse incoming payloads as json
+    app.use(express.json())
 
     app.use("/api", apiRoutes)
 
