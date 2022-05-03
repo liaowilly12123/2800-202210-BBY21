@@ -1,8 +1,13 @@
 const express = require("express")
 const fs = require("fs")
+const mongoose = require("mongoose")
 const app = express()
 
+const MONGOOSE_URI = "mongodb://127.0.0.1:27017/tutorria"
+
 async function main() {
+    await mongoose.connect(MONGOOSE_URI)
+
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
 
