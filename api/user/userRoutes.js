@@ -59,7 +59,10 @@ router.post("/login", async function(req, res) {
         return res.fail("User is already logged in.")
     }
 
-    const {email} = req.body
+    const {email, password} = req.body
+
+    if (validate(res, email, "Email is undefined")) return
+    if (validate(res, password, "Password is undefined")) return
     
     // Create a session for the user
     req.session.loggedin = true
