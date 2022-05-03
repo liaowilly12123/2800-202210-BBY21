@@ -1,6 +1,7 @@
 const express = require("express")
 const fs = require("fs")
 const mongoose = require("mongoose")
+const session = require("express-session")
 const apiRoutes = require("./api/apiRoutes.js")
 const responseMiddleware = require("./middleware/responseMiddleware.js")
 
@@ -13,6 +14,14 @@ async function main() {
 
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
+
+    // Set express-session options
+    app.use(session({ 
+        name: "tuttoria",
+        secret: "tuttoriasecret", 
+        saveUninitialized: true,
+        resave: false
+    }))
 
     // Utility functions to send responses
     app.use(responseMiddleware)
