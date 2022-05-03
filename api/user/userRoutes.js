@@ -55,6 +55,10 @@ router.post("/register", async function(req, res) {
 })
 
 router.post("/login", async function(req, res) {
+    if (req.session.loggedin) {
+        return res.fail("User is already logged in.")
+    }
+
     const {email} = req.body
     
     // Create a session for the user
