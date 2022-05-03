@@ -20,8 +20,9 @@ const userSchema = new mongoose.Schema({
     userType: {
         type: String,
         enum: {
-            values: ['tutor', 'student', 'admin']
-        }
+            values: ['tutor', 'student', 'admin'],
+        },
+        required: true
     },
 })
 
