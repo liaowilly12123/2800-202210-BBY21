@@ -12,7 +12,7 @@ function validate(res, data, msg) {
     return false;
 }
 
-router.post("/register", function(req, res) {
+router.post("/register", async function(req, res) {
     const body = req.body
     if (validate(res, body, "Request body is undefined")) return
 
@@ -35,6 +35,20 @@ router.post("/register", function(req, res) {
     if (!possibleTypes.includes(userType)) {
         return res.fail(`Invalid user type: ${userType}`)
     }
+
+    const hasUser = await User.countDocuments({ email: email }, { limit: 1 }) == 1
+    if (hasUser) {
+        return res.fail("User already exists")
+    }
+
+    const newUser = new User({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        userType: userType,
+    })
+    await newUser.save()
 
     res.success()
 })
