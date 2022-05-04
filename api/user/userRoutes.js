@@ -97,6 +97,10 @@ router.get("/logout", function(req, res) {
 })
 
 router.put("/update", function(req, res) {
+    if (!req.session.loggedIn) {
+        return res.fail("User is not logged in.")
+    }
+    
     const userId = req.session.userId
     const payload = req.body.payload
     
