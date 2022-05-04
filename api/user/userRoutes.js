@@ -48,6 +48,7 @@ router.post("/register", async function(req, res) {
         email: email,
         password: password,
         userType: userType,
+        joinDate: new Date()
     })
     await newUser.save()
 
@@ -81,7 +82,7 @@ router.post("/login", async function(req, res) {
     })
 })
 
-router.get("/logout", function (req, res) {
+router.get("/logout", function(req, res) {
     if (!req.session.loggedIn) {
         return res.fail("User is not logged in.")
     }
