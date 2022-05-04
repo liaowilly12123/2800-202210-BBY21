@@ -25,13 +25,17 @@ async function main() {
 
     // Utility functions to send responses
     app.use(responseMiddleware)
-    // Parse incoming payloads as json
+        // Parse incoming payloads as json
     app.use(express.json())
 
     app.use("/api", apiRoutes)
 
     app.get("/", function(_, res) {
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
+        res.send(doc)
+    })
+    app.get("/Signup", function(_, res) {
+        const doc = fs.readFileSync("./public/html/Signup.html", "utf8")
         res.send(doc)
     })
 }
