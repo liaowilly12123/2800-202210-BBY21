@@ -14,7 +14,15 @@ function validate(res, data, msg) {
 }
 
 router.put("/update", async function(req, res) {
+    const userId = req.session.userId
+    const payload = req.body.payload
     
+    User.findByIdAndUpdate(userId, payload, function(err) {
+        if (err) {
+            return res.fail(`${err}`)
+        }
+        return res.success()
+    })
 })
 
 
