@@ -1,0 +1,36 @@
+const router = require("express").Router()
+const User = require("../../models/User.js")
+
+// Checks if data is undefined and sends a fail message back to the client if it
+// is.
+// Returns true if data is undefined, else false
+function validate(res, data, msg) {
+    if (typeof data === 'undefined') {
+        res.fail(msg)
+        return true;
+    }
+    return false;
+}
+
+router.get("/info", function(req, res) {
+    const tutorId = req.query.id
+    if (validate(res, tutorId, "Tutor id not provided")) return;
+
+    const tutor = await User.findById(tutorId)
+    if (tutor === null) {
+        return res.fail(`Tutor with id ${id} not found`)
+    }
+
+    if (tutor.userType !== 'tutor') {
+        return res.fail(`User with id ${tutorId} is not a tutor.`)
+    }
+
+    return res.success({
+        firstName: tutor.firstName,
+        lastName: tutor.lastName,
+        email: tutor.email,
+        joinDate: tutor.joinDate
+    })
+})
+
+module.exports = router
