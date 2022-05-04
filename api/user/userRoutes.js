@@ -96,4 +96,8 @@ router.get("/logout", function(req, res) {
     res.success("Successfully logged out.")
 })
 
+router.put("/update", function(req, res) {
+    
+})
+
 module.exports = router
