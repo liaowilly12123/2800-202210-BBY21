@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const mongoose = require("mongoose")
 const User = require("../../models/User.js")
 
 // Checks if data is undefined and sends a fail message back to the client if it
@@ -16,9 +17,13 @@ router.get("/info", async function(req, res) {
     const tutorId = req.query.id
     if (validate(res, tutorId, "Tutor id not provided")) return;
 
+    if (!mongoose.isValidObjectId(tutorId)) {
+        return res.fail(`${tutorId} is an invalid id`)
+    }
+
     const tutor = await User.findById(tutorId)
     if (tutor === null) {
-        return res.fail(`Tutor with id ${id} not found`)
+        return res.fail(`Tutor with id ${tutorId} not found`)
     }
 
     if (tutor.userType !== 'tutor') {
