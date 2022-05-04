@@ -76,7 +76,8 @@ router.post("/login", async function(req, res) {
     req.session.save((_) => { })
 
     res.success({
-        userType: user.userType
+        userType: user.userType,
+        userId: user._id
     })
 })
 
