@@ -97,7 +97,15 @@ router.get("/logout", function(req, res) {
 })
 
 router.put("/update", function(req, res) {
+    const userId = req.session.userId
+    const payload = req.body.payload
     
+    User.findByIdAndUpdate(userId, payload, function(err) {
+        if (err) {
+            return res.fail(`${err}`)
+        }
+        return res.success()
+    })
 })
 
 module.exports = router
