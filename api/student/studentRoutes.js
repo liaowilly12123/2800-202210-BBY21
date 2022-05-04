@@ -14,7 +14,17 @@ function validate(res, data, msg) {
 }
 
 router.put("/update", async function(req, res) {
+    if (!req.session.loggedIn) {
+        return res.fail("User is not logged in.")
+    }
+    
+    if (req.session.userType !== "student") {
+        return res.fail("User is not type student.")
+    }
+
     const userId = req.session.userId
+    if (validate(res, userId, "User ID is undefined")) return
+
     const payload = req.body.payload
     
     User.findByIdAndUpdate(userId, payload, function(err) {
