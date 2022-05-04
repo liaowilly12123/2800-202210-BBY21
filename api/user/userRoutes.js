@@ -119,4 +119,17 @@ router.put("/info", function(req, res) {
     })
 })
 
+router.get("/all", async function(req, res) {
+    if (req.session.userType !== "admin") {
+        res.fail("User is not an admin")
+    }
+
+    // https://javascript.plainenglish.io/simple-pagination-with-node-js-mongoose-and-express-4942af479ab2
+    const { page = 1, limit = 10 } = req.query
+
+    const users = await User.find().limit(limit).skip((page - 1) * limit)
+
+    res.success(users)
+})
+
 module.exports = router
