@@ -113,7 +113,7 @@ router.put("/update", function(req, res) {
     
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
-            return res.fail(`${err}`)
+            return res.fail(`${err}. Unable to update user profile.`)
         }
         return res.success()
     })
