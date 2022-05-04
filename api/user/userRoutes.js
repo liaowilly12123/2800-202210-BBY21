@@ -54,4 +54,22 @@ router.post("/register", async function(req, res) {
     res.success()
 })
 
+router.post("/login", async function(req, res) {
+    if (req.session.loggedIn) {
+        return res.fail("User is already logged in.")
+    }
+
+    const {email, password} = req.body
+
+    if (validate(res, email, "Email is undefined")) return
+    if (validate(res, password, "Password is undefined")) return
+    
+    // Create a session for the user
+    req.session.loggedIn = true
+    req.session.email = email
+    req.session.save((err) => {})
+
+    res.success()
+})
+
 module.exports = router
