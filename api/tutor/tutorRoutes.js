@@ -12,7 +12,7 @@ function validate(res, data, msg) {
     return false;
 }
 
-router.get("/info", function(req, res) {
+router.get("/info", async function(req, res) {
     const tutorId = req.query.id
     if (validate(res, tutorId, "Tutor id not provided")) return;
 
