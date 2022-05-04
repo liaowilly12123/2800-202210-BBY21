@@ -2,16 +2,17 @@
 // Modified from here
 // https://stackoverflow.com/questions/35782223/how-to-extend-express-js-res-object-in-nodejs
 module.exports = function(_, res, next) {
-    res.success = function() {
+    res.success = function(payload) {
         return res.json({
-            success: true
+            success: true,
+            payload: payload
         })
     }
 
-    res.fail = function(msg) {
+    res.fail = function(payload) {
         return res.json({
             success: false,
-            msg: msg
+            payload: payload
         })
     }
 

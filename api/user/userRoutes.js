@@ -59,17 +59,26 @@ router.post("/login", async function(req, res) {
         return res.fail("User is already logged in.")
     }
 
-    const {email, password} = req.body
+    const { email, password } = req.body
 
     if (validate(res, email, "Email is undefined")) return
     if (validate(res, password, "Password is undefined")) return
-    
+
+    const user = await User.findOne({ email: email, password: password })
+    if (user === null) {
+        return res.fail("Invalid Credentials")
+    }
+
     // Create a session for the user
     req.session.loggedIn = true
-    req.session.email = email
-    req.session.save((err) => {})
+    req.session.userId = user._id
+    req.session.userType = user.userType
+    req.session.save((_) => { })
 
-    res.success()
+    res.success({
+        userType: user.userType,
+        userId: user._id
+    })
 })
 
 module.exports = router
