@@ -96,7 +96,7 @@ router.get("/logout", function(req, res) {
     res.success("Successfully logged out.")
 })
 
-router.put("/update", function(req, res) {
+router.put("/info", function(req, res) {
     if (!req.session.loggedIn) {
         return res.fail("User is not logged in.")
     }
