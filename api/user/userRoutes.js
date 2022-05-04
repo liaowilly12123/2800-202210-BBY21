@@ -107,9 +107,9 @@ router.put("/info", function(req, res) {
     const payload = req.body.payload
 
     // Validate each entry of the payload, cannot be null or undefined
-    Object.entries(payload).forEach(entry => {
+    for (const entry of Object.entries(payload)) {
         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
-    })
+    }
     
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
