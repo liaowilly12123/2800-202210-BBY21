@@ -5,7 +5,7 @@ const User = require("../../models/User.js")
 // is.
 // Returns true if data is undefined, else false
 function validate(res, data, msg) {
-    if (typeof data === 'undefined') {
+    if (typeof data === 'undefined' || data === null) {
         res.fail(msg)
         return true;
     }
@@ -105,6 +105,11 @@ router.put("/update", function(req, res) {
     if (validate(res, userId, "User ID is undefined")) return
 
     const payload = req.body.payload
+
+    // Validate each entry of the payload, cannot be null or undefined
+    Object.entries(payload).forEach(entry => {
+        if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
+    })
     
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
