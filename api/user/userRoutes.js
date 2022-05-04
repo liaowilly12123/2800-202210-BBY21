@@ -100,8 +100,10 @@ router.put("/update", function(req, res) {
     if (!req.session.loggedIn) {
         return res.fail("User is not logged in.")
     }
-    
+
     const userId = req.session.userId
+    if (validate(res, userId, "User ID is undefined")) return
+
     const payload = req.body.payload
     
     User.findByIdAndUpdate(userId, payload, function(err) {
