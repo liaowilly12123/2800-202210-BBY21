@@ -16,9 +16,9 @@ async function main() {
     app.use("/js", express.static("./public/js"))
 
     // Set express-session options
-    app.use(session({ 
+    app.use(session({
         name: "tuttoria",
-        secret: "tuttoriasecret", 
+        secret: "tuttoriasecret",
         saveUninitialized: true,
         resave: false
     }))
