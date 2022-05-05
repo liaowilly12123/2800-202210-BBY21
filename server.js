@@ -31,13 +31,16 @@ async function main() {
 
     app.use("/api", apiRoutes)
 
-    app.get("/", function(_, res) {
+    app.get("/", function(req, res) {
+        if (req.session.loggedIn) {
+            return res.redirect("/profile")
+        }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
-        res.send(doc)
+        return res.send(doc)
     })
 
-    app.get("/signUp", function(_, res) {
-        const doc = fs.readFileSync("./public/html/signUp.html", "utf8")
+    app.get("/signup", function(_, res) {
+        const doc = fs.readFileSync("./public/html/signup.html", "utf8")
         res.send(doc)
     })
 

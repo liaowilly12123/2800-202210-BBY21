@@ -52,7 +52,16 @@ router.post("/register", async function(req, res) {
     })
     await newUser.save()
 
-    res.success({ userId: newUser._id })
+    // Create a session for the user
+    req.session.loggedIn = true
+    req.session.userId = newUser._id
+    req.session.userType = newUser.userType
+    req.session.save((_) => { })
+
+    res.success({
+        userId: newUser._id,
+        userType: newUser.userType,
+    })
 })
 
 router.post("/login", async function(req, res) {
@@ -74,7 +83,7 @@ router.post("/login", async function(req, res) {
     req.session.loggedIn = true
     req.session.userId = user._id
     req.session.userType = user.userType
-    req.session.save((_) => {})
+    req.session.save((_) => { })
 
     res.success({
         userType: user.userType,
