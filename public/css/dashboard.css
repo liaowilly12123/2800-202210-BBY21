@@ -1,5 +1,9 @@
 body {
     height: 100vh;
+    box-sizing: border-box;
+    margin: 0 10px;
+    display: grid;
+    align-content: center;
 }
 
 #cardHolder {
