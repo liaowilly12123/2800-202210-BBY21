@@ -33,12 +33,12 @@ async function main() {
 
     app.get("/", function(req, res) {
         if (req.session.userType == "admin") {
-            res.redirect("/dashboard")
+            return res.redirect("/dashboard")
         } else if (req.session.userType) {
-            res.redirect("/profile")
+            return res.redirect("/profile")
         }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
-        res.send(doc)
+        return res.send(doc)
     })
 }
 
