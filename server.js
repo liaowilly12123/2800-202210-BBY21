@@ -16,7 +16,7 @@ async function main() {
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
     app.use("/img", express.static("./public/img"))
-    app.use("/html", express.static("public/html"));
+    app.use("/html", express.static("./public/html"));
 
     // Set express-session options
     app.use(session({
