@@ -39,6 +39,11 @@ async function main() {
         const doc = fs.readFileSync("./public/html/tutor.html", "utf8")
         res.send(doc)
     })
+
+    app.get("/dashboard", function(_, res) {
+        const doc = fs.readFileSync("./public/html/dashboard.html", "utf8")
+        res.send(doc)
+    })
 }
 
 app.listen(8000, main)
