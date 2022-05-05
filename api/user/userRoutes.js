@@ -110,7 +110,7 @@ router.put("/info", function(req, res) {
     for (const entry of Object.entries(payload)) {
         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
     }
-    
+
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
             return res.fail(`${err}. Unable to update user profile.`)
@@ -130,6 +130,20 @@ router.get("/all", async function(req, res) {
     const users = await User.find().limit(limit).skip((page - 1) * limit)
 
     res.success(users)
+})
+
+router.delete("/delete", function(req, res) {
+    if (req.session.userType !== "admin") {
+        return res.fail("User is not an admin")
+    }
+
+    const userId = req.body.userId;
+    User.findByIdAndDelete(userId, function(err) {
+        if (err) {
+            return res.fail("Error deleting user");
+        }
+        return res.success();
+    })
 })
 
 module.exports = router
