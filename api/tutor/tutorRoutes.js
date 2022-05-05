@@ -14,7 +14,11 @@ function validate(res, data, msg) {
 }
 
 router.get("/info", async function(req, res) {
-    const tutorId = req.query.id
+    let tutorId = req.session.userId
+    if (req.query.id != 'null') {
+        tutorId = req.query.id
+    }
+
     if (validate(res, tutorId, "Tutor id not provided")) return;
 
     if (!mongoose.isValidObjectId(tutorId)) {
