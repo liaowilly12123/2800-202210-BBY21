@@ -28,14 +28,17 @@ async function main() {
 
     // Utility functions to send responses
     app.use(responseMiddleware)
-        // Parse incoming payloads as json
+    // Parse incoming payloads as json
     app.use(express.json())
 
     app.use("/api", apiRoutes)
 
-    app.get("/", function(_, res) {
+    app.get("/", function(req, res) {
+        if (req.session.loggedIn) {
+            return res.redirect("/profile")
+        }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
-        res.send(doc)
+        return res.send(doc)
     })
 
     app.get("/signUp", function(_, res) {
