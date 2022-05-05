@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const mongoose = require("mongoose")
 const User = require("../../models/User.js")
 
 // Checks if data is undefined and sends a fail message back to the client if it
@@ -103,6 +104,31 @@ router.get("/logout", function(req, res) {
     })
 
     res.success("Successfully logged out.")
+})
+
+router.get("/info", async function(req, res) {
+    let userId = req.session.userId
+    if (req.query.id != 'null') {
+        userId = req.query.id
+    }
+
+    if (validate(res, userId, "User id not provided")) return;
+
+    if (!mongoose.isValidObjectId(userId)) {
+        return res.fail(`${userId} is an invalid id`)
+    }
+
+    const user = await User.findById(userId)
+    if (user === null) {
+        return res.fail(`User with id ${userId} not found`)
+    }
+
+    return res.success({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        joinDate: user.joinDate
+    })
 })
 
 router.put("/info", function(req, res) {
