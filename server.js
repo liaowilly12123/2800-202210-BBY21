@@ -4,7 +4,6 @@ const mongoose = require("mongoose")
 const session = require("express-session")
 const apiRoutes = require("./api/apiRoutes.js")
 const responseMiddleware = require("./middleware/responseMiddleware.js")
-const req = require("express/lib/request")
 
 const app = express()
 
