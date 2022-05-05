@@ -76,7 +76,7 @@ router.post("/login", async function(req, res) {
     req.session.userType = user.userType
     req.session.save((_) => { })
 
-    res.success({
+    return res.success({
         userType: user.userType,
         userId: user._id
     })
@@ -110,7 +110,7 @@ router.put("/info", function(req, res) {
     for (const entry of Object.entries(payload)) {
         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
     }
-    
+
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
             return res.fail(`${err}. Unable to update user profile.`)

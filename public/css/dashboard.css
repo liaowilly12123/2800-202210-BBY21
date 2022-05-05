@@ -1,3 +1,20 @@
 body {
-    background: red;
-};
+    height: 100vh;
+}
+
+#cardHolder {
+    display: grid;
+    gap: 10px;
+}
+
+.card {
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
