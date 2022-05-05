@@ -41,8 +41,8 @@ async function main() {
         return res.send(doc)
     })
 
-    app.get("/signUp", function(_, res) {
-        const doc = fs.readFileSync("./public/html/signUp.html", "utf8")
+    app.get("/signup", function(_, res) {
+        const doc = fs.readFileSync("./public/html/signup.html", "utf8")
         res.send(doc)
     })
 
