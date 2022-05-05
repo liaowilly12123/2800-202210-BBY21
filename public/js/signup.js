@@ -1,5 +1,6 @@
 const registerForm = document.getElementById("register");
 
+
 registerForm.addEventListener("submit", async(e) => {
     e.preventDefault();
     const emailNode = document.getElementById("register-email");
@@ -25,9 +26,12 @@ registerForm.addEventListener("submit", async(e) => {
 
     const responseJson = await res.json()
 
-    if (responseJson.status == 'success') {
+    console.log(responseJson)
+
+    if (responseJson.success) {
         console.log("Registered Succesfully")
+        window.location.href = "/profile?id=" + responseJson.payload.userId
     } else {
-        console.error(responseJson.msg)
+        console.error("problem in registering")
     }
 });
