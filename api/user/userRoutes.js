@@ -111,7 +111,7 @@ router.put("/info", function(req, res) {
         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
     }
 
-    User.findByIdAndUpdate(userId, payload, function (err) {
+    User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
             return res.fail(`${err}. Unable to update user profile.`)
         }
@@ -138,7 +138,7 @@ router.delete("/delete", function(req, res) {
     }
 
     const userId = req.body.userId;
-    User.findByIdAndDelete(userId, function (err) {
+    User.findByIdAndDelete(userId, function(err) {
         if (err) {
             return res.fail("Error deleting user");
         }
