@@ -133,6 +133,10 @@ router.get("/all", async function(req, res) {
 })
 
 router.delete("/delete", function(req, res) {
+    if (req.session.userType !== "admin") {
+        return res.fail("User is not an admin")
+    }
+
     const userId = req.body.userId;
     User.findByIdAndDelete(userId, function (err) {
         if (err) {
