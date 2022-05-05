@@ -7,7 +7,7 @@ registerForm.addEventListener("submit", async (e) => {
     const passwordNode = document.getElementById("register-password");
     const FirstnameNode = document.getElementById("register-name");
     const LastnameNode = document.getElementById("register-name1");
-    const type = document.getElementById("register-name2");
+    const type = document.getElementById("helo");
 
     const res = await fetch("/api/user/register", {
         method: "POST",
