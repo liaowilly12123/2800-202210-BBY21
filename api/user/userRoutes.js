@@ -86,7 +86,7 @@ router.post("/login", async function(req, res) {
     req.session.userType = user.userType
     req.session.save((_) => { })
 
-    res.success({
+    return res.success({
         userType: user.userType,
         userId: user._id
     })
@@ -156,15 +156,16 @@ router.put("/info", function(req, res) {
 
 router.get("/all", async function(req, res) {
     if (req.session.userType !== "admin") {
-        res.fail("User is not an admin")
+        return res.fail("User is not an admin")
     }
 
     // https://javascript.plainenglish.io/simple-pagination-with-node-js-mongoose-and-express-4942af479ab2
     const { page = 1, limit = 10 } = req.query
 
     const users = await User.find().limit(limit).skip((page - 1) * limit)
+    const totalPages = Math.ceil((await User.count()) / limit)
 
-    res.success(users)
+    return res.success({ users: users, totalPages: totalPages })
 })
 
 router.delete("/delete", function(req, res) {
