@@ -1,0 +1,80 @@
+#register {
+    margin-left: 30%;
+}
+
+legend {
+    font-weight: 900;
+    font-size: 40px;
+    margin-left: 15%;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+    width: 50%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin-left: 10%;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    opacity: 0.9;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin-left: -10%;
+}
+
+
+/* Avatar image */
+
+img.logo {
+    width: 300px;
+}
+
+p {
+    margin-left: 15%;
+}
+
+@media only screen and (max-width: 1200px) {
+    p {
+        margin-left: 10%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    #register {
+        margin-left: 30%;
+    }
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+        width: 50%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+    /* Avatar image */
+    img.logo {
+        width: 300px;
+    }
+    p {
+        margin-left: 1%;
+    }
+}

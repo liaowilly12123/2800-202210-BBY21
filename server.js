@@ -40,6 +40,21 @@ async function main() {
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
         return res.send(doc)
     })
+
+    app.get("/signup", function(_, res) {
+        const doc = fs.readFileSync("./public/html/signup.html", "utf8")
+        res.send(doc)
+    })
+
+    app.get("/dashboard", function(_, res) {
+        const doc = fs.readFileSync("./public/html/dashboard.html", "utf8")
+        res.send(doc)
+    })
+
+    app.get("/profile", function(_, res) {
+        const doc = fs.readFileSync("./public/html/profile.html", "utf8")
+        res.send(doc)
+    })
 }
 
 app.listen(8000, main)

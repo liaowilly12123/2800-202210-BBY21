@@ -5,7 +5,7 @@ const User = require("../../models/User.js")
 // is.
 // Returns true if data is undefined, else false
 function validate(res, data, msg) {
-    if (typeof data === 'undefined') {
+    if (typeof data === 'undefined' || data === null) {
         res.fail(msg)
         return true;
     }
@@ -48,10 +48,20 @@ router.post("/register", async function(req, res) {
         email: email,
         password: password,
         userType: userType,
+        joinDate: new Date()
     })
     await newUser.save()
 
-    res.success()
+    // Create a session for the user
+    req.session.loggedIn = true
+    req.session.userId = newUser._id
+    req.session.userType = newUser.userType
+    req.session.save((_) => { })
+
+    res.success({
+        userId: newUser._id,
+        userType: newUser.userType,
+    })
 })
 
 router.post("/login", async function(req, res) {
@@ -75,9 +85,74 @@ router.post("/login", async function(req, res) {
     req.session.userType = user.userType
     req.session.save((_) => { })
 
-    res.success({
+    return res.success({
         userType: user.userType,
         userId: user._id
+    })
+})
+
+router.get("/logout", function(req, res) {
+    if (!req.session.loggedIn) {
+        return res.fail("User is not logged in.")
+    }
+
+    req.session.destroy((err) => {
+        if (err) {
+            return res.fail("Unable to log out.")
+        }
+    })
+
+    res.success("Successfully logged out.")
+})
+
+router.put("/info", function(req, res) {
+    if (!req.session.loggedIn) {
+        return res.fail("User is not logged in.")
+    }
+
+    const userId = req.session.userId
+    if (validate(res, userId, "User ID is undefined")) return
+
+    const payload = req.body.payload
+
+    // Validate each entry of the payload, cannot be null or undefined
+    for (const entry of Object.entries(payload)) {
+        if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
+    }
+
+    User.findByIdAndUpdate(userId, payload, function(err) {
+        if (err) {
+            return res.fail(`${err}. Unable to update user profile.`)
+        }
+        return res.success()
+    })
+})
+
+router.get("/all", async function(req, res) {
+    if (req.session.userType !== "admin") {
+        return res.fail("User is not an admin")
+    }
+
+    // https://javascript.plainenglish.io/simple-pagination-with-node-js-mongoose-and-express-4942af479ab2
+    const { page = 1, limit = 10 } = req.query
+
+    const users = await User.find().limit(limit).skip((page - 1) * limit)
+    const totalPages = Math.ceil((await User.count()) / limit)
+
+    return res.success({ users: users, totalPages: totalPages })
+})
+
+router.delete("/delete", function(req, res) {
+    if (req.session.userType !== "admin") {
+        return res.fail("User is not an admin")
+    }
+
+    const userId = req.body.userId;
+    User.findByIdAndDelete(userId, function(err) {
+        if (err) {
+            return res.fail("Error deleting user");
+        }
+        return res.success();
     })
 })
 
