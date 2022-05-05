@@ -34,6 +34,7 @@ router.get("/info", async function(req, res) {
         firstName: tutor.firstName,
         lastName: tutor.lastName,
         email: tutor.email,
+        userType: tutor.userType,
         joinDate: tutor.joinDate
     })
 })
