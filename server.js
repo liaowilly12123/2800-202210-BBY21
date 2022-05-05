@@ -32,7 +32,9 @@ async function main() {
     app.use("/api", apiRoutes)
 
     app.get("/", function(req, res) {
-        if (req.session.loggedIn) {
+        if (req.session.userType == "admin") {
+            return res.redirect("/dashboard")
+        } else if (req.session.userType) {
             return res.redirect("/profile")
         }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
