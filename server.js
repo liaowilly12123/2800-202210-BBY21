@@ -14,6 +14,8 @@ async function main() {
 
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
+    app.use("/img", express.static("./public/img"))
+    app.use("/html", express.static("./public/html"));
 
     // Set express-session options
     app.use(session({
@@ -35,6 +37,11 @@ async function main() {
         res.send(doc)
     })
 
+    app.get("/signUp", function(_, res) {
+        const doc = fs.readFileSync("./public/html/signUp.html", "utf8")
+        res.send(doc)
+    })
+
     app.get("/tutor", function(_, res) {
         const doc = fs.readFileSync("./public/html/tutor.html", "utf8")
         res.send(doc)
@@ -42,6 +49,11 @@ async function main() {
 
     app.get("/dashboard", function(_, res) {
         const doc = fs.readFileSync("./public/html/dashboard.html", "utf8")
+        res.send(doc)
+    })
+
+    app.get("/profile", function(_, res) {
+        const doc = fs.readFileSync("./public/html/profile.html", "utf8")
         res.send(doc)
     })
 }
