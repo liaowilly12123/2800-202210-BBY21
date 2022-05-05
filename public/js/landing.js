@@ -5,7 +5,7 @@ loginForm.addEventListener("submit", async (e) => {
   const emailNode = document.getElementById("login-email");
   const passwordNode = document.getElementById("login-password");
 
-  const res = await fetch("/login", {
+  const res = await fetch("/api/user/login", {
     method: "POST",
     headers: {
       Accept: "application/json",
