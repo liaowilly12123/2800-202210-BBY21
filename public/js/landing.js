@@ -18,9 +18,14 @@ loginForm.addEventListener("submit", async (e) => {
   });
   const responseJson = await res.json()
 
-  if (responseJson.status == 'success') {
+  if (responseJson.success) {
+    if (responseJson.payload.userType == "admin") {
+      window.location.href = '/dashboard'
+    }
+    else {
       window.location.href = '/profile'
+    }
   } else {
-      console.error(responseJson.msg)
+      console.error(responseJson.payload)
   }
 });
