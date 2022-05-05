@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const session = require("express-session")
 const apiRoutes = require("./api/apiRoutes.js")
 const responseMiddleware = require("./middleware/responseMiddleware.js")
+const req = require("express/lib/request")
 
 const app = express()
 
@@ -31,7 +32,12 @@ async function main() {
 
     app.use("/api", apiRoutes)
 
-    app.get("/", function(_, res) {
+    app.get("/", function(req, res) {
+        if (req.session.userType == "admin") {
+            res.redirect("/dashboard")
+        } else if (req.session.userType) {
+            res.redirect("/profile")
+        }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
         res.send(doc)
     })
