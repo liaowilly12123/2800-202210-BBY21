@@ -5,7 +5,6 @@ const session = require("express-session")
 const apiRoutes = require("./api/apiRoutes.js")
 const responseMiddleware = require("./middleware/responseMiddleware.js")
 
-
 const app = express()
 
 const MONGOOSE_URI = "mongodb://127.0.0.1:27017/tutorria"
@@ -16,7 +15,6 @@ async function main() {
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
     app.use("/img", express.static("./public/img"))
-    app.use("/html", express.static("./public/html"));
 
     // Set express-session options
     app.use(session({
@@ -28,7 +26,7 @@ async function main() {
 
     // Utility functions to send responses
     app.use(responseMiddleware)
-        // Parse incoming payloads as json
+    // Parse incoming payloads as json
     app.use(express.json())
 
     app.use("/api", apiRoutes)
