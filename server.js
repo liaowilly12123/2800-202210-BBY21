@@ -37,10 +37,17 @@ async function main() {
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
         res.send(doc)
     })
+
     app.get("/signUp", function(_, res) {
         const doc = fs.readFileSync("./public/html/signUp.html", "utf8")
         res.send(doc)
     })
+
+    app.get("/tutor", function(_, res) {
+        const doc = fs.readFileSync("./public/html/tutor.html", "utf8")
+        res.send(doc)
+    })
+
 
     app.get("/profile", function(_, res) {
         const doc = fs.readFileSync("./public/html/profile.html", "utf8")
