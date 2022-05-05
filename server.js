@@ -15,7 +15,6 @@ async function main() {
     app.use("/css", express.static("./public/css"))
     app.use("/js", express.static("./public/js"))
     app.use("/img", express.static("./public/img"))
-    app.use("/html", express.static("./public/html"));
 
     // Set express-session options
     app.use(session({
@@ -32,18 +31,16 @@ async function main() {
 
     app.use("/api", apiRoutes)
 
-    app.get("/", function(_, res) {
+    app.get("/", function(req, res) {
+        if (req.session.loggedIn) {
+            return res.redirect("/profile")
+        }
         const doc = fs.readFileSync("./public/html/landing.html", "utf8")
-        res.send(doc)
+        return res.send(doc)
     })
 
-    app.get("/signUp", function(_, res) {
-        const doc = fs.readFileSync("./public/html/signUp.html", "utf8")
-        res.send(doc)
-    })
-
-    app.get("/tutor", function(_, res) {
-        const doc = fs.readFileSync("./public/html/tutor.html", "utf8")
+    app.get("/signup", function(_, res) {
+        const doc = fs.readFileSync("./public/html/signup.html", "utf8")
         res.send(doc)
     })
 
