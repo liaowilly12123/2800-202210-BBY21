@@ -23,11 +23,7 @@ loginForm.addEventListener("submit", async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
-    if (responseJson.payload.userType == "admin") {
-      window.location.href = "/dashboard";
-    } else {
-      window.location.href = "/profile";
-    }
+    window.location.href = "/profile";
   } else {
     document.getElementById("error").innerText = responseJson.payload;
   }
