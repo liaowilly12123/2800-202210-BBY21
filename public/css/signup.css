@@ -1,47 +1,109 @@
-* { font-family: 'Radio Canada', sans-serif;
+* {
+  font-family: "Radio Canada", sans-serif;
 }
 
 body {
-    background-image: url('/img/teacher.png');
-    background-repeat: no-repeat;
-    background-size: 100% 130%;
-    color: white;
+  background-image: url("/img/teacher.png");
+  background-repeat: no-repeat;
+  background-size: 100% 130%;
+  color: white;
 }
 
 form {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
 #register {
-    margin-left: 30%;
+  margin-left: 30%;
 }
 
 legend {
+  font-weight: 900;
+  font-size: 40px;
+  margin-left: 15%;
+  text-shadow: #f1f1f1;
+  text-decoration: underline;
+}
+
+a {
+  color: yellow;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 50%;
+  padding: 10px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type="submit"] {
+  background-color: #04aa6d;
+  color: white;
+  padding: 10px;
+  margin-left: 10%;
+  border-style: grey;
+  border-width: 5px;
+  cursor: pointer;
+  width: 30%;
+  opacity: 0.9;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin-left: -10%;
+}
+
+/* Avatar image */
+
+img.logo {
+  width: 300px;
+}
+
+p {
+  margin-left: 15%;
+}
+
+@media only screen and (max-width: 1400px) {
+  body {
+    background-image: url("/img/teacher.png");
+    background-repeat: no-repeat;
+    background-size: 100% 130%;
+    color: white;
+  }
+  form {
+    margin-top: 8%;
+  }
+  #register {
+    margin-left: 30%;
+  }
+  legend {
     font-weight: 900;
     font-size: 40px;
     margin-left: 15%;
     text-shadow: #f1f1f1;
     text-decoration: underline;
-}
-
-a {
+  }
+  a {
     color: yellow;
-}
-
-input[type=text],
-input[type=email],
-input[type=password],
-select {
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
     width: 50%;
     padding: 10px;
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
     background: #f1f1f1;
-}
-
-input[type=submit] {
-    background-color: #04AA6D;
+  }
+  input[type="submit"] {
+    background-color: #04aa6d;
     color: white;
     padding: 10px;
     margin-left: 10%;
@@ -50,196 +112,134 @@ input[type=submit] {
     cursor: pointer;
     width: 30%;
     opacity: 0.9;
-}
-
-.imgcontainer {
+  }
+  .imgcontainer {
     text-align: center;
     margin-left: -10%;
-}
-
-
-/* Avatar image */
-
-img.logo {
+  }
+  /* Avatar image */
+  img.logo {
     width: 300px;
-}
-
-p {
-    margin-left: 15%;
-}
-
-@media only screen and (max-width: 1400px) {
-    body {
-        background-image: url('/img/teacher.png');
-        background-repeat: no-repeat;
-        background-size: 100% 130%;
-        color: white;
-    }
-    form {
-        margin-top: 8%;
-    }
-    #register {
-        margin-left: 30%;
-    }
-    legend {
-        font-weight: 900;
-        font-size: 40px;
-        margin-left: 15%;
-        text-shadow: #f1f1f1;
-        text-decoration: underline;
-    }
-    a {
-        color: yellow;
-    }
-    input[type=text],
-    input[type=email],
-    input[type=password],
-    select {
-        width: 50%;
-        padding: 10px;
-        margin: 5px 0 22px 0;
-        display: inline-block;
-        border: none;
-        background: #f1f1f1;
-    }
-    input[type=submit] {
-        background-color: #04AA6D;
-        color: white;
-        padding: 10px;
-        margin-left: 10%;
-        border-style: grey;
-        border-width: 5px;
-        cursor: pointer;
-        width: 30%;
-        opacity: 0.9;
-    }
-    .imgcontainer {
-        text-align: center;
-        margin-left: -10%;
-    }
-    /* Avatar image */
-    img.logo {
-        width: 300px;
-    }
-    p {
-        margin-left: 10%;
-    }
+  }
+  p {
+    margin-left: 10%;
+  }
 }
 
 @media only screen and (max-width: 900px) {
-    body {
-        background-image: url('/img/teacher.png');
-        background-repeat: no-repeat;
-        background-size: 100% 130%;
-        color: white;
-    }
-    form {
-        margin-top: 12%;
-    }
-    #register {
-        margin-left: 25%;
-    }
-    legend {
-        font-weight: 900;
-        font-size: 30px;
-        margin-left: 15%;
-        text-shadow: #f1f1f1;
-        text-decoration: underline;
-        margin-bottom: 5%;
-    }
-    a {
-        color: red;
-    }
-    input[type=text],
-    input[type=email],
-    input[type=password],
-    select {
-        width: 50%;
-        padding: 10px;
-        margin: 5px 0 22px 0;
-        display: inline-block;
-        border: none;
-        background: #f1f1f1;
-    }
-    input[type=submit] {
-        background-color: #04AA6D;
-        color: white;
-        padding: 10px;
-        margin-left: 10%;
-        border-style: grey;
-        border-width: 5px;
-        cursor: pointer;
-        width: 30%;
-        opacity: 0.9;
-    }
-    .imgcontainer {
-        text-align: center;
-        margin-left: -10%;
-    }
-    /* Avatar image */
-    img.logo {
-        width: 300px;
-    }
-    p {
-        margin-left: 8%;
-    }
+  body {
+    background-image: url("/img/teacher.png");
+    background-repeat: no-repeat;
+    background-size: 100% 130%;
+    color: white;
+  }
+  form {
+    margin-top: 12%;
+  }
+  #register {
+    margin-left: 25%;
+  }
+  legend {
+    font-weight: 900;
+    font-size: 30px;
+    margin-left: 15%;
+    text-shadow: #f1f1f1;
+    text-decoration: underline;
+    margin-bottom: 5%;
+  }
+  a {
+    color: red;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    width: 50%;
+    padding: 10px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  input[type="submit"] {
+    background-color: #04aa6d;
+    color: white;
+    padding: 10px;
+    margin-left: 10%;
+    border-style: grey;
+    border-width: 5px;
+    cursor: pointer;
+    width: 30%;
+    opacity: 0.9;
+  }
+  .imgcontainer {
+    text-align: center;
+    margin-left: -10%;
+  }
+  /* Avatar image */
+  img.logo {
+    width: 300px;
+  }
+  p {
+    margin-left: 8%;
+  }
 }
 
 @media only screen and (max-width: 700px) {
-    body {
-        background-image: url('/img/teacher.png');
-        background-repeat: no-repeat;
-        background-size: 100% 140%;
-        color: white;
-    }
-    form {
-        margin-top: 20%;
-    }
-    #register {
-        margin-left: 25%;
-    }
-    legend {
-        font-weight: 900;
-        font-size: 30px;
-        margin-left: 10%;
-        text-shadow: #f1f1f1;
-        text-decoration: underline;
-        margin-bottom: 5%;
-    }
-    a {
-        color: red;
-    }
-    input[type=text],
-    input[type=email],
-    input[type=password],
-    select {
-        width: 50%;
-        padding: 5px;
-        margin: 5px 0 22px 0;
-        display: inline-block;
-        border: none;
-        background: #f1f1f1;
-    }
-    input[type=submit] {
-        background-color: #04AA6D;
-        color: white;
-        padding: 5px;
-        margin-left: 10%;
-        border-style: grey;
-        border-width: 5px;
-        cursor: pointer;
-        width: 30%;
-        opacity: 0.9;
-    }
-    .imgcontainer {
-        text-align: center;
-        margin-left: -10%;
-    }
-    /* Avatar image */
-    img.logo {
-        width: 300px;
-    }
-    p {
-        margin-left: -5%;
-    }
+  body {
+    background-image: url("/img/teacher.png");
+    background-repeat: no-repeat;
+    background-size: 100% 140%;
+    color: white;
+  }
+  form {
+    margin-top: 20%;
+  }
+  #register {
+    margin-left: 25%;
+  }
+  legend {
+    font-weight: 900;
+    font-size: 30px;
+    margin-left: 10%;
+    text-shadow: #f1f1f1;
+    text-decoration: underline;
+    margin-bottom: 5%;
+  }
+  a {
+    color: red;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    width: 50%;
+    padding: 5px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  input[type="submit"] {
+    background-color: #04aa6d;
+    color: white;
+    padding: 5px;
+    margin-left: 10%;
+    border-style: grey;
+    border-width: 5px;
+    cursor: pointer;
+    width: 30%;
+    opacity: 0.9;
+  }
+  .imgcontainer {
+    text-align: center;
+    margin-left: -10%;
+  }
+  /* Avatar image */
+  img.logo {
+    width: 300px;
+  }
+  p {
+    margin-left: -5%;
+  }
 }
