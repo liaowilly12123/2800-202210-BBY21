@@ -4,19 +4,17 @@
 
 body {
   background-color: #f9f9fa;
+  height: 100vh;
+  width: min(100% - 2rem, 600px);
+  margin-inline: auto;
 }
 
-.padding {
-  padding: 3rem !important;
-}
-
-.user-card-full {
-  overflow: hidden;
+main {
+    height: 100%;
 }
 
 .card {
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
   box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
   border: none;
   margin-bottom: 30px;
@@ -35,13 +33,6 @@ body {
 }
 
 .bg-c-lite-green {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(#f29263),
-    to(#ee5a6f)
-  );
   background: linear-gradient(to right, #ee5a6f, #f29263);
 }
 
@@ -52,8 +43,6 @@ body {
 #logout-button {
   background-color: #04aa6d;
   color: white;
-  margin-left: 0%;
-  border-style: grey;
   border-width: 5px;
   cursor: pointer;
   opacity: 0.9;
@@ -139,15 +128,4 @@ h6 {
 
 .m-t-40 {
   margin-top: 20px;
-}
-
-.user-card-full .social-link li {
-  display: inline-block;
-}
-
-.user-card-full .social-link li a {
-  font-size: 20px;
-  margin: 0 10px 0 0;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
 }
