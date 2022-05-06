@@ -26,7 +26,7 @@ async function main() {
 
     // Utility functions to send responses
     app.use(responseMiddleware)
-    // Parse incoming payloads as json
+        // Parse incoming payloads as json
     app.use(express.json())
 
     app.use("/api", apiRoutes)
