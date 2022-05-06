@@ -1,7 +1,7 @@
 let currentPage = 1;
 let totalPages = null;
 
-async function setUsers(page) {
+function setButtonsState() {
     if (currentPage === 1) {
         document.getElementById("prev").disabled = true
     } else {
@@ -13,7 +13,9 @@ async function setUsers(page) {
     } else {
         document.getElementById("next").disabled = false
     }
+}
 
+async function setUsers(page) {
     const usersRes = await fetch(`/api/user/all?page=${page}`)
     const users = await usersRes.json()
 
@@ -56,6 +58,7 @@ async function setUsers(page) {
             cardHolder.appendChild(userCard)
         }
         updatePageNumber()
+        setButtonsState()
     }
 }
 
