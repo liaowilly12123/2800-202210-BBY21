@@ -1,24 +1,42 @@
+* {
+  font-family: "Radio Canada", sans-serif;
+}
+
 body {
-    height: 100vh;
-    box-sizing: border-box;
-    margin: 0 10px;
-    display: grid;
-    align-content: center;
+  height: 100vh;
+  widows: 100vw;
+
+  background-color: #121212;
+  color: white;
+  box-sizing: border-box;
+  margin: 0 10px;
+  display: grid;
+  align-content: center;
+
+  width: min(100% - 5em, 1200px);
+  margin-inline: auto;
 }
 
 #cardHolder {
-    display: grid;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
 }
 
 .card {
-    border: 2px solid black;
-    padding: 10px;
+  background-color: rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  border: 2px solid black;
+  padding: 10px;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logout-button {
+  width: fit-content;
 }

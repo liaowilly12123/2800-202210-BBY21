@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="/css/dashboard.css">
-  <title>Admin Dashboard</title>
-</head>
-<body>
-  <template id="userCardTemplate">
-    <div class="card">
-      <div class="row">
-        <div class="col">
-          <div class="name">User Name</div>
-          <div class="joinDate">Joined At</div>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <template id="userCardTemplate">
+      <div class="card">
+        <div class="row">
+          <div class="col">
+            <div class="name">User Name</div>
+            <div class="joinDate">Joined At</div>
+          </div>
+          <button class="delete">Delete</button>
         </div>
-        <button>Delete</button>
+      </div>
+    </template>
+
+    <div id="cardHolder"></div>
+    <div id="buttonsHolder" , class="row">
+      <button type="button" id="logout-button">Logout</button>
+      <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
+      <div>
+        <button id="prev">Prev</button>
+        <button id="next">Next</button>
       </div>
     </div>
-  </template>
-  <div id="cardHolder">
-  </div>
-  <div id="buttonsHolder", class="row">
-    <button id="prev">Prev</button>
-    <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
-    <button id="next">Next</button>
-  </div>
-  <script type="module" src="/js/dashboard.js"></script>
-</body>
+
+    <script type="module" src="/js/dashboard.js"></script>
+    <script type="module" src="/js/logout.js"></script>
+  </body>
 </html>
