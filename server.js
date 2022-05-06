@@ -8,7 +8,7 @@ const responseMiddleware = require("./middleware/responseMiddleware.js");
 
 const app = express();
 
-const MONGOOSE_URI = "mongodb://127.0.0.1:27017/tutorria";
+const MONGOOSE_URI = "mongodb://127.0.0.1:27017/COMP2800";
 
 async function main() {
   await mongoose.connect(MONGOOSE_URI);
