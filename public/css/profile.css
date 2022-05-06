@@ -39,6 +39,16 @@ body {
     padding: 20px 0;
 }
 
+#button {
+    background-color: #04AA6D;
+    color: white;
+    margin-left: 90%;
+    border-style: grey;
+    border-width: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
 .card-block {
     padding: 1.25rem;
 }
