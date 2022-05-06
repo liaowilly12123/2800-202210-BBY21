@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/landing.css" />
+    <title>Login</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/landing.css">
-  <title>Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <link href="https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300&display=swap" rel="stylesheet">
-</head>
+  <body>
+    <form id="login">
+      <h1>Sign In</h1>
 
-<body>
-  <form id="login">
+      <label for="login-email"><b>Email</b></label>
+      <input
+        id="login-email"
+        type="text"
+        placeholder="abc@bcit.ca"
+        name="login-email"
+        required
+      />
 
-    <h1>Sign In</h1>
+      <label for="login-password"><b>Password</b></label>
+      <input
+        id="login-password"
+        type="password"
+        placeholder="*******"
+        name="login-password"
+        required
+      />
 
-    <label for="login-email"><b>Email</b></label>
-    <input id="login-email" type="text" placeholder="abc@bcit.ca" name="login-email" required>
+      <input id="submit" type="submit" value="Login" />
 
-    <label for="login-password"><b>Password</b></label>
-    <input id="login-password" type="password" placeholder="*******" name="login-password" required>
-
-    <input id="submit" type="submit" value="Login">
-    
-    <div class="signup">
-      <p>Don't have an account? <a href="/signup">Sign Up</a>.</p>
-    </div>
-  </form>
-  <script src="/js/landing.js">
-  </script>
-</body>
-
+      <div class="signup">
+        <p>Don't have an account? <a href="/signup">Sign Up</a>.</p>
+      </div>
+    </form>
+    <script src="/js/landing.js"></script>
+  </body>
 </html>
