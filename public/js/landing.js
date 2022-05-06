@@ -3,6 +3,9 @@ const loginForm = document.getElementById("login");
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  document.getElementById("error").innerText = "";
+
   const emailNode = document.getElementById("login-email");
   const passwordNode = document.getElementById("login-password");
 
@@ -20,12 +23,15 @@ loginForm.addEventListener("submit", async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
-    if (responseJson.payload.userType == "admin") {
-      window.location.href = "/dashboard";
-    } else {
-      window.location.href = "/profile";
-    }
+    window.location.href = "/profile";
   } else {
-    console.error(responseJson.payload);
+    document.getElementById("error").innerText = responseJson.payload;
   }
 });
+
+function clearError() {
+  document.getElementById("error").innerText = "";
+}
+
+document.getElementById("login-email").addEventListener("input", clearError);
+document.getElementById("login-password").addEventListener("input", clearError);
