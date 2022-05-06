@@ -1,3 +1,4 @@
+'use strict';
 const logoutButton = document.getElementById("logout-button")
 
 logoutButton.addEventListener("click", async (e) => {
