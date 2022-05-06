@@ -37,6 +37,10 @@ router.post("/register", async function(req, res) {
         return res.fail(`Invalid user type: ${userType}`)
     }
 
+    if (userType === "admin" && req.session.userType !== "admin") {
+        return res.fail("Unable to create a user of type admin")
+    }
+
     // https://stackoverflow.com/questions/8389811/how-to-query-mongodb-to-test-if-an-item-exists
     const hasUser = await User.countDocuments({ email: email }, { limit: 1 }) == 1
     if (hasUser) {
