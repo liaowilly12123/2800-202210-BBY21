@@ -46,9 +46,13 @@ async function main() {
         res.send(doc)
     })
 
-    app.get("/dashboard", function(_, res) {
+    app.get("/dashboard", function(req, res) {
+        if (req.session.userType !== "admin") {
+            return res.redirect("/")
+        }
+
         const doc = fs.readFileSync("./public/html/dashboard.html", "utf8")
-        res.send(doc)
+        return res.send(doc)
     })
 
     app.get("/profile", function(_, res) {
