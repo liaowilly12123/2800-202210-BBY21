@@ -1,5 +1,4 @@
-* { font-family: 'Radio Canada', sans-serif;
-}
+* { font-family: 'Radio Canada', sans-serif; }
 
 body {
     height: 100vh;
@@ -24,4 +23,8 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+#logout-button {
+    width: fit-content;
 }
