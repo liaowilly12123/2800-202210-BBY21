@@ -1,245 +1,89 @@
 * {
-  font-family: "Radio Canada", sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  background-image: url("/img/teacher.png");
-  background-repeat: no-repeat;
-  background-size: 100% 130%;
-  color: white;
+  background-color: #080710;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 form {
-  margin-top: 5%;
+  background-color: rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 10px 40px;
 }
 
-#register {
-  margin-left: 30%;
-}
-
-legend {
-  font-weight: 900;
-  font-size: 40px;
-  margin-left: 15%;
-  text-shadow: #f1f1f1;
-  text-decoration: underline;
-}
-
-a {
-  color: yellow;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-  width: 50%;
-  padding: 10px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
+form * {
+  font-family: "Radio Canada", sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  outline: none;
   border: none;
-  background: #f1f1f1;
 }
 
-input[type="submit"] {
-  background-color: #04aa6d;
-  color: white;
-  padding: 10px;
-  margin-left: 10%;
-  border-style: grey;
-  border-width: 5px;
-  cursor: pointer;
-  width: 30%;
-  opacity: 0.9;
-}
-
-.imgcontainer {
+form h3 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
   text-align: center;
-  margin-left: -10%;
 }
 
-/* Avatar image */
+label {
+  display: block;
+}
 
-img.logo {
-  width: 300px;
+#register-name,
+#register-name1,
+#register-email,
+#register-password {
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 10px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#helo {
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 10px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#button {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 15px;
+  color: #080710;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+::placeholder {
+  color: #e5e5e5;
 }
 
 p {
-  margin-left: 15%;
-}
-
-@media only screen and (max-width: 1400px) {
-  body {
-    background-image: url("/img/teacher.png");
-    background-repeat: no-repeat;
-    background-size: 100% 130%;
-    color: white;
-  }
-  form {
-    margin-top: 8%;
-  }
-  #register {
-    margin-left: 30%;
-  }
-  legend {
-    font-weight: 900;
-    font-size: 40px;
-    margin-left: 15%;
-    text-shadow: #f1f1f1;
-    text-decoration: underline;
-  }
-  a {
-    color: yellow;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
-    width: 50%;
-    padding: 10px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-  input[type="submit"] {
-    background-color: #04aa6d;
-    color: white;
-    padding: 10px;
-    margin-left: 10%;
-    border-style: grey;
-    border-width: 5px;
-    cursor: pointer;
-    width: 30%;
-    opacity: 0.9;
-  }
-  .imgcontainer {
-    text-align: center;
-    margin-left: -10%;
-  }
-  /* Avatar image */
-  img.logo {
-    width: 300px;
-  }
-  p {
-    margin-left: 10%;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  body {
-    background-image: url("/img/teacher.png");
-    background-repeat: no-repeat;
-    background-size: 100% 130%;
-    color: white;
-  }
-  form {
-    margin-top: 12%;
-  }
-  #register {
-    margin-left: 25%;
-  }
-  legend {
-    font-weight: 900;
-    font-size: 30px;
-    margin-left: 15%;
-    text-shadow: #f1f1f1;
-    text-decoration: underline;
-    margin-bottom: 5%;
-  }
-  a {
-    color: red;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
-    width: 50%;
-    padding: 10px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-  input[type="submit"] {
-    background-color: #04aa6d;
-    color: white;
-    padding: 10px;
-    margin-left: 10%;
-    border-style: grey;
-    border-width: 5px;
-    cursor: pointer;
-    width: 30%;
-    opacity: 0.9;
-  }
-  .imgcontainer {
-    text-align: center;
-    margin-left: -10%;
-  }
-  /* Avatar image */
-  img.logo {
-    width: 300px;
-  }
-  p {
-    margin-left: 8%;
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  body {
-    background-image: url("/img/teacher.png");
-    background-repeat: no-repeat;
-    background-size: 100% 140%;
-    color: white;
-  }
-  form {
-    margin-top: 20%;
-  }
-  #register {
-    margin-left: 25%;
-  }
-  legend {
-    font-weight: 900;
-    font-size: 30px;
-    margin-left: 10%;
-    text-shadow: #f1f1f1;
-    text-decoration: underline;
-    margin-bottom: 5%;
-  }
-  a {
-    color: red;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
-    width: 50%;
-    padding: 5px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-  input[type="submit"] {
-    background-color: #04aa6d;
-    color: white;
-    padding: 5px;
-    margin-left: 10%;
-    border-style: grey;
-    border-width: 5px;
-    cursor: pointer;
-    width: 30%;
-    opacity: 0.9;
-  }
-  .imgcontainer {
-    text-align: center;
-    margin-left: -10%;
-  }
-  /* Avatar image */
-  img.logo {
-    width: 300px;
-  }
-  p {
-    margin-left: -5%;
-  }
+  margin-top: 10px;
+  text-align: center;
 }

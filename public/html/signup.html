@@ -10,33 +10,33 @@
 
   <body>
     <form id="register">
-      <legend>Tutorria</legend>
+      <h3>Tutorria</h3>
 
-      <label for="register-name">First Name</label><br />
-      <input type="text" name="register-name" id="register-name" /><br />
-      <label for="register-name">Last Name</label><br />
-      <input type="text" name="register-name" id="register-name1" /><br />
+      <label for="register-name">First Name</label>
+      <input type="text" name="register-name" id="register-name" />
 
-      <label for="register-email">Email</label><br />
-      <input type="email" name="register-email" id="register-email" /><br />
+      <label for="register-name">Last Name</label>
+      <input type="text" name="register-name" id="register-name1" />
 
-      <label for="register-password">Password</label><br />
-      <input
-        type="password"
-        name="register-password"
-        id="register-password"
-      /><br />
+      <label for="register-email">Email</label>
+      <input type="email" name="register-email" id="register-email" />
 
-      <label for="lang">Type</label><br />
+      <label for="register-password">Password</label>
+      <input type="password" name="register-password" id="register-password" />
+
+      <label for="helo">Type</label>
       <select name="languages" id="helo">
-        <option value="tutor">tutor</option>
-        <option value="student">student</option></select
-      ><br />
+        <option value="tutor" class="color">tutor</option>
+        <option value="student" class="color">student</option>
+      </select>
 
-      <input type="submit" value="Register" />
+      <input type="submit" value="Register" id="button" />
 
-      <div class="login">
-        <p>Already have an account? <a href="/">Sign in</a>.</p>
+      <div class="container signin">
+        <p>
+          Already have an account?
+          <a href="/public/html/landing.html">Sign in</a>.
+        </p>
       </div>
     </form>
     <script type="module" src="/js/signup.js"></script>
