@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const mongoose = require("mongoose")
 const User = require("../../models/User.js")
 
 // Checks if data is undefined and sends a fail message back to the client if it
@@ -52,7 +53,16 @@ router.post("/register", async function(req, res) {
     })
     await newUser.save()
 
-    res.success({ userId: newUser._id })
+    // Create a session for the user
+    req.session.loggedIn = true
+    req.session.userId = newUser._id
+    req.session.userType = newUser.userType
+    req.session.save((_) => { })
+
+    res.success({
+        userId: newUser._id,
+        userType: newUser.userType,
+    })
 })
 
 router.post("/login", async function(req, res) {
@@ -74,9 +84,9 @@ router.post("/login", async function(req, res) {
     req.session.loggedIn = true
     req.session.userId = user._id
     req.session.userType = user.userType
-    req.session.save((_) => {})
+    req.session.save((_) => { })
 
-    res.success({
+    return res.success({
         userType: user.userType,
         userId: user._id
     })
@@ -96,6 +106,31 @@ router.get("/logout", function(req, res) {
     res.success("Successfully logged out.")
 })
 
+router.get("/info", async function(req, res) {
+    let userId = req.session.userId
+    if (req.query.id != 'null') {
+        userId = req.query.id
+    }
+
+    if (validate(res, userId, "User id not provided")) return;
+
+    if (!mongoose.isValidObjectId(userId)) {
+        return res.fail(`${userId} is an invalid id`)
+    }
+
+    const user = await User.findById(userId)
+    if (user === null) {
+        return res.fail(`User with id ${userId} not found`)
+    }
+
+    return res.success({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        joinDate: user.joinDate
+    })
+})
+
 router.put("/info", function(req, res) {
     if (!req.session.loggedIn) {
         return res.fail("User is not logged in.")
@@ -110,7 +145,7 @@ router.put("/info", function(req, res) {
     for (const entry of Object.entries(payload)) {
         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return
     }
-    
+
     User.findByIdAndUpdate(userId, payload, function(err) {
         if (err) {
             return res.fail(`${err}. Unable to update user profile.`)
@@ -121,15 +156,30 @@ router.put("/info", function(req, res) {
 
 router.get("/all", async function(req, res) {
     if (req.session.userType !== "admin") {
-        res.fail("User is not an admin")
+        return res.fail("User is not an admin")
     }
 
     // https://javascript.plainenglish.io/simple-pagination-with-node-js-mongoose-and-express-4942af479ab2
     const { page = 1, limit = 10 } = req.query
 
     const users = await User.find().limit(limit).skip((page - 1) * limit)
+    const totalPages = Math.ceil((await User.count()) / limit)
 
-    res.success(users)
+    return res.success({ users: users, totalPages: totalPages })
+})
+
+router.delete("/delete", function(req, res) {
+    if (req.session.userType !== "admin") {
+        return res.fail("User is not an admin")
+    }
+
+    const userId = req.body.userId;
+    User.findByIdAndDelete(userId, function(err) {
+        if (err) {
+            return res.fail("Error deleting user");
+        }
+        return res.success();
+    })
 })
 
 module.exports = router

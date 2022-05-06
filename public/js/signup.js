@@ -1,7 +1,7 @@
 const registerForm = document.getElementById("register");
 
 
-registerForm.addEventListener("submit", async(e) => {
+registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const emailNode = document.getElementById("register-email");
     const passwordNode = document.getElementById("register-password");
@@ -30,7 +30,7 @@ registerForm.addEventListener("submit", async(e) => {
 
     if (responseJson.success) {
         console.log("Registered Succesfully")
-        window.location.href = "/profile?id=" + responseJson.payload.userId
+        window.location.href = "/profile"
     } else {
         console.error("problem in registering")
     }
