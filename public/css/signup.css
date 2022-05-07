@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #080710;
+    background-image: linear-gradient(to right, rgb(140, 0, 255), rgb(0, 38, 255), rgb(0, 170, 255));
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -15,10 +15,10 @@ body {
 }
 
 form {
-    background-color: rgba(255, 255, 255, 0.13);
+    background-color: rgba(17, 14, 14, 0.785);
     border-radius: 10px;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
     padding: 10px 40px;
 }
@@ -28,10 +28,11 @@ form * {
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
-    border: none;
+    border-style: white;
 }
 
 form h3 {
+    margin-top: 5%;
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
@@ -80,6 +81,7 @@ label {
     color: #080710;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 8%;
 }
 
 ::placeholder {

@@ -1,42 +1,170 @@
 * {
-  font-family: "Radio Canada", sans-serif;
+    font-family: "Radio Canada", sans-serif;
 }
 
 body {
-  height: 100vh;
-  widows: 100vw;
-
-  background-color: #121212;
-  color: white;
-  box-sizing: border-box;
-  margin: 0 10px;
-  display: grid;
-  align-content: center;
-
-  width: min(100% - 5em, 1200px);
-  margin-inline: auto;
+    widows: 100vw;
+    background-color: white;
+    color: black;
+    box-sizing: border-box;
+    margin: 0 10px;
+    display: grid;
+    align-content: center;
+    width: min(100% - 5em, 1200px);
+    margin-inline: auto;
 }
 
-#cardHolder {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 10px;
+.navbar {
+    height: fit-content;
+    background-image: linear-gradient(to right, rgb(140, 0, 255), rgb(0, 38, 255), rgb(0, 170, 255));
+    margin-bottom: 4%;
 }
 
-.card {
-  background-color: rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  border: 2px solid black;
-  padding: 10px;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li {
+    float: left;
+}
+
+button:hover:not(.active) {
+    background-color: pink;
+}
+
+.card:hover:not(.active) {
+    background-color: rgb(0, 149, 255);
+}
+
+.navbar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-width: 5px;
+    margin-left: 10%;
+    margin-top: 5%;
 }
 
 .row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+}
+
+h3 {
+    margin-left: 15%;
+    margin-top: 10%;
+    font-size: 50px;
+    color: aliceblue;
+}
+
+#cardHolder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #logout-button {
-  width: fit-content;
+    padding: 10px;
+    border-style: solid black;
+    border-width: 5px;
+}
+
+#margin {
+    margin-right: 5%;
+}
+
+@media only screen and (max-width: 700px) {
+    * {
+        font-family: "Radio Canada", sans-serif;
+    }
+    body {
+        widows: 100vw;
+        background-color: white;
+        color: black;
+        box-sizing: border-box;
+        margin: 0 10px;
+        display: grid;
+        align-content: center;
+        width: min(100% - 5em, 1200px);
+        margin-inline: auto;
+    }
+    .navbar {
+        height: fit-content;
+        background-image: linear-gradient(to right, rgb(140, 0, 255), rgb(0, 38, 255), rgb(0, 170, 255));
+        margin-bottom: 4%;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    li {
+        float: left;
+    }
+    li button:hover:not(.active) {
+        background-color: pink;
+    }
+    .navbar img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: aliceblue;
+        border: solid black;
+        border-width: 5px;
+        margin-left: 10%;
+        margin-top: 5%;
+    }
+    .row {
+        display: flex;
+    }
+    h3 {
+        margin-left: 15%;
+        margin-top: 10%;
+        font-size: 40px;
+        color: aliceblue;
+    }
+    #cardHolder {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 10px;
+    }
+    .card {
+        background-color: rgba(255, 255, 255, 0.09);
+        border-radius: 12px;
+        border: 2px solid black;
+        padding: 10px;
+    }
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #logout-button {
+        padding: 8px;
+    }
+    #margin {
+        margin-right: 3%;
+    }
 }
