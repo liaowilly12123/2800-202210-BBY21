@@ -8,7 +8,8 @@ const responseMiddleware = require("./middleware/responseMiddleware.js");
 
 const app = express();
 
-const MONGOOSE_URI = "mongodb://127.0.0.1:27017/COMP2800";
+const MONGOOSE_URI = process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/COMP2800";
+const PORT = process.env.PORT ?? 8000;
 
 async function main() {
   await mongoose.connect(MONGOOSE_URI);
@@ -59,4 +60,4 @@ async function main() {
   });
 }
 
-app.listen(8000, main);
+app.listen(PORT, main);
