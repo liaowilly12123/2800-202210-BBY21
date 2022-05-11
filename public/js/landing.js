@@ -1,18 +1,18 @@
-'use strict';
-const loginForm = document.getElementById('login');
-loginForm.addEventListener('submit', async (e) => {
+"use strict";
+const loginForm = document.getElementById("login");
+loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  document.getElementById('error').innerText = '';
+  document.getElementById("error").innerText = "";
 
-  const emailNode = document.getElementById('login-email');
-  const passwordNode = document.getElementById('login-password');
+  const emailNode = document.getElementById("login-email");
+  const passwordNode = document.getElementById("login-password");
 
-  const res = await fetch('/api/user/login', {
-    method: 'POST',
+  const res = await fetch("/api/user/login", {
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       email: emailNode.value,
@@ -22,15 +22,15 @@ loginForm.addEventListener('submit', async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   } else {
-    document.getElementById('error').innerText = responseJson.payload;
+    document.getElementById("error").innerText = responseJson.payload;
   }
 });
 
 function clearError() {
-  document.getElementById('error').innerText = '';
+  document.getElementById("error").innerText = "";
 }
 
-document.getElementById('login-email').addEventListener('input', clearError);
-document.getElementById('login-password').addEventListener('input', clearError);
+document.getElementById("login-email").addEventListener("input", clearError);
+document.getElementById("login-password").addEventListener("input", clearError);

@@ -1,21 +1,21 @@
-'use strict';
-const registerForm = document.getElementById('register');
+"use strict";
+const registerForm = document.getElementById("register");
 
-registerForm.addEventListener('submit', async (e) => {
+registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  document.getElementById('error').innerText = '';
+  document.getElementById("error").innerText = "";
 
-  const emailNode = document.getElementById('register-email');
-  const passwordNode = document.getElementById('register-password');
-  const firstnameNode = document.getElementById('register-name');
-  const lastnameNode = document.getElementById('register-name1');
-  const type = document.getElementById('helo');
+  const emailNode = document.getElementById("register-email");
+  const passwordNode = document.getElementById("register-password");
+  const firstnameNode = document.getElementById("register-name");
+  const lastnameNode = document.getElementById("register-name1");
+  const type = document.getElementById("helo");
 
-  const res = await fetch('/api/user/register', {
-    method: 'POST',
+  const res = await fetch("/api/user/register", {
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       email: emailNode.value || null,
@@ -29,19 +29,19 @@ registerForm.addEventListener('submit', async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   } else {
-    document.getElementById('error').innerText = responseJson.payload;
+    document.getElementById("error").innerText = responseJson.payload;
   }
 });
 
 function clearError() {
-  document.getElementById('error').innerText = '';
+  document.getElementById("error").innerText = "";
 }
 
-document.getElementById('register-email').addEventListener('input', clearError);
+document.getElementById("register-email").addEventListener("input", clearError);
 document
-  .getElementById('register-password')
-  .addEventListener('input', clearError);
-document.getElementById('register-name').addEventListener('input', clearError);
-document.getElementById('register-name1').addEventListener('input', clearError);
+  .getElementById("register-password")
+  .addEventListener("input", clearError);
+document.getElementById("register-name").addEventListener("input", clearError);
+document.getElementById("register-name1").addEventListener("input", clearError);
