@@ -1,11 +1,12 @@
 'use strict';
 const registerForm = document.getElementById('tutor');
-const submit = document.getElementById('Submit');
-submit.onclick = function () {
-  document.getElementById('tutor').submit();
-  document.getElementById('form2').submit();
-};
+// const submit = document.getElementById('Submit');
+// submit.onclick = function () {
+//   document.getElementById('tutor').submit();
+//   // document.getElementById('form2').submit();
+// };
 registerForm.addEventListener('submit', async (e) => {
+  console.log('bruh');
   e.preventDefault();
   const educationNode = document.getElementById('tutor-education');
   const experienceNode = document.getElementById('tutor-experience');
@@ -30,6 +31,7 @@ registerForm.addEventListener('submit', async (e) => {
   if (responseJson.success) {
     console.log('Registered Succesfully');
   } else {
+    console.log(responseJson);
     console.error('problem in registering');
   }
 });

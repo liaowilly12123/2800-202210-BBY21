@@ -2,26 +2,14 @@
 const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const multer = require('multer');
 const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes.js');
 const responseMiddleware = require('./middleware/responseMiddleware.js');
-const Image = require('./models/image.js');
 const app = express();
 
 const MONGOOSE_URI =
   process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/COMP2800';
 const PORT = process.env.PORT ?? 8000;
-
-const storage = multer.diskStorage({
-  destination: function (_req, _file, cb) {
-    cb(null, 'uploads');
-  },
-  filename: function (_req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now());
-  },
-});
-const upload = multer({ storage: storage });
 
 async function main() {
   await mongoose.connect(MONGOOSE_URI);
@@ -74,22 +62,6 @@ async function main() {
   app.get('/tutors', function (_, res) {
     let doc = fs.readFileSync('./public/html/tutors.html', 'utf8');
     return res.send(doc);
-  });
-
-  app.post('/uploadphoto', upload.single('myImage'), async (req, res) => {
-    if (!req.session.loggedIn) {
-      return res.fail('User not logged in');
-    }
-
-    const doc = new Image({
-      user_id: req.session.userId,
-      name: req.body.name,
-      desc: req.body.desc,
-      img: req.file.path,
-    });
-    await doc.save();
-
-    return res.success({ path: req.file.path });
   });
 }
 

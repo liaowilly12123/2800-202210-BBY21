@@ -22,6 +22,8 @@ router.post('/qualifications', async function (req, res) {
     }
   }
 
+  const body = req.body;
+
   const lastName = body.lastName;
   if (validate(res, lastName, 'Last Name is undefined')) return;
 
