@@ -26,6 +26,8 @@ body {
 
 #showcase {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
 }
@@ -34,6 +36,12 @@ body {
   width: 45%;
   height: auto;
   border-radius: 20px;
+}
+
+#img-subtext {
+  color: var(--nord6);
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
 #login-container {
