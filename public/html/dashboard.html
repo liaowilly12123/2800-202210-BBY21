@@ -5,32 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="stylesheet" href="/css/colors.css" />
     <link rel="stylesheet" href="/css/dashboard.css" />
+
+    <script
+      src="https://kit.fontawesome.com/b1c534a736.js"
+      crossorigin="anonymous"
+    ></script>
+
     <title>Admin Dashboard</title>
   </head>
   <body>
     <template id="userCardTemplate">
       <div class="card">
-        <div class="row">
-          <div class="col">
-            <div class="name">User Name</div>
+        <div class="name">User Name</div>
+        <div id="card-bottom">
+          <div id="card-info">
             <div class="joinDate">Joined At</div>
+            <div class="type">Student</div>
           </div>
-          <button class="delete">Delete</button>
+          <div class="card-button-holder">
+            <button class="edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       </div>
     </template>
 
-    <div id="cardHolder"></div>
-    <div id="buttonsHolder" , class="row">
-      <button type="button" id="logout-button">Logout</button>
-      <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
-      <div>
-        <button id="prev">Prev</button>
-        <button id="next">Next</button>
+    <div id="nav-holder"></div>
+    <main>
+      <div id="buttonsHolder">
+        <button type="button" id="logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+        <div id="pagination">
+          <p><span id="pnumcur"></span> / <span id="pnumtotal">10</span></p>
+          <div id="pagination-buttons">
+            <button id="prev">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button id="next">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+      <div id="cardHolder"></div>
+    </main>
 
+    <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/dashboard.js"></script>
     <script type="module" src="/js/logout.js"></script>
   </body>
