@@ -24,6 +24,18 @@ body {
   left: 25px;
 }
 
+#showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#tutor {
+  width: 45%;
+  height: auto;
+  border-radius: 20px;
+}
+
 #login-container {
   background-color: var(--nord1);
   display: flex;
