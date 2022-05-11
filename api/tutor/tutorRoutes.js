@@ -1,48 +1,42 @@
-"use strict";
-const router = require("express").Router();
-const mongoose = require("mongoose");
-const User = require("../../models/User.js");
-router.use(bodyParser.urlencoded({ extended: true }));
+'use strict';
+const router = require('express').Router();
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
 // Returns true if data is undefined, else false
 function validate(res, data, msg) {
-  if (typeof data === "undefined") {
+  if (typeof data === 'undefined') {
     res.fail(msg);
     return true;
   }
   return false;
 }
 
-router.get("/info", async function (req, res) {
-  let tutorId = req.session.userId;
-  if (req.query.id != "null") {
-    tutorId = req.query.id;
-  }
+router.post('/qualifications', async function (req, res) {
+  const body = req.body;
+  if (validate(res, body, 'Request body is undefined')) return;
 
-  if (validate(res, tutorId, "Tutor id not provided")) return;
+  const firstName = body.firstName;
+  if (validate(res, firstName, 'First Name is undefined')) return;
 
-  if (!mongoose.isValidObjectId(tutorId)) {
-    return res.fail(`${tutorId} is an invalid id`);
-  }
+  const lastName = body.lastName;
+  if (validate(res, lastName, 'Last Name is undefined')) return;
 
-  const tutor = await User.findById(tutorId);
-  if (tutor === null) {
-    return res.fail(`Tutor with id ${tutorId} not found`);
-  }
+  const higherEducation = body.higherEducation;
+  if (validate(res, higherEducation, 'Higher Education is undefined')) return;
 
-  if (tutor.userType !== "tutor") {
-    return res.fail(`User with id ${tutorId} is not a tutor.`);
-  }
+  const experience = body.experience;
+  if (validate(res, experience, 'Experience is undefined')) return;
 
-  return res.success({
-    firstName: tutor.firstName,
-    lastName: tutor.lastName,
-    email: tutor.email,
-    userType: tutor.userType,
-    joinDate: tutor.joinDate,
+  const newUser = new tutor({
+    firstName: firstName,
+    lastName: lastName,
+    higherEducation: higherEducation,
+    experience: experience,
   });
+  await newUser.save();
+
+  res.success();
 });
 
 module.exports = router;
