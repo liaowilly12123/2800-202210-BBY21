@@ -71,8 +71,8 @@ async function main() {
     return res.send(doc);
   });
 
-  app.get('/tutor', function (_, res) {
-    let doc = fs.readFileSync('./public/html/tutor.html', 'utf8');
+  app.get('/tutors', function (_, res) {
+    let doc = fs.readFileSync('./public/html/tutors.html', 'utf8');
     return res.send(doc);
   });
 
