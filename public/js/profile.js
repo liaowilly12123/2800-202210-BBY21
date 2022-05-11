@@ -14,7 +14,7 @@ async function asyncMain() {
     document.getElementById("type").innerText = payload.userType;
     document.getElementById("joinDate").innerText = payload.joinDate;
   } else {
-    document.write(`<h1>${userInfo.payload}</h1>`);
+    window.location.href = "/";
   }
 }
 
