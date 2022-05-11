@@ -1,5 +1,6 @@
 'use strict';
 const router = require('express').Router();
+const TutorQualification = require('../../models/tutorQualifications.js');
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
@@ -13,11 +14,13 @@ function validate(res, data, msg) {
 }
 
 router.post('/qualifications', async function (req, res) {
-  const body = req.body;
-  if (validate(res, body, 'Request body is undefined')) return;
-
-  const firstName = body.firstName;
-  if (validate(res, firstName, 'First Name is undefined')) return;
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  } else {
+    if (req.session.userType !== 'tutor') {
+      return res.fail('User is not a tutor');
+    }
+  }
 
   const lastName = body.lastName;
   if (validate(res, lastName, 'Last Name is undefined')) return;
@@ -28,13 +31,12 @@ router.post('/qualifications', async function (req, res) {
   const experience = body.experience;
   if (validate(res, experience, 'Experience is undefined')) return;
 
-  const newUser = new tutor({
-    firstName: firstName,
-    lastName: lastName,
+  const newDoc = new TutorQualification({
+    user_id: req.session.userId,
     higherEducation: higherEducation,
     experience: experience,
   });
-  await newUser.save();
+  await newDoc.save();
 
   res.success();
 });

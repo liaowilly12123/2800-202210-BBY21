@@ -2,12 +2,9 @@
 const mongoose = require('mongoose');
 
 const tutorQualificationsSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BBY_21_user',
     required: true,
   },
   higherEducation: {
