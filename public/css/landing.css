@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Radio+Canada:wght@400;700&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,6 +18,8 @@ body {
 
   display: grid;
   grid-template-columns: 4fr 2fr;
+
+  font-family: 'Radio Canada', sans-serif;
 }
 
 #logo {
