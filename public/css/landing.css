@@ -136,6 +136,7 @@ label[for='password'] {
 @media screen and (max-width: 700px) {
   body {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
 
   #showcase {
