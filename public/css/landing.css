@@ -1,93 +1,91 @@
 * {
   box-sizing: border-box;
-}
-body {
-  background-color: #080710;
-  padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  padding: 0;
+}
+
+body {
+  background-color: var(--nord0);
+
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   display: grid;
+  grid-template-columns: 3fr 2fr;
+}
+
+#login-container {
+  background-color: var(--nord1);
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-form {
-  background-color: rgba(255, 255, 255, 0.13);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  padding: 50px 40px;
+#login-form {
+  width: min(100% - 2em, 400px);
+  margin-inline: auto;
 }
 
-form * {
-  font-family: "Radio Canada", sans-serif;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  outline: none;
+#login-head {
+  color: var(--nord6);
+  font-size: 3em;
+  margin: 0px;
+}
+
+#login-welcome {
+  margin-top: 2.5px;
+  color: var(--nord5);
+  margin-bottom: 60px;
+}
+
+label[for='email'],
+label[for='password'],
+#login-email,
+#login-password {
+  display: block;
+}
+
+label[for='email'],
+label[for='password'] {
+  color: var(--nord6);
+  margin-bottom: 10px;
+}
+
+#login-email,
+#login-password {
+  width: 100%;
+
+  background-color: var(--nord3);
+  color: var(--nord4);
+
+  padding: 12.5px 17.5px;
+  margin-bottom: 20px;
+
+  border-radius: 8px;
   border: none;
 }
 
-form h3 {
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 42px;
-  text-align: center;
+#signup-text {
+  color: var(--nord5);
+  margin-top: 60px;
+  margin-bottom: 10px;
 }
 
-label {
-  display: block;
-  margin-top: 30px;
-  font-size: 16px;
-  font-weight: 500;
+#signup-text a {
+  color: var(--nord14);
 }
 
-#login-email {
-  display: block;
-  height: 50px;
+#login-submit {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
-  padding: 0 10px;
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-#login-password {
-  display: block;
-  height: 50px;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
-  padding: 0 10px;
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-#submit {
-  width: 100%;
-  background-color: #ffffff;
-  color: #080710;
-  padding: 15px 0;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#error {
-  color: red;
-}
-
-::placeholder {
-  color: #e5e5e5;
-}
-
-#signup p {
-  margin-top: 10px;
+  padding: 15px 20px;
+  background-color: var(--nord10);
+  border-radius: 8px;
+  border: none;
+  color: var(--nord5);
+  font-weight: bold;
+  font-size: 1.1em;
 }
