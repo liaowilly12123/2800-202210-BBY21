@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 const params = new URLSearchParams(location.search);
-const userId = params.get("id");
+const userId = params.get('id');
 
 async function asyncMain() {
   const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
@@ -8,13 +8,13 @@ async function asyncMain() {
 
   if (userInfo.success) {
     const payload = userInfo.payload;
-    document.getElementById("firstName").innerText = payload.firstName;
-    document.getElementById("lastName").innerText = payload.lastName;
-    document.getElementById("email").innerText = payload.email;
-    document.getElementById("type").innerText = payload.userType;
-    document.getElementById("joinDate").innerText = payload.joinDate;
+    document.getElementById('firstName').value = payload.firstName;
+    document.getElementById('lastName').value = payload.lastName;
+    document.getElementById('email').innerText = payload.email;
+    document.getElementById('type').innerText = payload.userType;
+    document.getElementById('joinDate').innerText = payload.joinDate;
   } else {
-    window.location.href = "/";
+    window.location.href = '/';
   }
 }
 
