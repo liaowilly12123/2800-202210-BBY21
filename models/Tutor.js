@@ -18,8 +18,6 @@ const tutorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
-
 });
 
 const userModel = mongoose.model("tutor", tutorSchema);
