@@ -18,6 +18,12 @@ body {
   grid-template-columns: 3fr 2fr;
 }
 
+#logo {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+
 #login-container {
   background-color: var(--nord1);
   display: flex;
