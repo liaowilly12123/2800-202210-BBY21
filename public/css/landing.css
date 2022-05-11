@@ -22,6 +22,10 @@ body {
   font-family: 'Radio Canada', sans-serif;
 }
 
+#nav-holder {
+  display: none;
+}
+
 #logo {
   position: absolute;
   top: 25px;
@@ -136,6 +140,10 @@ label[for='password'] {
 
   #showcase {
     display: none;
+  }
+
+  #nav-holder {
+    display: unset;
   }
 
   #login-container {
