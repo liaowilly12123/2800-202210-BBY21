@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <form id="tutor">
+      <h3>Tutorria</h3>
+
+      <label for="tutor-name">First Name</label>
+      <input type="text" name="tutor-name" id="tutor-name" />
+
+      <label for="tutor-name">Last Name</label>
+      <input type="text" name="tutor-name" id="tutor-name1" />
+
+      <label for="tutor-education">Higher Education</label>
+      <input type="text" name="tutor-education" id="tutor-education" />
+
+      <label for="tutor-experience">Experience</label>
+      <input type="text" name="tutor-experience" id="tutor-experience" />
+      <input type="submit" value="Click Me!" id="Submit" />
+    </form>
+
+    <form
+      id="form2"
+      action="/api/user/uploadphoto"
+      enctype="multipart/form-data"
+      method="POST"
+    >
+      <input type="file" name="myImage" accept="file/*" />
+    </form>
+    <script type="module" src="/js/tutors.js"></script>
+  </body>
+</html>

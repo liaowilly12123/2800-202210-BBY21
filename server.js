@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes.js');
 const responseMiddleware = require('./middleware/responseMiddleware.js');
-
 const app = express();
 
 const MONGOOSE_URI =
@@ -57,6 +56,11 @@ async function main() {
     } else {
       doc = fs.readFileSync('./public/html/profile.html', 'utf8');
     }
+    return res.send(doc);
+  });
+
+  app.get('/tutors', function (_, res) {
+    let doc = fs.readFileSync('./public/html/tutors.html', 'utf8');
     return res.send(doc);
   });
 
