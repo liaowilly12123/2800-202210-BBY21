@@ -1,4 +1,6 @@
 'use strict';
+import { login } from '/js/login.js';
+
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 
@@ -32,6 +34,7 @@ loginForm.addEventListener('submit', async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
+    login();
     window.location.href = '/profile';
   }
 });
@@ -63,6 +66,7 @@ registerForm.addEventListener('submit', async (e) => {
   const responseJson = await res.json();
 
   if (responseJson.success) {
+    login();
     window.location.href = '/profile';
   }
 });
