@@ -12,29 +12,33 @@
   <body>
     <div id="showcase">
       <img src="/img/logo.png" alt="graduation cap" id="logo" />
-      <img src="/img/tutor.avif" alt="tutor teaching student" id="tutor">
+      <img src="/img/tutor.avif" alt="tutor teaching student" id="tutor" />
       <p id="img-subtext">Find qualified and rated tutors on Tutorria.</p>
     </div>
     <div id="login-container">
       <form id="login-form">
-        <h1 id="login-head">Log In</h1>
-        <p id="login-welcome">Welcome back! Please enter your details</p>
+        <div id="mobile-top">
+          <h1 id="login-head">Log In</h1>
+          <p id="login-welcome">Welcome back! Please enter your details</p>
 
-        <label for="email">Email</label>
-        <input id="login-email" type="text" placeholder="Email" required />
+          <label for="email">Email</label>
+          <input id="login-email" type="text" placeholder="Email" required />
 
-        <label for="password">Password</label>
-        <input
-          id="login-password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-
-        <div id="signup-text">
-          <p>Don't have an account? <a href="/signup">Register</a></p>
+          <label for="password">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="Password"
+            required
+          />
         </div>
-        <input id="login-submit" type="submit" value="Log in" />
+
+        <div id="mobile-bottom">
+          <div id="signup-text">
+            <p>Don't have an account? <a href="/signup">Register</a></p>
+          </div>
+          <input id="login-submit" type="submit" value="Log in" />
+        </div>
       </form>
     </div>
     <script type="module" src="/js/landing.js"></script>

@@ -115,3 +115,31 @@ label[for='password'] {
   font-weight: bold;
   font-size: 1.1em;
 }
+
+@media screen and (max-width: 700px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+
+  #showcase {
+    display: none;
+  }
+
+  #login-container {
+    background-color: unset;
+  }
+
+  #login-form {
+    height: 100%;
+    padding: 20px 0px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  #login-email,
+  #login-password {
+    padding: 17.5px;
+  }
+}
