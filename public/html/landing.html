@@ -4,43 +4,107 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/colors.css" />
     <link rel="stylesheet" href="/css/landing.css" />
     <title>Login</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300&display=swap"
-      rel="stylesheet"
-    />
   </head>
 
   <body>
-    <form id="login">
-      <h3>Login</h3>
-
-      <label for="email">Email</label>
-      <input id="login-email" type="text" placeholder="Email" required />
-
-      <label for="password">Password</label>
-      <input
-        id="login-password"
-        type="password"
-        placeholder="Password"
-        required
-      />
-
-      <p id="error"></p>
-
-      <input id="submit" type="submit" value="Login" />
-
-      <div class="signup">
-        <p>Don't have an account? <a href="/signup">Sign Up</a>.</p>
+    <div id="showcase">
+      <img src="/img/logo.png" alt="graduation cap" id="logo" />
+      <div id="img-text-container">
+        <img src="/img/tutor.avif" alt="tutor teaching student" id="tutor" />
+        <p id="img-subtext">Find qualified and rated tutors on Tutorria.</p>
       </div>
-    </form>
-    <script src="/js/landing.js"></script>
+    </div>
+    <div id="nav-holder"></div>
+    <div id="login-container">
+      <form id="login-form">
+        <div class="mobile-top">
+          <h1 class="form-head">Log In</h1>
+          <p class="form-welcome">Welcome back! Please enter your details</p>
+
+          <label for="email" class="label">Email</label>
+          <input id="login-email" type="text" placeholder="Email" required />
+
+          <label for="password" class="label">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <div class="mobile-bottom">
+          <div id="signup-text">
+            <p>Don't have an account? <span>Register</span></p>
+          </div>
+          <input
+            id="login-submit"
+            class="form-submit"
+            type="submit"
+            value="Log in"
+          />
+        </div>
+      </form>
+
+      <form id="register-form">
+        <div class="mobile-top">
+          <h1 class="form-head">Sign Up</h1>
+          <p class="form-welcome">Welcome! Please enter your details</p>
+
+          <div class="form-row">
+            <div>
+              <label for="register-fname" class="label">First Name</label>
+              <input type="text" name="register-name" id="register-fname" />
+            </div>
+
+            <div>
+              <label for="register-name" class="label">Last Name</label>
+              <input type="text" name="register-name" id="register-lname" />
+            </div>
+          </div>
+
+          <label for="register-email" class="label">Email</label>
+          <input type="email" name="register-email" id="register-email" />
+
+          <div class="form-row">
+            <div>
+              <label for="register-password" class="label">Password</label>
+              <input
+                type="password"
+                name="register-password"
+                id="register-password"
+              />
+            </div>
+
+            <div>
+              <label for="register-type" class="label">I am a</label>
+              <select name="languages" id="register-type">
+                <option value="tutor" class="color">tutor</option>
+                <option value="student" class="color">student</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-bottom">
+          <div id="signin-text">
+            <p>
+              Already have an account?
+              <span>Sign in</span>
+            </p>
+          </div>
+          <input
+            type="submit"
+            value="Register"
+            id="register-submit"
+            class="form-submit"
+          />
+        </div>
+      </form>
+    </div>
+    <script type="module" src="/js/template.js"></script>
+    <script type="module" src="/js/landing.js"></script>
   </body>
 </html>

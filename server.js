@@ -45,7 +45,7 @@ async function main() {
 
   app.get('/signup', function (_, res) {
     const doc = fs.readFileSync('./public/html/signup.html', 'utf8');
-    res.send(doc);
+    return res.send(doc);
   });
 
   app.get('/profile', function (req, res) {
@@ -61,6 +61,11 @@ async function main() {
 
   app.get('/tutors', function (_, res) {
     let doc = fs.readFileSync('./public/html/tutors.html', 'utf8');
+    return res.send(doc);
+  });
+
+  app.get('/template/nav', function (_, res) {
+    const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
     return res.send(doc);
   });
 }
