@@ -133,6 +133,7 @@ router.get("/info", async function (req, res) {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    userType: user.userType,
     joinDate: user.joinDate,
   });
 });
