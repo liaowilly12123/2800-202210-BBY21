@@ -8,9 +8,9 @@ async function asyncMain() {
 
   if (userInfo.success) {
     const payload = userInfo.payload;
-    document.getElementById("firstName").innerText = payload.firstName;
-    document.getElementById("lastName").innerText = payload.lastName;
-    document.getElementById("email").innerText = payload.email;
+    document.getElementById("firstName").value = payload.firstName;
+    document.getElementById("lastName").value = payload.lastName;
+    document.getElementById("email").value = payload.email;
     document.getElementById("type").innerText = payload.userType;
     document.getElementById("joinDate").innerText = payload.joinDate;
   } else {
