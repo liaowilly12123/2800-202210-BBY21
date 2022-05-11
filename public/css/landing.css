@@ -26,14 +26,23 @@ body {
 
 #showcase {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
   justify-content: center;
   align-items: center;
 }
 
+#img-text-container {
+  padding: 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}
+
 #tutor {
-  width: 45%;
+  min-width: 400px;
+  max-width: 55%;
   height: auto;
   border-radius: 20px;
 }
