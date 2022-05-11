@@ -1,42 +1,119 @@
 * {
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   height: 100vh;
-  widows: 100vw;
+  width: 100%;
 
-  background-color: #121212;
-  color: white;
-  box-sizing: border-box;
-  margin: 0 10px;
   display: grid;
-  align-content: center;
+  grid-template-rows: auto 1fr;
 
-  width: min(100% - 5em, 1200px);
+  background-color: var(--nord0);
+}
+
+main {
+  width: min(100% - 2em, 1200px);
   margin-inline: auto;
+  padding: 40px 0;
+
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 #cardHolder {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 10px;
+  gap: 20px;
 }
 
 .card {
-  background-color: rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  border: 2px solid black;
-  padding: 10px;
+  height: fit-content;
+  background-color: var(--nord1);
+  border-radius: 8px;
 }
 
-.row {
+.name {
+  background-color: var(--nord2);
+  padding: 15px 12px;
+  color: var(--nord6);
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+#card-bottom {
+  padding: 12.5px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+  color: var(--nord5);
+}
+
+.card-button-holder {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.delete,
+.edit {
+  aspect-ratio: 1;
+  padding: 10px;
+
+  background-color: var(--nord3);
+  color: var(--nord13);
+
+  border: none;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-#logout-button {
-  width: fit-content;
+.delete {
+  color: var(--nord12);
+}
+
+#buttonsHolder {
+  display: flex;
+  justify-content: space-between;
+}
+
+#pagination {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#pagination p {
+  background-color: var(--nord1);
+  color: var(--nord5);
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: bold;
+}
+
+#prev,
+#next,
+#logout {
+  background-color: var(--nord1);
+  color: var(--nord14);
+
+  aspect-ratio: 1;
+  padding: 15px;
+
+  font-size: 1.25em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
