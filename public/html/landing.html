@@ -20,14 +20,14 @@
     <div id="nav-holder"></div>
     <div id="login-container">
       <form id="login-form">
-        <div id="mobile-top">
-          <h1 id="login-head">Log In</h1>
-          <p id="login-welcome">Welcome back! Please enter your details</p>
+        <div class="mobile-top">
+          <h1 class="form-head">Log In</h1>
+          <p class="form-welcome">Welcome back! Please enter your details</p>
 
-          <label for="email">Email</label>
+          <label for="email" class="label">Email</label>
           <input id="login-email" type="text" placeholder="Email" required />
 
-          <label for="password">Password</label>
+          <label for="password" class="label">Password</label>
           <input
             id="login-password"
             type="password"
@@ -35,12 +35,72 @@
             required
           />
         </div>
-
-        <div id="mobile-bottom">
+        <div class="mobile-bottom">
           <div id="signup-text">
-            <p>Don't have an account? <a href="/signup">Register</a></p>
+            <p>Don't have an account? <span>Register</span></p>
           </div>
-          <input id="login-submit" type="submit" value="Log in" />
+          <input
+            id="login-submit"
+            class="form-submit"
+            type="submit"
+            value="Log in"
+          />
+        </div>
+      </form>
+
+      <form id="register-form">
+        <div class="mobile-top">
+          <h1 class="form-head">Sign Up</h1>
+          <p class="form-welcome">Welcome! Please enter your details</p>
+
+          <div class="form-row">
+            <div>
+              <label for="register-fname" class="label">First Name</label>
+              <input type="text" name="register-name" id="register-fname" />
+            </div>
+
+            <div>
+              <label for="register-name" class="label">Last Name</label>
+              <input type="text" name="register-name" id="register-lname" />
+            </div>
+          </div>
+
+          <label for="register-email" class="label">Email</label>
+          <input type="email" name="register-email" id="register-email" />
+
+          <div class="form-row">
+            <div>
+              <label for="register-password" class="label">Password</label>
+              <input
+                type="password"
+                name="register-password"
+                id="register-password"
+              />
+            </div>
+
+            <div>
+              <label for="register-type" class="label">I am a</label>
+              <select name="languages" id="register-type">
+                <option value="tutor" class="color">tutor</option>
+                <option value="student" class="color">student</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-bottom">
+          <div id="signin-text">
+            <p>
+              Already have an account?
+              <span>Sign in</span>
+            </p>
+          </div>
+          <input
+            type="submit"
+            value="Register"
+            id="register-submit"
+            class="form-submit"
+          />
         </div>
       </form>
     </div>
