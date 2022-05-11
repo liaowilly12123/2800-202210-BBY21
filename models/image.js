@@ -9,12 +9,10 @@ var imageSchema = new mongoose.Schema({
   name: String,
   desc: String,
   img: {
-    data: Buffer,
-    contentType: String,
+    type: String,
     required: true,
   },
 });
 
-//Image is a model which has a schema imageSchema
-
-module.exports = new mongoose.model('Image', imageSchema);
+// Image is a model which has a schema imageSchema
+module.exports = new mongoose.model('BBY_21_Image', imageSchema);
