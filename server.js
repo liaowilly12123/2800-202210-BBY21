@@ -99,6 +99,11 @@ async function main() {
             }
         })
     })
+
+    app.get('/template/nav', function(_, res) {
+        const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
+        return res.send(doc);
+    });
 }
 
 app.listen(8000, main);

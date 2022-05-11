@@ -5,31 +5,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/tutors.css" />
     <title>Document</title>
 </head>
 
 <body>
+    <div id="nav-holder"></div>
     <form id="tutor">
-        <h3>Tutorria</h3>
+        <label for="tutor-education" class="label">Higher Education</label>
+        <select name="tutor-education" id="tutor-education">
+            <option value="Secondary education">Secondary Education</option>
+            <option value="post-secondary">Post=secondary</option>
+            <option value="tertiary">Tertiary</option>
+        </select>
 
-        <label for="tutor-name">First Name</label>
-        <input type="text" name="tutor-name" id="tutor-name" />
-
-        <label for="tutor-name">Last Name</label>
-        <input type="text" name="tutor-name" id="tutor-name1" />
-
-        <label for="tutor-education">Higher Education</label>
-        <input type="text" name="tutor-education" id="tutor-education" />
-
-        <label for="tutor-experience">Experience</label>
+        <label for="tutor-experience" class="label">Experience</label>
         <input type="text" name="tutor-experience" id="tutor-experience" />
+
+        <label for="tutor-subject" class="label">Subject</label>
+        <input type="text" name="tutor-subject" id="tutor-subject" />
+
+        <label for="tutor-pay" class="label">Hourly Pay</label>
+        <input type="text" name="tutor-pay" id="tutor-pay" />
     </form>
 
     <form id="form2" action="/uploadphoto" enctype="multipart/form-data" method="POST">
+        <label for="myImage" class="label">Upload Supporting Document</label>
         <input type="file" name="myImage" accept="file/*">
     </form>
     <input type="button" value="Click Me!" id="Submit" />
     <script type="module" src="/js/tutors.js"></script>
+    <script type="module" src="/js/template.js"></script>
 </body>
 
 </html>

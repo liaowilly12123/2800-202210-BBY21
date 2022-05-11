@@ -1,0 +1,47 @@
+nav {
+    background-color: #3b4252;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 75px;
+}
+
+#nav-logo {
+    width: auto;
+    height: 100%;
+    padding: 12.5px 17.5px;
+}
+
+#nav-heading {
+    color: #eceff4;
+    font-weight: bold;
+    font-size: 1.15em;
+}
+
+input,
+select {
+    width: 100%;
+    background-color: #4c566a;
+    color: #d8dee9;
+    padding: 12.5px 17.5px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+.label input {
+    display: block;
+}
+
+.label {
+    color: #eceff4;
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+/* Hack for arrow padding */
+
+select {
+    border-right: 17.5px solid transparent;
+}
