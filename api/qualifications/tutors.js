@@ -1,6 +1,6 @@
 "use strict";
 const router = require("express").Router();
-const tutor = require("../../models/tutors.js");
+const tutor = require("../../models/Tutor.js");
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
