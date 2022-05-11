@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="/css/dashboard.css" />
     <title>Admin Dashboard</title>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <!-- Brand/logo -->
-        <ul>
-            <li>
-                <div class="row">
-                    <a class="navbar" href="#">
-                        <img src="/img/Tutorria-logos_transparent.png" alt="logo">
-                    </a>
-
-                    <h3> Tutorria</h3>
-
-                </div>
-            </li>
-            <li id="margin"> <button type="button" id="logout-button">Logout</button></li>
-        </ul>
-
-
-
-    </nav>
+  </head>
+  <body>
     <template id="userCardTemplate">
       <div class="card">
         <div class="row">
@@ -44,16 +23,15 @@
 
     <div id="cardHolder"></div>
     <div id="buttonsHolder" , class="row">
-
-        <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
-        <div>
-            <button id="prev">Prev</button>
-            <button id="next">Next</button>
-        </div>
+      <button type="button" id="logout-button">Logout</button>
+      <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
+      <div>
+        <button id="prev">Prev</button>
+        <button id="next">Next</button>
+      </div>
     </div>
 
     <script type="module" src="/js/dashboard.js"></script>
     <script type="module" src="/js/logout.js"></script>
-</body>
-
+  </body>
 </html>
