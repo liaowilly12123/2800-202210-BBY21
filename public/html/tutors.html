@@ -23,13 +23,12 @@
 
         <label for="tutor-experience">Experience</label>
         <input type="text" name="tutor-experience" id="tutor-experience" />
-        <input type="button" value="Click Me!" />
     </form>
 
-
-
-
-
+    <form id="form2" action="/uploadphoto" enctype="multipart/form-data" method="POST">
+        <input type="file" name="myImage" accept="file/*">
+    </form>
+    <input type="button" value="Click Me!" id="Submit" />
     <script type="module" src="/js/tutors.js"></script>
 </body>
 

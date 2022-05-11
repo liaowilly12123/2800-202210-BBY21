@@ -1,6 +1,10 @@
 "use strict";
 const registerForm = document.getElementById("tutor");
-
+const submit = document.getElementById("Submit");
+submit.onclick = function() {
+    document.getElementById("tutor").submit();
+    document.getElementById("form2").submit();
+}
 registerForm.addEventListener("submit", async(e) => {
     e.preventDefault();
     const educationNode = document.getElementById("tutor-education");
