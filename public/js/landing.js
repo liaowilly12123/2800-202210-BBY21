@@ -1,6 +1,16 @@
 'use strict';
 const loginForm = document.getElementById('login-form');
 
+document.getElementById('signup-text').addEventListener('click', () => {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'unset';
+});
+
+document.getElementById('signin-text').addEventListener('click', () => {
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'unset';
+});
+
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
