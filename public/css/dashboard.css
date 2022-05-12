@@ -101,7 +101,8 @@ main {
 #prev,
 #next,
 #logout,
-#modalClose {
+#modalClose,
+#createUser {
   background-color: var(--nord1);
   color: var(--nord14);
 
