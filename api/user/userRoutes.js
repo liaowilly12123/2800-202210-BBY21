@@ -170,12 +170,17 @@ router.put('/info', function (req, res) {
     if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return;
   }
 
-  User.findByIdAndUpdate(userId, payload, function (err) {
-    if (err) {
-      return res.fail(`${err}. Unable to update user profile.`);
+  User.findByIdAndUpdate(
+    userId,
+    payload,
+    { returnDocument: 'after' },
+    function (err, result) {
+      if (err) {
+        return res.fail(`${err}. Unable to update user profile.`);
+      }
+      return res.success(result);
     }
-    return res.success();
-  });
+  );
 });
 
 router.get('/all', async function (req, res) {

@@ -6,7 +6,7 @@ nav {
   height: 75px;
 }
 
-#modal {
+#navModal {
   position: fixed;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@ nav {
   animation: fadeOut ease-in 0.3s;
 }
 
-#tint {
+#navTint {
   position: relative;
   width: 100%;
   height: 100%;
