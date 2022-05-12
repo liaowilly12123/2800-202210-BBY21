@@ -7,13 +7,10 @@ async function setNav() {
 
   document.getElementById('nav-holder').innerHTML = resHtml;
 
-  document.getElementById('burger').addEventListener('click', showNav);
-
   if (!isLoggedIn()) {
-    document.querySelectorAll('a[role="button"]').forEach((e) => {
-      e.style.display = 'none';
-    });
+    document.getElementById('burger').style.display = 'none';
   } else {
+    document.getElementById('burger').addEventListener('click', showNav);
     document.querySelectorAll('a[role="button"]').forEach((e) => {
       e.addEventListener('click', async () => {
         await logoutAPI();
