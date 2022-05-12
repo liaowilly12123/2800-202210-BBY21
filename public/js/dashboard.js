@@ -86,3 +86,59 @@ document.getElementById('prev').addEventListener('click', () => {
     setUsers(currentPage);
   }
 });
+
+let isModalOpen = false;
+
+function openModal() {
+  document.getElementById("error").innerText = "";
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.remove('hidden');
+  isModalOpen = true;
+}
+
+function closeModal() {
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.add('hidden');
+  isModalOpen = false;
+}
+
+document.getElementById('createUser').addEventListener('click', () => {
+    openModal();
+});
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  closeModal();
+});
+
+document.getElementById('createButton').addEventListener('click', async (e) => {
+  e.preventDefault();
+  
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+  const userType = document.getElementById('userType');
+
+  const response = await fetch("/api/user/register", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstName: firstName.value || null,
+      lastName: lastName.value || null,
+      email: email.value || null,
+      password: password.value || null,
+      userType: userType.value || null,
+    })
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.success) {
+    closeModal();
+  } else {
+    document.getElementById("error").innerText = responseJson.payload;
+  }
+});
