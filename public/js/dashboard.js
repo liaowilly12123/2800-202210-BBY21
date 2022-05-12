@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 let currentPage = 1;
 let totalPages = null;
 
 function setButtonsState() {
   if (currentPage === 1) {
-    document.getElementById('prev').disabled = true;
+    document.getElementById("prev").disabled = true;
   } else {
-    document.getElementById('prev').disabled = false;
+    document.getElementById("prev").disabled = false;
   }
 
   if (currentPage === totalPages) {
-    document.getElementById('next').disabled = true;
+    document.getElementById("next").disabled = true;
   } else {
-    document.getElementById('next').disabled = false;
+    document.getElementById("next").disabled = false;
   }
 }
 
@@ -23,8 +23,8 @@ async function setUsers(page) {
   if (users.success) {
     const payload = users.payload;
 
-    const template = document.getElementById('userCardTemplate');
-    const cardHolder = document.getElementById('cardHolder');
+    const template = document.getElementById("userCardTemplate");
+    const cardHolder = document.getElementById("cardHolder");
 
     if (totalPages == null) {
       totalPages = payload.totalPages;
@@ -33,19 +33,19 @@ async function setUsers(page) {
     cardHolder.replaceChildren([]);
     for (const user of payload.users) {
       const userCard = template.content.cloneNode(true);
-      userCard.querySelector('.card').id = user._id;
-      userCard.querySelector('.name').innerText =
-        user.firstName + ' ' + user.lastName;
-      userCard.querySelector('.joinDate').innerText = new Date(
+      userCard.querySelector(".card").id = user._id;
+      userCard.querySelector(".name").innerText =
+        user.firstName + " " + user.lastName;
+      userCard.querySelector(".joinDate").innerText = new Date(
         user.joinDate
       ).toDateString();
-      userCard.querySelector('.delete').addEventListener('click', async (e) => {
+      userCard.querySelector(".delete").addEventListener("click", async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/user/delete', {
-          method: 'DELETE',
+        const res = await fetch("/api/user/delete", {
+          method: "DELETE",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             userId: user._id,
@@ -55,14 +55,15 @@ async function setUsers(page) {
 
         if (resJson.success) {
           const currUserCard = document.getElementById(user._id);
-          document.getElementById('cardHolder').removeChild(currUserCard);
+          document.getElementById("cardHolder").removeChild(currUserCard);
           setUsers(currentPage);
         }
       });
-      userCard.querySelector('.edit').addEventListener('click', async (e) => {
+      userCard.querySelector(".edit").addEventListener("click", async (e) => {
         e.preventDefault();
-        displayEditForm();
-        // const res = await fetch('/api/user/')
+        displayEditButton();
+        getUserInfo(user._id);
+        // console.log(user._id);
       });
       cardHolder.appendChild(userCard);
     }
@@ -72,20 +73,20 @@ async function setUsers(page) {
 }
 
 function updatePageNumber() {
-  document.getElementById('pnumcur').innerText = currentPage;
-  document.getElementById('pnumtotal').innerText = totalPages;
+  document.getElementById("pnumcur").innerText = currentPage;
+  document.getElementById("pnumtotal").innerText = totalPages;
 }
 
 setUsers(currentPage);
 
-document.getElementById('next').addEventListener('click', () => {
+document.getElementById("next").addEventListener("click", () => {
   if (currentPage < totalPages) {
     currentPage++;
     setUsers(currentPage);
   }
 });
 
-document.getElementById('prev').addEventListener('click', () => {
+document.getElementById("prev").addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
     setUsers(currentPage);
@@ -93,48 +94,52 @@ document.getElementById('prev').addEventListener('click', () => {
 });
 
 let isModalOpen = false;
-let formType = 'createUserForm';
+let buttonType = "create";
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const userType = document.getElementById("userType");
 
 function openModal() {
   document.getElementById("error").innerText = "";
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.remove('hidden');
+  const modal = document.getElementsByClassName("modal");
+  modal[0].classList.remove("hidden");
   isModalOpen = true;
 }
 
 function closeModal() {
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.add('hidden');
+  const modal = document.getElementsByClassName("modal");
+  modal[0].classList.add("hidden");
   isModalOpen = false;
+  clearFields();
 }
 
-function hideForm() {
-  document.getElementById(formType).classList.add('formHidden');
+function hideButton() {
+  document
+    .getElementById(`${buttonType}ButtonContainer`)
+    .classList.add("hidden");
 }
 
-function displayForm() {
-  document.getElementById(formType).classList.remove('formHidden');
+function displayButton() {
+  document
+    .getElementById(`${buttonType}ButtonContainer`)
+    .classList.remove("hidden");
 }
 
-document.getElementById('createUser').addEventListener('click', () => {
-  formType = 'createUserForm';
-  displayForm();
+document.getElementById("createUser").addEventListener("click", () => {
+  buttonType = "create";
+  displayButton();
   openModal();
 });
 
-document.getElementById('modalClose').addEventListener('click', () => {
-  hideForm();
+document.getElementById("modalClose").addEventListener("click", () => {
+  hideButton();
   closeModal();
 });
 
-document.getElementById('createButton').addEventListener('click', async (e) => {
+document.getElementById("createButton").addEventListener("click", async (e) => {
   e.preventDefault();
-  
-  const firstName = document.getElementById('firstName');
-  const lastName = document.getElementById('lastName');
-  const email = document.getElementById('email');
-  const password = document.getElementById('password');
-  const userType = document.getElementById('userType');
 
   const response = await fetch("/api/user/register", {
     method: "POST",
@@ -148,7 +153,7 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
       email: email.value || null,
       password: password.value || null,
       userType: userType.value || null,
-    })
+    }),
   });
 
   const responseJson = await response.json();
@@ -156,12 +161,58 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   if (responseJson.success) {
     closeModal();
   } else {
-    document.getElementById('error').innerText = responseJson.payload;
+    document.getElementById("error").innerText = responseJson.payload;
   }
 });
 
-function displayEditForm() {
-  formType = 'editUserForm';
-  displayForm();
+function displayEditButton() {
+  buttonType = "update";
+  displayButton();
   openModal();
+}
+
+async function updateUser() {
+  const response = await fetch(`/api/user/info?id=${userId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstName: firstName.value || null,
+      lastName: lastName.value || null,
+      email: email.value || null,
+      password: password.value || null,
+      userType: userType.value || null,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.success) {
+    closeModal();
+  } else {
+    document.getElementById("error").innerText = responseJson.payload;
+  }
+}
+
+async function getUserInfo(userId) {
+  const userInfo = await fetch(`/api/user/info?id=${userId}`);
+  const userInfoJSON = await userInfo.json();
+
+  if (userInfoJSON.success) {
+    firstName.value = userInfoJSON.payload.firstName;
+    lastName.value = userInfoJSON.payload.lastName;
+    email.value = userInfoJSON.payload.email;
+    password.value = userInfoJSON.payload.password;
+    userType.value = userInfoJSON.payload.userType;
+  }
+}
+
+function clearFields() {
+  firstName.value = '';
+  lastName.value = '';
+  email.value = '';
+  password.value = '';
+  userType.value = '';
 }

@@ -64,7 +64,7 @@
           <button type="button" id="modalClose">X</button>
         </div>
 
-        <form id="createUserForm" class="formHidden">
+        <form id="userForm">
           <div class="form-row">
             <div>
               <label for="firstName" class="label">First Name</label>
@@ -100,12 +100,11 @@
 
           <p id="error"></p>
 
-          <input type="submit" value="Create" id="createButton" />
-        </form>
-        
-        <form id="editUserForm" class="formHidden">
-          <div>
-            Hello
+          <div id="createButtonContainer" class="hidden">
+            <input type="submit" value="Create" id="createButton"/>
+          </div>
+          <div id="updateButtonContainer" class="hidden">
+            <input type="submit" value="Update" id="updateButton"/>
           </div>
         </form>
       </div>
