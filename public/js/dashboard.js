@@ -217,6 +217,7 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   const responseJson = await response.json();
 
   if (responseJson.success) {
+    hideButton();
     closeModal();
     setUsers(currentPage);
   } else {
@@ -227,5 +228,7 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
   updateUser(userIdClicked);
+  hideButton();
+  closeModal();
   setUsers(currentPage);
 });
