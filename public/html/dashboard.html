@@ -42,6 +42,7 @@
         <button type="button" id="logout">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
+        <button type="button" id="createUser">Add new user</button>
         <div id="pagination">
           <p><span id="pnumcur"></span> / <span id="pnumtotal">10</span></p>
           <div id="pagination-buttons">
@@ -56,6 +57,41 @@
       </div>
       <div id="cardHolder"></div>
     </main>
+
+    <div class="modal hidden">
+      <div class="modalContainer">
+        <button type="button" id="modalClose">X</button>
+        <form id="createUser">
+          <label for="firstName">First Name</label>
+          <input type="text" name="firstName" id="firstName" />
+
+          <label for="lastName">Last Name</label>
+          <input type="text" name="lastName" id="lastName" />
+
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+          />
+
+          <label for="userType">Type</label>
+          <select name="languages" id="userType">
+            <option value="tutor" class="color">tutor</option>
+            <option value="student" class="color">student</option>
+            <option value="admin" class="color">admin</option>
+          </select>
+
+          <p id="error"></p>
+
+          <input type="submit" value="Create" id="createButton" />
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/dashboard.js"></script>

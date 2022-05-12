@@ -86,3 +86,25 @@ document.getElementById('prev').addEventListener('click', () => {
     setUsers(currentPage);
   }
 });
+
+let isModalOpen = false;
+
+function openModal() {
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.remove('hidden');
+  isModalOpen = true;
+}
+
+function closeModal() {
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.add('hidden');
+  isModalOpen = false;
+}
+
+document.getElementById('createUser').addEventListener('click', () => {
+    openModal();
+});
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  closeModal();
+})
