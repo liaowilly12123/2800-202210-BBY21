@@ -60,30 +60,42 @@
 
     <div class="modal hidden">
       <div class="modalContainer">
-        <button type="button" id="modalClose">X</button>
-        <form id="createUser">
-          <label for="firstName">First Name</label>
-          <input type="text" name="firstName" id="firstName" />
+        <div class="modalHeader">
+          <button type="button" id="modalClose">X</button>
+        </div>
+        <form id="createUserForm">
+          <div class="form-row">
+            <div>
+              <label for="firstName" class="label">First Name</label>
+              <input type="text" name="firstName" id="firstName" />
+            </div>
 
-          <label for="lastName">Last Name</label>
-          <input type="text" name="lastName" id="lastName" />
+            <div>
+              <label for="lastName" class="label">Last Name</label>
+              <input type="text" name="lastName" id="lastName" />
+            </div>
+          </div>
 
-          <label for="email">Email</label>
+          <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" />
-
-          <label for="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-          />
-
-          <label for="userType">Type</label>
-          <select name="languages" id="userType">
-            <option value="tutor" class="color">tutor</option>
-            <option value="student" class="color">student</option>
-            <option value="admin" class="color">admin</option>
-          </select>
+          <div class="form-row">
+            <div>
+              <label for="password" class="label">Password</label>
+              <input
+              type="password"
+              name="password"
+              id="password"
+              />
+            </div>
+            <div>
+              <label for="userType" class="label">User Type</label>
+              <select name="languages" id="userType">
+                <option value="tutor" class="color">tutor</option>
+                <option value="student" class="color">student</option>
+                <option value="admin" class="color">admin</option>
+              </select>
+            </div>
+          </div>
 
           <p id="error"></p>
 
