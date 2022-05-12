@@ -1,12 +1,12 @@
-"use strict";
-const logoutButton = document.getElementById("logout-button");
+'use strict';
+import { logout } from '/js/login.js';
 
-logoutButton.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const res = await fetch("/api/user/logout");
+export async function logoutAPI() {
+  const res = await fetch('/api/user/logout');
   const responseJSON = await res.json();
 
   if (responseJSON.success) {
-    window.location.href = "/";
+    logout();
+    window.location.href = '/';
   }
-});
+}

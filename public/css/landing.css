@@ -204,9 +204,10 @@ select {
     background-color: unset;
   }
 
-  #login-form {
+  #login-form,
+  #register-form {
     height: 100%;
-    padding: 20px 0px;
+    padding: 10px 0px;
 
     display: flex;
     flex-direction: column;
