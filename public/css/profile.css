@@ -9,6 +9,14 @@ body {
   margin-inline: auto;
 }
 
+#display-image{
+  width: 400px;
+  height: 225px;
+  border: 1px solid black;
+  background-position: center;
+  background-size: cover;
+}
+
 main {
   height: 100%;
 }
