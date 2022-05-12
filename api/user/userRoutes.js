@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
+const ProfilePicture = require('../../models/profilePicture.js');
 
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
@@ -220,7 +221,41 @@ router.post('/uploadphoto', upload.single('myImage'), async (req, res) => {
   });
   await doc.save();
 
-  return res.success({ path: req.file.path });
+  return res.success({ path: req.file.path, id: doc._id });
+});
+
+router.post('/uploadProfilePicture', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  await ProfilePicture.findOneAndUpdate(
+    {
+      user_id: req.session.userId,
+    },
+    {
+      img: req.body.imgId,
+    },
+    {
+      upsert: true,
+    }
+  );
+
+  return res.success();
+});
+
+router.get('/profilePicture', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
+  if (!picture) {
+    return res.fail('No Profile Picture');
+  }
+  const image = await Image.findById(picture.img);
+
+  return res.success({ path: image.img });
 });
 
 module.exports = router;
