@@ -229,23 +229,19 @@ router.post('/uploadProfilePicture', async (req, res) => {
     return res.fail('User not logged in');
   }
 
-  // const doc =  new ProfilePicture({
-  //   user_id: req.session.userId,
-  //   img: req.body.imgId,
-  // })
-  // await doc.save();
-
-  const doc = await ProfilePicture.findOneAndUpdate({
+  await ProfilePicture.findOneAndUpdate(
+    {
       user_id: req.session.userId,
-  }, {
+    },
+    {
       img: req.body.imgId,
-  }, {
-      upsert: true
-  });
-
+    },
+    {
+      upsert: true,
+    }
+  );
 
   return res.success();
-
 });
 
 router.get('/profilePicture', async (req, res) => {
@@ -253,13 +249,13 @@ router.get('/profilePicture', async (req, res) => {
     return res.fail('User not logged in');
   }
 
-  const picture = await ProfilePicture.findOne({user_id: req.session.userId});
+  const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
   if (!picture) {
-    return res.fail("No Profile Picture")
+    return res.fail('No Profile Picture');
   }
   const image = await Image.findById(picture.img);
 
-  return res.success({path: image.img});
-})
+  return res.success({ path: image.img });
+});
 
 module.exports = router;
