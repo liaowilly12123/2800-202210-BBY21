@@ -123,6 +123,7 @@ a {
 a:hover {
   color: var(--nord6);
   font-weight: bold;
+  cursor: pointer;
 }
 
 #right {

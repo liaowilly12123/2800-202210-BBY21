@@ -1,9 +1,7 @@
 'use strict';
 import { logout } from '/js/login.js';
-const logoutButton = document.getElementById('logout-button');
 
-logoutButton.addEventListener('click', async (e) => {
-  e.preventDefault();
+export async function logoutAPI() {
   const res = await fetch('/api/user/logout');
   const responseJSON = await res.json();
 
@@ -11,4 +9,4 @@ logoutButton.addEventListener('click', async (e) => {
     logout();
     window.location.href = '/';
   }
-});
+}
