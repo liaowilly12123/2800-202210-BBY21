@@ -6,7 +6,8 @@ const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
 const userInfo = await userInfoRes.json();
 
 function setProfileData(payload) {
-  document.getElementById('name').innerText = payload.firstName;
+  document.getElementById('fname').innerText = payload.firstName;
+  document.getElementById('lname').innerText = payload.lastName;
   document.getElementById('userType').innerText = payload.userType;
 }
 

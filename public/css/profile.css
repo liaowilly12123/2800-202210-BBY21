@@ -96,8 +96,10 @@ input {
   justify-content: space-evenly;
 }
 
-#name {
+#fullName {
   color: var(--nord6);
+  display: flex;
+  gap: 10px;
 }
 
 #userType {
