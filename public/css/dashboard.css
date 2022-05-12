@@ -23,7 +23,6 @@ main {
   display: flex;
   gap: 20px;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 #cardHolder {
@@ -102,7 +101,8 @@ main {
 #prev,
 #next,
 #logout,
-#modalClose {
+#modalClose,
+#createUser {
   background-color: var(--nord1);
   color: var(--nord14);
 

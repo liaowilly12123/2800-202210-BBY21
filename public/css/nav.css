@@ -1,9 +1,89 @@
 nav {
   background-color: var(--nord1);
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   height: 75px;
+}
+
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+@keyframes fadeInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-5%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutTop {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#dropdown {
+  position: fixed;
+  display: flex;
+  background-color: var(--nord3);
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  left: 0;
+  animation: fadeInTop ease-in 0.3s;
+}
+
+.fadeOutTop {
+  animation: fadeOutTop ease-in 0.3s;
+}
+
+.fadeOut {
+  animation: fadeOut ease-in 0.3s;
+}
+
+#tint {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: fadeIn ease-in 0.3s;
+}
+
+#dropdown a {
+  padding: 10px 12.5px;
 }
 
 #nav-logo {
@@ -16,4 +96,54 @@ nav {
   color: var(--nord6);
   font-weight: bold;
   font-size: 1.15em;
+}
+
+#left {
+  display: flex;
+  height: 100%;
+}
+
+#branding {
+  display: flex;
+  align-items: center;
+}
+
+#nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+a {
+  color: var(--nord4);
+  text-decoration: none;
+  transition: all 0.1s ease-in;
+}
+
+a:hover {
+  color: var(--nord6);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#right {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  #nav-links {
+    display: none;
+  }
+
+  #right {
+    display: block;
+    padding-right: 17.5px;
+  }
+
+  #burger {
+    display: block;
+    color: var(--nord6);
+    font-size: 1.5em;
+    cursor: pointer;
+  }
 }
