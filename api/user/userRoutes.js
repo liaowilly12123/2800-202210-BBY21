@@ -159,7 +159,7 @@ router.put('/info', function (req, res) {
     return res.fail('User is not logged in.');
   }
 
-  const userId = req.session.userId;
+  const userId = req.query.id ?? req.session.userId;
   if (validate(res, userId, 'User ID is undefined')) return;
 
   const payload = req.body.payload;

@@ -1,6 +1,7 @@
 "use strict";
 let currentPage = 1;
 let totalPages = null;
+let userIdClicked = "";
 
 function setButtonsState() {
   if (currentPage === 1) {
@@ -57,13 +58,14 @@ async function setUsers(page) {
           const currUserCard = document.getElementById(user._id);
           document.getElementById("cardHolder").removeChild(currUserCard);
           setUsers(currentPage);
+          userIdClicked = user._id;
         }
       });
       userCard.querySelector(".edit").addEventListener("click", async (e) => {
         e.preventDefault();
         displayEditButton();
         getUserInfo(user._id);
-        // console.log(user._id);
+        setUserIdClicked(user._id);
       });
       cardHolder.appendChild(userCard);
     }
@@ -171,19 +173,20 @@ function displayEditButton() {
   openModal();
 }
 
-async function updateUser() {
+async function updateUser(userId) {
   const response = await fetch(`/api/user/info?id=${userId}`, {
     method: "PUT",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      firstName: firstName.value || null,
-      lastName: lastName.value || null,
-      email: email.value || null,
-      password: password.value || null,
-      userType: userType.value || null,
+      payload: {
+        firstName: firstName.value || null,
+        lastName: lastName.value || null,
+        email: email.value || null,
+        password: password.value || null,
+        userType: userType.value || null,
+      }
     }),
   });
 
@@ -216,3 +219,12 @@ function clearFields() {
   password.value = '';
   userType.value = '';
 }
+
+function setUserIdClicked(userId) {
+  userIdClicked = userId;
+}
+
+document.getElementById('updateButton').addEventListener('click', async (e) => {
+  e.preventDefault();
+  updateUser(userIdClicked);
+});
