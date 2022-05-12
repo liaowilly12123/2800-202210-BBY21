@@ -46,6 +46,7 @@ if (userInfo.success) {
 
   document.getElementById('edit-fname').placeholder = payload.firstName;
   document.getElementById('edit-lname').placeholder = payload.lastName;
+  document.getElementById('edit-email').placeholder = payload.email;
   document.getElementById('edit-password').placeholder = 'Password';
 
   document.getElementById('editForm').addEventListener('submit', async (e) => {
@@ -79,6 +80,7 @@ if (userInfo.success) {
     // Other edits
     const firstNameElem = document.getElementById('edit-fname');
     const lastNameElem = document.getElementById('edit-lname');
+    const emailElem = document.getElementById('edit-email');
     const passwordElem = document.getElementById('edit-password');
 
     const res = await fetch('/api/user/info', {
@@ -91,6 +93,7 @@ if (userInfo.success) {
         payload: removeEmpty({
           firstName: firstNameElem.value || null,
           lastName: lastNameElem.value || null,
+          email: emailElem.value || null,
           password: passwordElem.value || null,
         }),
       }),
