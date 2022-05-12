@@ -1,48 +1,55 @@
-"use strict";
-const router = require("express").Router();
-const mongoose = require("mongoose");
-const User = require("../../models/User.js");
-router.use(bodyParser.urlencoded({ extended: true }))
+'use strict';
+const router = require('express').Router();
+const TutorQualification = require('../../models/tutorQualifications.js');
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
 // Returns true if data is undefined, else false
 function validate(res, data, msg) {
-    if (typeof data === "undefined") {
+    if (typeof data === 'undefined') {
         res.fail(msg);
         return true;
     }
     return false;
 }
 
-router.get("/info", async function(req, res) {
-    let tutorId = req.session.userId;
-    if (req.query.id != "null") {
-        tutorId = req.query.id;
+router.post('/qualifications', async function(req, res) {
+    if (!req.session.loggedIn) {
+        return res.fail('User not logged in');
+    } else {
+        if (req.session.userType !== 'tutor') {
+            return res.fail('User is not a tutor');
+        }
     }
 
-    if (validate(res, tutorId, "Tutor id not provided")) return;
+    const body = req.body;
 
-    if (!mongoose.isValidObjectId(tutorId)) {
-        return res.fail(`${tutorId} is an invalid id`);
-    }
+    const higherEducation = body.higherEducation;
+    if (validate(res, higherEducation, 'Higher Education is undefined')) return;
 
-    const tutor = await User.findById(tutorId);
-    if (tutor === null) {
-        return res.fail(`Tutor with id ${tutorId} not found`);
-    }
+    const experience = body.experience;
+    if (validate(res, experience, 'Experience is undefined')) return;
 
-    if (tutor.userType !== "tutor") {
-        return res.fail(`User with id ${tutorId} is not a tutor.`);
-    }
+    const contactNumber = body.contactNumber;
+    if (validate(res, contactNumber, 'contact Number is undefined')) return;
 
-    return res.success({
-        firstName: tutor.firstName,
-        lastName: tutor.lastName,
-        email: tutor.email,
-        userType: tutor.userType,
-        joinDate: tutor.joinDate,
+    const subject = body.subject;
+    if (validate(res, subject, 'subject is undefined')) return;
+
+    const pay = body.pay;
+    if (validate(res, pay, 'pay is undefined')) return;
+
+    const newDoc = new TutorQualification({
+        user_id: req.session.userId,
+        higherEducation: higherEducation,
+        experience: experience,
+        contactNumber: contactNumber,
+        subject: subject,
+        pay: pay,
     });
+    await newDoc.save();
+
+    res.success();
 });
 
 module.exports = router;

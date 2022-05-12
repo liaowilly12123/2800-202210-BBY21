@@ -5,35 +5,40 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/colors.css" />
     <link rel="stylesheet" href="/css/tutors.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
     <title>Document</title>
 </head>
 
 <body>
     <div id="nav-holder"></div>
     <form id="tutor">
-        <label for="tutor-education" class="label">Higher Education</label>
+
+        <label class="label" for="tutor-education">Higher level of Education</label><br>
         <select name="tutor-education" id="tutor-education">
-            <option value="Secondary education">Secondary Education</option>
-            <option value="post-secondary">Post=secondary</option>
-            <option value="tertiary">Tertiary</option>
-        </select>
+            <option value="Secondary">Secondary</option>
+            <option value="Past-Secondary">Post-Secondary</option>
+            <option value="Tertiary">Tertiary</option>
+        </select><br>
 
-        <label for="tutor-experience" class="label">Experience</label>
-        <input type="text" name="tutor-experience" id="tutor-experience" />
+        <label class="label" for="tutor-experience">Experience</label><br>
+        <input type="text" name="tutor-experience" id="tutor-experience" /><br>
 
-        <label for="tutor-subject" class="label">Subject</label>
-        <input type="text" name="tutor-subject" id="tutor-subject" />
+        <label class="label" for="tutor-contact">Contact Number</label><br>
+        <input type="number" name="tutor-contact" id="tutor-contact" /><br>
 
-        <label for="tutor-pay" class="label">Hourly Pay</label>
-        <input type="text" name="tutor-pay" id="tutor-pay" />
+        <label class="label" for="tutor-subject">Subject</label><br>
+        <input type="text" name="tutor-subject" id="tutor-subject" /><br>
+
+        <label class="label" for="tutor-info">Expected Pay in dollars</label><br>
+        <input type="number" name="tutor-info" id="tutor-info" /><br>
+
+        <input type="submit" value=" Next" id="submit" />
+
     </form>
 
-    <form id="form2" action="/uploadphoto" enctype="multipart/form-data" method="POST">
-        <label for="myImage" class="label">Upload Supporting Document</label>
-        <input type="file" name="myImage" accept="file/*">
-    </form>
-    <input type="button" value="Click Me!" id="Submit" />
+
     <script type="module" src="/js/tutors.js"></script>
     <script type="module" src="/js/template.js"></script>
 </body>

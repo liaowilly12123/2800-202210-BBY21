@@ -1,7 +1,7 @@
-"use strict";
+"use strict ";
 const mongoose = require("mongoose");
 
-const tutorSchema = new mongoose.Schema({
+const tutorQualificationsSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -15,15 +15,23 @@ const tutorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    contactNumber: {
+        type: String,
+        required: true,
+
+    },
     subject: {
         type: String,
         required: true,
     },
-    hourlyPay: {
-        type: String,
-    }
+    pay: {
+        type: Number,
 
+    }
 });
 
-const userModel = mongoose.model("tutor", tutorSchema);
-module.exports = userModel;
+const tutorQualificationsModel = mongoose.model(
+    "BBY21_tutor_qualifications",
+    tutorQualificationsSchema
+);
+module.exports = tutorQualificationsModel;
