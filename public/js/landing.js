@@ -4,14 +4,17 @@ import { login } from '/js/login.js';
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 
+// hide register form on first load
+registerForm.style.display = 'none';
+
 document.getElementById('signup-text').addEventListener('click', () => {
   document.getElementById('login-form').style.display = 'none';
-  document.getElementById('register-form').style.display = 'unset';
+  document.getElementById('register-form').style.display = 'flex';
 });
 
 document.getElementById('signin-text').addEventListener('click', () => {
   document.getElementById('register-form').style.display = 'none';
-  document.getElementById('login-form').style.display = 'unset';
+  document.getElementById('login-form').style.display = 'flex';
 });
 
 loginForm.addEventListener('submit', async (e) => {
