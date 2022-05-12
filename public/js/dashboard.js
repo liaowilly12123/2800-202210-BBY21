@@ -227,7 +227,7 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
 
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
-  updateUser(userIdClicked);
+  await updateUser(userIdClicked);
   hideButton();
   closeModal();
   setUsers(currentPage);
