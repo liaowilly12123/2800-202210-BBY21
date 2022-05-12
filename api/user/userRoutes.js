@@ -59,16 +59,20 @@ router.post("/register", async function (req, res) {
   });
   await newUser.save();
 
-  // Create a session for the user
-  req.session.loggedIn = true;
-  req.session.userId = newUser._id;
-  req.session.userType = newUser.userType;
-  req.session.save((_) => {});
+  if (req.session.userType !== 'admin') {
+    // Create a session for the user
+    req.session.loggedIn = true;
+    req.session.userId = newUser._id;
+    req.session.userType = newUser.userType;
+    req.session.save((_) => {});
 
-  res.success({
-    userId: newUser._id,
-    userType: newUser.userType,
-  });
+    return res.success({
+      userId: newUser._id,
+      userType: newUser.userType,
+    });
+  }
+
+  res.success();
 });
 
 router.post("/login", async function (req, res) {
