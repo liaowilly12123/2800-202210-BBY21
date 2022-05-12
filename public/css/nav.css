@@ -117,14 +117,10 @@ nav {
 a {
   color: var(--nord4);
   text-decoration: none;
-  transition: color 0.1s ease-in;
+  transition: all 0.1s ease-in;
 }
 
-a:not(.selected):hover {
-  color: var(--nord6);
-}
-
-.selected {
+a:hover {
   color: var(--nord6);
   font-weight: bold;
 }
