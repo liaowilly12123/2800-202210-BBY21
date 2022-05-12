@@ -2,6 +2,13 @@
 let currentPage = 1;
 let totalPages = null;
 let userIdClicked = "";
+let isModalOpen = false;
+let buttonType = "create";
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const userType = document.getElementById("userType");
 
 function setButtonsState() {
   if (currentPage === 1) {
@@ -95,14 +102,6 @@ document.getElementById("prev").addEventListener("click", () => {
   }
 });
 
-let isModalOpen = false;
-let buttonType = "create";
-const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const userType = document.getElementById("userType");
-
 function openModal() {
   document.getElementById("error").innerText = "";
   const modal = document.getElementsByClassName("modal");
@@ -129,44 +128,17 @@ function displayButton() {
     .classList.remove("hidden");
 }
 
-document.getElementById("createUser").addEventListener("click", () => {
-  buttonType = "create";
-  displayButton();
-  openModal();
-});
+function clearFields() {
+  firstName.value = '';
+  lastName.value = '';
+  email.value = '';
+  password.value = '';
+  userType.value = '';
+}
 
-document.getElementById("modalClose").addEventListener("click", () => {
-  hideButton();
-  closeModal();
-});
-
-document.getElementById("createButton").addEventListener("click", async (e) => {
-  e.preventDefault();
-
-  const response = await fetch("/api/user/register", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      firstName: firstName.value || null,
-      lastName: lastName.value || null,
-      email: email.value || null,
-      password: password.value || null,
-      userType: userType.value || null,
-    }),
-  });
-
-  const responseJson = await response.json();
-
-  if (responseJson.success) {
-    closeModal();
-    setUsers(currentPage);
-  } else {
-    document.getElementById("error").innerText = responseJson.payload;
-  }
-});
+function setUserIdClicked(userId) {
+  userIdClicked = userId;
+}
 
 function displayEditButton() {
   buttonType = "update";
@@ -213,17 +185,44 @@ async function getUserInfo(userId) {
   }
 }
 
-function clearFields() {
-  firstName.value = '';
-  lastName.value = '';
-  email.value = '';
-  password.value = '';
-  userType.value = '';
-}
+document.getElementById('createUser').addEventListener('click', () => {
+  buttonType = 'create';
+  displayButton();
+  openModal();
+});
 
-function setUserIdClicked(userId) {
-  userIdClicked = userId;
-}
+document.getElementById('modalClose').addEventListener('click', () => {
+  hideButton();
+  closeModal();
+});
+
+document.getElementById('createButton').addEventListener('click', async (e) => {
+  e.preventDefault();
+
+  const response = await fetch('/api/user/register', {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstName: firstName.value || null,
+      lastName: lastName.value || null,
+      email: email.value || null,
+      password: password.value || null,
+      userType: userType.value || null,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.success) {
+    closeModal();
+    setUsers(currentPage);
+  } else {
+    document.getElementById("error").innerText = responseJson.payload;
+  }
+});
 
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
