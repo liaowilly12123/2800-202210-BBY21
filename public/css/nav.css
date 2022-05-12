@@ -1,7 +1,7 @@
 nav {
   background-color: var(--nord1);
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   height: 75px;
 }
@@ -16,4 +16,56 @@ nav {
   color: var(--nord6);
   font-weight: bold;
   font-size: 1.15em;
+}
+
+#left {
+  display: flex;
+  height: 100%;
+}
+
+#branding {
+  display: flex;
+  align-items: center;
+}
+
+#nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+a {
+  color: var(--nord4);
+  text-decoration: none;
+  transition: color 0.1s ease-in;
+}
+
+a:not(.selected):hover {
+  color: var(--nord6);
+}
+
+.selected {
+  color: var(--nord6);
+  font-weight: bold;
+}
+
+#right {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  #nav-links {
+    display: none;
+  }
+
+  #right {
+    display: unset;
+    padding-right: 17.5px;
+  }
+
+  #burger {
+    color: var(--nord6);
+    font-size: 1.5em;
+    cursor: pointer;
+  }
 }
