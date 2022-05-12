@@ -59,6 +59,11 @@ async function setUsers(page) {
           setUsers(currentPage);
         }
       });
+      userCard.querySelector('.edit').addEventListener('click', async (e) => {
+        e.preventDefault();
+        displayEditForm();
+        // const res = await fetch('/api/user/')
+      });
       cardHolder.appendChild(userCard);
     }
     updatePageNumber();
@@ -88,6 +93,7 @@ document.getElementById('prev').addEventListener('click', () => {
 });
 
 let isModalOpen = false;
+let formType = 'createUserForm';
 
 function openModal() {
   document.getElementById("error").innerText = "";
@@ -102,11 +108,22 @@ function closeModal() {
   isModalOpen = false;
 }
 
+function hideForm() {
+  document.getElementById(formType).classList.add('formHidden');
+}
+
+function displayForm() {
+  document.getElementById(formType).classList.remove('formHidden');
+}
+
 document.getElementById('createUser').addEventListener('click', () => {
-    openModal();
+  formType = 'createUserForm';
+  displayForm();
+  openModal();
 });
 
 document.getElementById('modalClose').addEventListener('click', () => {
+  hideForm();
   closeModal();
 });
 
@@ -139,6 +156,12 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   if (responseJson.success) {
     closeModal();
   } else {
-    document.getElementById("error").innerText = responseJson.payload;
+    document.getElementById('error').innerText = responseJson.payload;
   }
 });
+
+function displayEditForm() {
+  formType = 'editUserForm';
+  displayForm();
+  openModal();
+}

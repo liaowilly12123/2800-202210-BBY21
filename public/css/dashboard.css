@@ -130,6 +130,10 @@ main {
   display: none;
 }
 
+.formHidden {
+  display: none;
+}
+
 #modalClose {
   text-align: right;
 }
