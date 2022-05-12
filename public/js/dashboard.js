@@ -162,6 +162,7 @@ document.getElementById("createButton").addEventListener("click", async (e) => {
 
   if (responseJson.success) {
     closeModal();
+    setUsers(currentPage);
   } else {
     document.getElementById("error").innerText = responseJson.payload;
   }
@@ -227,4 +228,5 @@ function setUserIdClicked(userId) {
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
   updateUser(userIdClicked);
+  setUsers(currentPage);
 });
