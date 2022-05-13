@@ -50,6 +50,7 @@ async function setUsers(page) {
       userCard.querySelector('.joinDate').innerText = new Date(
         user.joinDate
       ).toDateString();
+      userCard.querySelector('.type').innerText = user.userType;
 
       userCard.querySelector('.delete').addEventListener('click', async (e) => {
         e.preventDefault();
