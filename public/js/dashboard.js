@@ -1,26 +1,29 @@
-"use strict";
+'use strict';
+import { showToast } from '/js/toast.js';
+
 let currentPage = 1;
 let totalPages = null;
-let userIdClicked = "";
+let userIdClicked = '';
 let isModalOpen = false;
-let buttonType = "create";
-const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const userType = document.getElementById("userType");
+let buttonType = 'create';
+
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const userType = document.getElementById('userType');
 
 function setButtonsState() {
   if (currentPage === 1) {
-    document.getElementById("prev").disabled = true;
+    document.getElementById('prev').disabled = true;
   } else {
-    document.getElementById("prev").disabled = false;
+    document.getElementById('prev').disabled = false;
   }
 
   if (currentPage === totalPages) {
-    document.getElementById("next").disabled = true;
+    document.getElementById('next').disabled = true;
   } else {
-    document.getElementById("next").disabled = false;
+    document.getElementById('next').disabled = false;
   }
 }
 
@@ -31,8 +34,8 @@ async function setUsers(page) {
   if (users.success) {
     const payload = users.payload;
 
-    const template = document.getElementById("userCardTemplate");
-    const cardHolder = document.getElementById("cardHolder");
+    const template = document.getElementById('userCardTemplate');
+    const cardHolder = document.getElementById('cardHolder');
 
     if (totalPages == null) {
       totalPages = payload.totalPages;
@@ -41,19 +44,20 @@ async function setUsers(page) {
     cardHolder.replaceChildren([]);
     for (const user of payload.users) {
       const userCard = template.content.cloneNode(true);
-      userCard.querySelector(".card").id = user._id;
-      userCard.querySelector(".name").innerText =
-        user.firstName + " " + user.lastName;
-      userCard.querySelector(".joinDate").innerText = new Date(
+      userCard.querySelector('.card').id = user._id;
+      userCard.querySelector('.name').innerText =
+        user.firstName + ' ' + user.lastName;
+      userCard.querySelector('.joinDate').innerText = new Date(
         user.joinDate
       ).toDateString();
-      userCard.querySelector(".delete").addEventListener("click", async (e) => {
+
+      userCard.querySelector('.delete').addEventListener('click', async (e) => {
         e.preventDefault();
-        const res = await fetch("/api/user/delete", {
-          method: "DELETE",
+        const res = await fetch('/api/user/delete', {
+          method: 'DELETE',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             userId: user._id,
@@ -63,12 +67,16 @@ async function setUsers(page) {
 
         if (resJson.success) {
           const currUserCard = document.getElementById(user._id);
-          document.getElementById("cardHolder").removeChild(currUserCard);
+          document.getElementById('cardHolder').removeChild(currUserCard);
           setUsers(currentPage);
           userIdClicked = user._id;
+          showToast('success', 'User deleted');
+        } else {
+          showToast('error', resJson.payload);
         }
       });
-      userCard.querySelector(".edit").addEventListener("click", async (e) => {
+
+      userCard.querySelector('.edit').addEventListener('click', async (e) => {
         e.preventDefault();
         displayEditButton();
         getUserInfo(user._id);
@@ -78,24 +86,26 @@ async function setUsers(page) {
     }
     updatePageNumber();
     setButtonsState();
+  } else {
+    showToast('error', users.payload);
   }
 }
 
 function updatePageNumber() {
-  document.getElementById("pnumcur").innerText = currentPage;
-  document.getElementById("pnumtotal").innerText = totalPages;
+  document.getElementById('pnumcur').innerText = currentPage;
+  document.getElementById('pnumtotal').innerText = totalPages;
 }
 
 setUsers(currentPage);
 
-document.getElementById("next").addEventListener("click", () => {
+document.getElementById('next').addEventListener('click', () => {
   if (currentPage < totalPages) {
     currentPage++;
     setUsers(currentPage);
   }
 });
 
-document.getElementById("prev").addEventListener("click", () => {
+document.getElementById('prev').addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage--;
     setUsers(currentPage);
@@ -103,15 +113,15 @@ document.getElementById("prev").addEventListener("click", () => {
 });
 
 function openModal() {
-  document.getElementById("error").innerText = "";
-  const modal = document.getElementsByClassName("modal");
-  modal[0].classList.remove("hidden");
+  document.getElementById('error').innerText = '';
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.remove('hidden');
   isModalOpen = true;
 }
 
 function closeModal() {
-  const modal = document.getElementsByClassName("modal");
-  modal[0].classList.add("hidden");
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.add('hidden');
   isModalOpen = false;
   clearFields();
 }
@@ -119,13 +129,13 @@ function closeModal() {
 function hideButton() {
   document
     .getElementById(`${buttonType}ButtonContainer`)
-    .classList.add("hidden");
+    .classList.add('hidden');
 }
 
 function displayButton() {
   document
     .getElementById(`${buttonType}ButtonContainer`)
-    .classList.remove("hidden");
+    .classList.remove('hidden');
 }
 
 function clearFields() {
@@ -140,7 +150,7 @@ function clearFields() {
 
   password.value = '';
   password.placeholder = 'Password';
-  
+
   userType.value = 'tutor';
 }
 
@@ -149,16 +159,16 @@ function setUserIdClicked(userId) {
 }
 
 function displayEditButton() {
-  buttonType = "update";
+  buttonType = 'update';
   displayButton();
   openModal();
 }
 
 async function updateUser(userId) {
   const response = await fetch(`/api/user/info?id=${userId}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       payload: removeEmpty({
@@ -167,7 +177,7 @@ async function updateUser(userId) {
         email: email.value || null,
         password: password.value || null,
         userType: userType.value || null,
-      })
+      }),
     }),
   });
 
@@ -175,8 +185,9 @@ async function updateUser(userId) {
 
   if (responseJson.success) {
     closeModal();
+    showToast('success', 'Succesfully Updated');
   } else {
-    document.getElementById("error").innerText = responseJson.payload;
+    showToast('error', responseJson.payload);
   }
 }
 
@@ -190,6 +201,8 @@ async function getUserInfo(userId) {
     email.placeholder = userInfoJSON.payload.email;
     password.placeholder = 'password';
     userType.value = userInfoJSON.payload.userType;
+  } else {
+    showToast('error', userInfoJSON.payload);
   }
 }
 
@@ -213,10 +226,10 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   e.preventDefault();
 
   const response = await fetch('/api/user/register', {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       firstName: firstName.value || null,
@@ -233,8 +246,9 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
     hideButton();
     closeModal();
     setUsers(currentPage);
+    showToast('success', 'Created user succesfully');
   } else {
-    document.getElementById("error").innerText = responseJson.payload;
+    showToast('error', responseJson.payload);
   }
 });
 
