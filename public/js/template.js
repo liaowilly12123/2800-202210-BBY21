@@ -1,3 +1,4 @@
+'use strict';
 import { isLoggedIn } from '/js/login.js';
 import { logoutAPI } from '/js/logout.js';
 

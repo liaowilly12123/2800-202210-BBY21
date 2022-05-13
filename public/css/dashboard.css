@@ -61,7 +61,6 @@ main {
 
 .delete,
 .edit {
-  aspect-ratio: 1;
   padding: 10px;
 
   background-color: var(--nord3);
@@ -106,7 +105,6 @@ main {
   background-color: var(--nord1);
   color: var(--nord14);
 
-  aspect-ratio: 1;
   padding: 15px;
 
   font-size: 1.25em;
