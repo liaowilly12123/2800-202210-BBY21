@@ -5,32 +5,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+
+    <link rel="stylesheet" href="/css/colors.css" />
     <link rel="stylesheet" href="/css/dashboard.css" />
+
+    <script
+      src="https://kit.fontawesome.com/b1c534a736.js"
+      crossorigin="anonymous"
+    ></script>
+
     <title>Admin Dashboard</title>
   </head>
   <body>
     <template id="userCardTemplate">
       <div class="card">
-        <div class="row">
-          <div class="col">
-            <div class="name">User Name</div>
+        <div class="name">User Name</div>
+        <div id="card-bottom">
+          <div id="card-info">
             <div class="joinDate">Joined At</div>
+            <div class="type">Student</div>
           </div>
-          <button class="delete">Delete</button>
+          <div class="card-button-holder">
+            <button class="edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       </div>
     </template>
 
-    <div id="cardHolder"></div>
-    <div id="buttonsHolder" , class="row">
-      <button type="button" id="logout-button">Logout</button>
-      <p><span id="pnumcur"></span>/<span id="pnumtotal">10</span></p>
-      <div>
-        <button id="prev">Prev</button>
-        <button id="next">Next</button>
+    <div id="nav-holder"></div>
+    <main>
+      <div id="buttonsHolder">
+        <button type="button" id="createUser">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        <div id="pagination">
+          <p><span id="pnumcur"></span> / <span id="pnumtotal">10</span></p>
+          <div id="pagination-buttons">
+            <button id="prev">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button id="next">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="cardHolder"></div>
+    </main>
+
+    <div class="modal hidden">
+      <div class="modalContainer">
+        <div class="modalHeader">
+          <button type="button" id="modalClose">X</button>
+        </div>
+
+        <form id="userForm">
+          <div class="form-row">
+            <div>
+              <label for="firstName" class="label">First Name</label>
+              <input type="text" name="firstName" id="firstName" placeholder="First name"/>
+            </div>
+
+            <div>
+              <label for="lastName" class="label">Last Name</label>
+              <input type="text" name="lastName" id="lastName" placeholder="Last name"/>
+            </div>
+          </div>
+
+          <label for="email" class="label">Email</label>
+          <input type="email" name="email" id="email" placeholder="Email"/>
+          <div class="form-row">
+            <div>
+              <label for="password" class="label">Password</label>
+              <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              />
+            </div>
+            <div>
+              <label for="userType" class="label">User Type</label>
+              <select name="languages" id="userType">
+                <option value="tutor" class="color">tutor</option>
+                <option value="student" class="color">student</option>
+                <option value="admin" class="color">admin</option>
+              </select>
+            </div>
+          </div>
+
+          <p id="error"></p>
+
+          <div id="createButtonContainer" class="hidden">
+            <input type="submit" value="Create" id="createButton"/>
+          </div>
+          <div id="updateButtonContainer" class="hidden">
+            <input type="submit" value="Update" id="updateButton"/>
+          </div>
+        </form>
       </div>
     </div>
 
+    <script type="module" src="/js/toast.js"></script>
+    <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/dashboard.js"></script>
     <script type="module" src="/js/logout.js"></script>
   </body>

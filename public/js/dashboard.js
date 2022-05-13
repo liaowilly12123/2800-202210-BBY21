@@ -1,30 +1,41 @@
-"use strict";
+'use strict';
+import { showToast } from '/js/toast.js';
+
 let currentPage = 1;
 let totalPages = null;
+let userIdClicked = '';
+let isModalOpen = false;
+let buttonType = 'create';
+
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const userType = document.getElementById('userType');
 
 function setButtonsState() {
   if (currentPage === 1) {
-    document.getElementById("prev").disabled = true;
+    document.getElementById('prev').disabled = true;
   } else {
-    document.getElementById("prev").disabled = false;
+    document.getElementById('prev').disabled = false;
   }
 
   if (currentPage === totalPages) {
-    document.getElementById("next").disabled = true;
+    document.getElementById('next').disabled = true;
   } else {
-    document.getElementById("next").disabled = false;
+    document.getElementById('next').disabled = false;
   }
 }
 
 async function setUsers(page) {
-  const usersRes = await fetch(`/api/user/all?page=${page}`);
+  const usersRes = await fetch(`/api/user/all?page=${page}&limit=9`);
   const users = await usersRes.json();
 
   if (users.success) {
     const payload = users.payload;
 
-    const template = document.getElementById("userCardTemplate");
-    const cardHolder = document.getElementById("cardHolder");
+    const template = document.getElementById('userCardTemplate');
+    const cardHolder = document.getElementById('cardHolder');
 
     if (totalPages == null) {
       totalPages = payload.totalPages;
@@ -33,19 +44,21 @@ async function setUsers(page) {
     cardHolder.replaceChildren([]);
     for (const user of payload.users) {
       const userCard = template.content.cloneNode(true);
-      userCard.querySelector(".card").id = user._id;
-      userCard.querySelector(".name").innerText =
-        user.firstName + " " + user.lastName;
-      userCard.querySelector(".joinDate").innerText = new Date(
+      userCard.querySelector('.card').id = user._id;
+      userCard.querySelector('.name').innerText =
+        user.firstName + ' ' + user.lastName;
+      userCard.querySelector('.joinDate').innerText = new Date(
         user.joinDate
       ).toDateString();
-      userCard.querySelector(".delete").addEventListener("click", async (e) => {
+      userCard.querySelector('.type').innerText = user.userType;
+
+      userCard.querySelector('.delete').addEventListener('click', async (e) => {
         e.preventDefault();
-        const res = await fetch("/api/user/delete", {
-          method: "DELETE",
+        const res = await fetch('/api/user/delete', {
+          method: 'DELETE',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             userId: user._id,
@@ -55,34 +68,195 @@ async function setUsers(page) {
 
         if (resJson.success) {
           const currUserCard = document.getElementById(user._id);
-          document.getElementById("cardHolder").removeChild(currUserCard);
+          document.getElementById('cardHolder').removeChild(currUserCard);
           setUsers(currentPage);
+          userIdClicked = user._id;
+          showToast('success', 'User deleted');
+        } else {
+          showToast('error', resJson.payload);
         }
+      });
+
+      userCard.querySelector('.edit').addEventListener('click', async (e) => {
+        e.preventDefault();
+        displayEditButton();
+        getUserInfo(user._id);
+        setUserIdClicked(user._id);
       });
       cardHolder.appendChild(userCard);
     }
     updatePageNumber();
     setButtonsState();
+  } else {
+    showToast('error', users.payload);
   }
 }
 
 function updatePageNumber() {
-  document.getElementById("pnumcur").innerText = currentPage;
-  document.getElementById("pnumtotal").innerText = totalPages;
+  document.getElementById('pnumcur').innerText = currentPage;
+  document.getElementById('pnumtotal').innerText = totalPages;
 }
 
 setUsers(currentPage);
 
-document.getElementById("next").addEventListener("click", () => {
+document.getElementById('next').addEventListener('click', () => {
   if (currentPage < totalPages) {
     currentPage++;
     setUsers(currentPage);
   }
 });
 
-document.getElementById("prev").addEventListener("click", () => {
+document.getElementById('prev').addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage--;
     setUsers(currentPage);
   }
+});
+
+function openModal() {
+  document.getElementById('error').innerText = '';
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.remove('hidden');
+  isModalOpen = true;
+}
+
+function closeModal() {
+  const modal = document.getElementsByClassName('modal');
+  modal[0].classList.add('hidden');
+  isModalOpen = false;
+  clearFields();
+}
+
+function hideButton() {
+  document
+    .getElementById(`${buttonType}ButtonContainer`)
+    .classList.add('hidden');
+}
+
+function displayButton() {
+  document
+    .getElementById(`${buttonType}ButtonContainer`)
+    .classList.remove('hidden');
+}
+
+function clearFields() {
+  firstName.value = '';
+  firstName.placeholder = 'First name';
+
+  lastName.value = '';
+  lastName.placeholder = 'Last name';
+
+  email.value = '';
+  email.placeholder = 'Email';
+
+  password.value = '';
+  password.placeholder = 'Password';
+
+  userType.value = 'tutor';
+}
+
+function setUserIdClicked(userId) {
+  userIdClicked = userId;
+}
+
+function displayEditButton() {
+  buttonType = 'update';
+  displayButton();
+  openModal();
+}
+
+async function updateUser(userId) {
+  const response = await fetch(`/api/user/info?id=${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      payload: removeEmpty({
+        firstName: firstName.value || null,
+        lastName: lastName.value || null,
+        email: email.value || null,
+        password: password.value || null,
+        userType: userType.value || null,
+      }),
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.success) {
+    closeModal();
+    showToast('success', 'Succesfully Updated');
+  } else {
+    showToast('error', responseJson.payload);
+  }
+}
+
+async function getUserInfo(userId) {
+  const userInfo = await fetch(`/api/user/info?id=${userId}`);
+  const userInfoJSON = await userInfo.json();
+
+  if (userInfoJSON.success) {
+    firstName.placeholder = userInfoJSON.payload.firstName;
+    lastName.placeholder = userInfoJSON.payload.lastName;
+    email.placeholder = userInfoJSON.payload.email;
+    password.placeholder = 'password';
+    userType.value = userInfoJSON.payload.userType;
+  } else {
+    showToast('error', userInfoJSON.payload);
+  }
+}
+
+// https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
+function removeEmpty(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+}
+
+document.getElementById('createUser').addEventListener('click', () => {
+  buttonType = 'create';
+  displayButton();
+  openModal();
+});
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  hideButton();
+  closeModal();
+});
+
+document.getElementById('createButton').addEventListener('click', async (e) => {
+  e.preventDefault();
+
+  const response = await fetch('/api/user/register', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstName: firstName.value || null,
+      lastName: lastName.value || null,
+      email: email.value || null,
+      password: password.value || null,
+      userType: userType.value || null,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.success) {
+    hideButton();
+    closeModal();
+    setUsers(currentPage);
+    showToast('success', 'Created user succesfully');
+  } else {
+    showToast('error', responseJson.payload);
+  }
+});
+
+document.getElementById('updateButton').addEventListener('click', async (e) => {
+  e.preventDefault();
+  await updateUser(userIdClicked);
+  hideButton();
+  closeModal();
+  setUsers(currentPage);
 });

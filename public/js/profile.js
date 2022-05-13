@@ -1,21 +1,127 @@
-"use strict";
+'use strict';
+
+import { showToast } from '/js/toast.js';
+
 const params = new URLSearchParams(location.search);
-const userId = params.get("id");
+const userId = params.get('id');
 
-async function asyncMain() {
-  const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
-  const userInfo = await userInfoRes.json();
+const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
+const userInfo = await userInfoRes.json();
 
-  if (userInfo.success) {
-    const payload = userInfo.payload;
-    document.getElementById("firstName").innerText = payload.firstName;
-    document.getElementById("lastName").innerText = payload.lastName;
-    document.getElementById("email").innerText = payload.email;
-    document.getElementById("type").innerText = payload.userType;
-    document.getElementById("joinDate").innerText = payload.joinDate;
+function setProfileData(payload) {
+  document.getElementById('fname').innerText = payload.firstName;
+  document.getElementById('lname').innerText = payload.lastName;
+  document.getElementById('userType').innerText = payload.userType;
+}
+
+function showModal() {
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+function hideModal() {
+  document.getElementById('editModal').style.display = 'none';
+}
+
+async function setProfilePic() {
+  // Load profile pic
+  const profilepic = await fetch('/api/user/profilePicture');
+  const profileJSON = await profilepic.json();
+  if (profileJSON.success) {
+    document.getElementById('profilePic').src = profileJSON.payload.path;
+    return true;
   } else {
-    window.location.href = "/";
+    showToast('error', profileJSON.payload);
+    return false;
   }
 }
 
-asyncMain();
+if (userInfo.success) {
+  hideModal();
+  setProfilePic();
+
+  const payload = userInfo.payload;
+
+  // Set info on profile
+  setProfileData(payload);
+
+  // modal stuff
+  document.getElementById('editButton').addEventListener('click', showModal);
+  document.getElementById('editTint').addEventListener('click', hideModal);
+
+  document.getElementById('edit-fname').placeholder = payload.firstName;
+  document.getElementById('edit-lname').placeholder = payload.lastName;
+  document.getElementById('edit-email').placeholder = payload.email;
+  document.getElementById('edit-password').placeholder = 'Password';
+
+  document.getElementById('editForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const filePicker = document.getElementById('edit-profilepic');
+
+    // Profile picture stuff
+    if (filePicker.files.length !== 0) {
+      const formData = new FormData();
+      formData.append('myImage', filePicker.files[0]);
+
+      const uploadRes = await fetch('/api/user/uploadphoto', {
+        method: 'post',
+        body: formData,
+      });
+      const uploadResJSON = await uploadRes.json();
+
+      if (uploadResJSON.success) {
+        await fetch('/api/user/uploadProfilePicture', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ imgId: uploadResJSON.payload.id }),
+        });
+      } else {
+        showToast('error', uploadResJSON.payload);
+        return;
+      }
+    }
+
+    // Other edits
+    const firstNameElem = document.getElementById('edit-fname');
+    const lastNameElem = document.getElementById('edit-lname');
+    const emailElem = document.getElementById('edit-email');
+    const passwordElem = document.getElementById('edit-password');
+
+    const res = await fetch('/api/user/info', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        payload: removeEmpty({
+          firstName: firstNameElem.value || null,
+          lastName: lastNameElem.value || null,
+          email: emailElem.value || null,
+          password: passwordElem.value || null,
+        }),
+      }),
+    });
+
+    const responseJson = await res.json();
+
+    if (responseJson.success) {
+      setProfileData(responseJson.payload);
+      await setProfilePic();
+      hideModal();
+      showToast('success', 'Profile Updated Successfully');
+    } else {
+      showToast('error', responseJson.payload);
+    }
+  });
+} else {
+  window.location.href = '/';
+}
+
+// https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
+function removeEmpty(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+}
