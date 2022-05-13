@@ -19,7 +19,7 @@ async function setNav() {
   }
 
   function showNav() {
-    const modal = document.getElementById('modal');
+    const modal = document.getElementById('navModal');
     modal.style.display = 'unset';
 
     const dropdown = document.getElementById('dropdown');
@@ -27,8 +27,8 @@ async function setNav() {
   }
 
   function hideNav() {
-    const dropdown = document.getElementById('modal');
-    const tint = document.getElementById('tint');
+    const dropdown = document.getElementById('navModal');
+    const tint = document.getElementById('navTint');
 
     dropdown.classList.add('fadeOutTop');
     tint.classList.add('fadeOut');
@@ -40,7 +40,7 @@ async function setNav() {
     }, 300);
   }
 
-  document.getElementById('tint').addEventListener('click', hideNav);
+  document.getElementById('navTint').addEventListener('click', hideNav);
 }
 
 setNav();

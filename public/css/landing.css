@@ -97,10 +97,13 @@ body {
   display: none;
 }
 
-#login-form {
+#login-form,
+#register-form {
   width: min(100% - 2em, 400px);
   margin-inline: auto;
   animation: 0.4s ease-in 0s 1 slideFromLeft;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-row {

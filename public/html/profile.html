@@ -1,76 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/profile.css" />
-  <title>Profile</title>
-</head>
+    <link rel="stylesheet" href="/css/colors.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
 
-<body>
-  <main>
-    <div class="card user-card-full">
-      <div class="row m-l-0 m-r-0">
-        <div class="col-sm-4 bg-c-lite-green user-profile">
-          <div class="card-block text-center text-white">
-            <div class="m-b-25">
-              <form id="profilePictureUpload" enctype="multipart/form-data" >
-                <input id="uploadButton" type="file" name="myImage" accept="file/*"/>
-                <input type="submit" value="submit">
-                <img id="profileImage">
-              </form>
-            </div>
-          </div>
+    <script
+      src="https://kit.fontawesome.com/b1c534a736.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Profile</title>
+  </head>
+
+  <body>
+    <div id="editModal">
+      <div id="editTint"></div>
+      <form id="editForm">
+        <div>
+          <label for="edit-fname" class="label">First Name</label>
+          <input type="text" name="edit-fname" id="edit-fname" />
         </div>
-        <div class="card-block">
-          <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
-          <div class="row">
-            <div class="col-sm-6">
-              <p class="m-b-10 f-w-600">First Name</p>
-              <input disabled type="text" class="text-muted f-w-400 editable" id="firstName">
-            </div>
-            <div class="col-sm-6">
-              <p class="m-b-10 f-w-600">Last Name</p>
-              <input disabled type="text" class="text-muted f-w-400 editable" id="lastName">
-            </div>
-            <div class="col-sm-6">
-              <p class="m-b-10 f-w-600">Email</p>
-              <h6 class="text-muted f-w-400" id="email"></h6>
-            </div>
-            <div class="col-sm-6">
-              <p hidden class="m-b-10 f-w-600" id="password-label">Password</p>
-              <input disabled hidden type="text" class="text-muted f-w-400 editable" id="password">
-            </div>
-            <div class="col-sm-6">
-              <p class="m-b-10 f-w-600">Type</p>
-              <h6 class="text-muted f-w-400" id="type"></h6>
-            </div>
-            <div class="col-sm-6">
-              <p class="m-b-10 f-w-600">Join Date</p>
-              <h6 class="text-muted f-w-400" id="joinDate"></h6>
-            </div>
-            <div>
-              <p id="error"></p>
-            </div>
-            <div>
-              <button type="button" id="logout-button">Logout</button>
-            </div>
-            <div>
-              <button type="button" id="edit-button">Edit</button>
-            </div>
-            <div>
-              <button hidden type="button" id="save-button">Save</button>
-            </div>
+
+        <div>
+          <label for="edit-lname" class="label">Last Name</label>
+          <input type="text" name="edit-lname" id="edit-lname" />
+        </div>
+
+        <div>
+          <label for="edit-email" class="label">Email</label>
+          <input type="email" name="edit-email" id="edit-email" />
+        </div>
+
+        <div>
+          <label for="edit-password" class="label">Password</label>
+          <input type="password" name="edit-password" id="edit-password" />
+        </div>
+
+        <div>
+          <label for="edit-profilepic" class="label">Profile Picture</label>
+          <input id="edit-profilepic" type="file" accept="file/*" />
+        </div>
+
+        <input type="submit" id="edit-submit" value="Update" />
+      </form>
+    </div>
+    <div id="nav-holder"></div>
+    <main>
+      <div id="imgName">
+        <img
+          src="https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg"
+          alt=""
+          id="profilePic"
+        />
+        <div id="nameType">
+          <div id="fullName">
+            <h1 id="fname">FName</h1>
+            <h1 id="lname">LName</h1>
           </div>
+          <p id="userType">Type</p>
         </div>
       </div>
-    </div>
-  </main>
-  <script type="module" src="/js/profile.js"></script>
-  <script type="module" src="/js/logout.js"></script>
-  <script type="module" src="/js/modifyprofile.js"></script>
-</body>
 
+      <div id="cards">
+        <div>
+          <p class="label">Description</p>
+          <div class="card">Stuff</div>
+        </div>
+
+        <div>
+          <p class="label">Qualifications</p>
+          <div class="card">Stuff</div>
+        </div>
+
+        <div>
+          <p class="label">Past Posts</p>
+          <div class="card">Stuff</div>
+        </div>
+      </div>
+
+      <div id="buttons">
+        <button id="editButton">
+          <i class="fa-solid fa-pen"></i>
+          <p>Edit Profile</p>
+        </button>
+      </div>
+    </main>
+    <script type="module" src="/js/template.js"></script>
+    <script type="module" src="/js/profile.js"></script>
+    <script type="module" src="/js/logout.js"></script>
+  </body>
 </html>
