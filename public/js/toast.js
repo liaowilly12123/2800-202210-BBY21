@@ -95,16 +95,10 @@ function injectToastFramework() {
 
 let currentTimeout;
 
-export function isToastVisible() {
-  const toast = document.getElementById('toast');
-  return toast.style.display === 'flex';
-}
-
 export function showToast(type, msg) {
   clearTimeout(currentTimeout);
-  if (isToastVisible()) {
-    hideToast();
-  }
+  forceHide();
+
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
 
@@ -114,6 +108,15 @@ export function showToast(type, msg) {
 
   toast.style.display = 'flex';
   currentTimeout = setTimeout(hideToast, 3000);
+}
+
+function forceHide() {
+  const toast = document.getElementById('toast');
+
+  toast.classList.remove('toastShow');
+  toast.classList.remove('toastHide');
+
+  toast.style.display = 'none';
 }
 
 export function hideToast() {
