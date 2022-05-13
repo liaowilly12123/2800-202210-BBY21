@@ -155,7 +155,8 @@ main {
 #email,
 #password,
 select,
-#createButton {
+#createButton,
+#updateButton {
   display: block;
   width: 100%;
   background-color: var(--nord3);
@@ -179,7 +180,8 @@ select {
   border-right: 17.5px solid transparent;
 }
 
-#createButton {
+#createButton,
+#updateButton {
   background-color: var(--nord14);
   color: var(--nord0);
   font-weight: bold;
