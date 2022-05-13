@@ -10,8 +10,14 @@ const app = express();
 const MONGOOSE_URI =
   process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/COMP2800';
 const PORT = process.env.PORT ?? 8000;
+const UPLOADS_DIR = './uploads';
 
 async function main() {
+  // https://stackoverflow.com/questions/21194934/how-to-create-a-directory-if-it-doesnt-exist-using-node-js
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR);
+  }
+
   await mongoose.connect(MONGOOSE_URI);
 
   app.use('/css', express.static('./public/css'));
