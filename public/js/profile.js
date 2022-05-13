@@ -80,6 +80,7 @@ if (userInfo.success) {
         });
       } else {
         showToast('error', uploadResJSON.payload);
+        return;
       }
     }
 
@@ -111,6 +112,7 @@ if (userInfo.success) {
       setProfileData(responseJson.payload);
       await setProfilePic();
       hideModal();
+      showToast('success', 'Profile Updated Successfully');
     } else {
       showToast('error', responseJson.payload);
     }
