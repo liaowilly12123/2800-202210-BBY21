@@ -130,10 +130,18 @@ function displayButton() {
 
 function clearFields() {
   firstName.value = '';
+  firstName.placeholder = 'First name';
+
   lastName.value = '';
+  lastName.placeholder = 'Last name';
+
   email.value = '';
+  email.placeholder = 'Email';
+
   password.value = '';
-  userType.value = '';
+  password.placeholder = 'Password';
+  
+  userType.value = 'tutor';
 }
 
 function setUserIdClicked(userId) {
