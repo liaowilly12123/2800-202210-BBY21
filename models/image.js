@@ -1,9 +1,10 @@
-var mongoose = require("mongoose");
+'use strict';
+var mongoose = require('mongoose');
 
 var imageSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BBY_21_user",
+    ref: 'BBY_21_user',
     required: true,
   },
   name: String,
@@ -15,4 +16,4 @@ var imageSchema = new mongoose.Schema({
 });
 
 // Image is a model which has a schema imageSchema
-module.exports = new mongoose.model("BBY_21_Image", imageSchema);
+module.exports = new mongoose.model('BBY_21_Image', imageSchema);

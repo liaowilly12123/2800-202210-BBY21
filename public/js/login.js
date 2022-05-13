@@ -1,3 +1,4 @@
+'use strict';
 export function isLoggedIn() {
   return localStorage.getItem('loggedIn') === 'true';
 }
