@@ -1,5 +1,6 @@
 'use strict';
 import { login } from '/js/login.js';
+import { showToast } from '/js/toast.js';
 
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
@@ -39,6 +40,8 @@ loginForm.addEventListener('submit', async (e) => {
   if (responseJson.success) {
     login();
     window.location.href = '/profile';
+  } else {
+    showToast('error', responseJson.payload);
   }
 });
 
@@ -71,5 +74,7 @@ registerForm.addEventListener('submit', async (e) => {
   if (responseJson.success) {
     login();
     window.location.href = '/profile';
+  } else {
+    showToast('error', responseJson.payload);
   }
 });

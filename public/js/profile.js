@@ -1,4 +1,7 @@
 'use strict';
+
+import { showToast } from '/js/toast.js';
+
 const params = new URLSearchParams(location.search);
 const userId = params.get('id');
 
@@ -27,6 +30,7 @@ async function setProfilePic() {
     document.getElementById('profilePic').src = profileJSON.payload.path;
     return true;
   } else {
+    showToast('error', profileJSON.payload);
     return false;
   }
 }
@@ -74,6 +78,9 @@ if (userInfo.success) {
           },
           body: JSON.stringify({ imgId: uploadResJSON.payload.id }),
         });
+      } else {
+        showToast('error', uploadResJSON.payload);
+        return;
       }
     }
 
@@ -105,7 +112,9 @@ if (userInfo.success) {
       setProfileData(responseJson.payload);
       await setProfilePic();
       hideModal();
+      showToast('success', 'Profile Updated Successfully');
     } else {
+      showToast('error', responseJson.payload);
     }
   });
 } else {
