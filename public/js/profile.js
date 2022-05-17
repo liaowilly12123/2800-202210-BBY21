@@ -14,7 +14,15 @@ document
 function setProfileData(payload) {
   document.getElementById('fname').innerText = payload.firstName;
   document.getElementById('lname').innerText = payload.lastName;
-  document.getElementById('userType').innerText = payload.userType;
+  document.getElementById('userType').innerText =
+    payload.userType.slice(0, 1).toUpperCase() + payload.userType.slice(1);
+}
+
+const cardTemplate = document.getElementById('postCardTemplate');
+
+for (let i = 0; i < 50; i++) {
+  let copy = cardTemplate.content.cloneNode(true);
+  document.getElementById('postsGrid').appendChild(copy);
 }
 
 async function setProfilePic() {
