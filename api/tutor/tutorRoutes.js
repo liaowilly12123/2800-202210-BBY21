@@ -1,46 +1,60 @@
-'use strict';
-const router = require('express').Router();
-const TutorQualification = require('../../models/tutorQualifications.js');
+"use strict";
+const router = require("express").Router();
+const Tutor = require("../../models/Tutor.js");
 
 // Checks if data is undefined and sends a fail message back to the client if it
 // is.
 // Returns true if data is undefined, else false
 function validate(res, data, msg) {
-  if (typeof data === 'undefined') {
+  if (typeof data === "undefined") {
     res.fail(msg);
     return true;
   }
   return false;
 }
 
-router.post('/qualifications', async function (req, res) {
+router.put("/info", async function (req, res) {
   if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
-  } else {
-    if (req.session.userType !== 'tutor') {
-      return res.fail('User is not a tutor');
-    }
+    return res.fail("User not logged in");
   }
 
-  const body = req.body;
+  if (!["admin", "tutor"].includes(req.session.userType)) {
+    return res.fail(
+      `User does not have permission: userType: ${req.session.userType}`
+    );
+  }
 
-  const lastName = body.lastName;
-  if (validate(res, lastName, 'Last Name is undefined')) return;
-
-  const higherEducation = body.higherEducation;
-  if (validate(res, higherEducation, 'Higher Education is undefined')) return;
-
-  const experience = body.experience;
-  if (validate(res, experience, 'Experience is undefined')) return;
-
-  const newDoc = new TutorQualification({
-    user_id: req.session.userId,
-    higherEducation: higherEducation,
-    experience: experience,
-  });
-  await newDoc.save();
-
-  res.success();
+  /**
+   * Finds tutor document by user ID and updates if found, else creates
+   * a new document.
+   */
+  Tutor.findOneAndUpdate(
+    { user_id: req.session.userId },
+    { ...removeEmpty(req.body) },
+    {
+      setDefaultsOnInsert: true,
+      new: true,
+      upsert: true,
+      returnDocument: "after",
+    },
+    function (err, result) {
+      if (err) {
+        return res.fail(`${err}. Unable to create/update tutor info`);
+      }
+      return res.success(result);
+    }
+  );
 });
 
+/**
+ * Removes undefined, null, and empty values
+ * https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
+ */
+function removeEmpty(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(
+      ([_, value]) => value != null && value != ""
+    )
+  );
+}
 module.exports = router;
