@@ -6,15 +6,25 @@ const tutorQualificationsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "BBY_21_user",
     required: true,
+    unique: true
   },
   higherEducation: {
     type: String,
-    required: true,
   },
   experience: {
     type: String,
-    required: true,
   },
+  rating: {
+    type: mongoose.Decimal128,
+    default: 0.00
+  },
+  pricing: {
+    type: mongoose.Decimal128,
+    default: 0.00
+  },
+  topics: {
+    type: [String]
+  }
 });
 
 const tutorQualificationsModel = mongoose.model(
