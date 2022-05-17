@@ -1,6 +1,7 @@
 'use strict';
 import { showToast } from '/js/toast.js';
 import Modal from '/js/modal/modal.js';
+import ModalFactory from '/js/modal/modalFactory.js';
 
 let currentPage = 1;
 let totalPages = null;
@@ -17,6 +18,11 @@ const editCreateModal = new Modal(
   document.getElementById('userForm')
 );
 
+const deleteConfirmationModal = ModalFactory.getConfirmationModal(
+  'Are you sure you wanna delete this user?',
+  deleteUser
+);
+
 function setButtonsState() {
   if (currentPage === 1) {
     document.getElementById('prev').disabled = true;
@@ -29,6 +35,31 @@ function setButtonsState() {
   } else {
     document.getElementById('next').disabled = false;
   }
+}
+
+async function deleteUser() {
+  const res = await fetch('/api/user/delete', {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId: userIdClicked,
+    }),
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    const currUserCard = document.getElementById(userIdClicked);
+    document.getElementById('cardHolder').removeChild(currUserCard);
+    setUsers(currentPage);
+    showToast('success', 'User deleted');
+  } else {
+    showToast('error', resJson.payload);
+  }
+
+  deleteConfirmationModal.hide();
 }
 
 async function setUsers(page) {
@@ -56,27 +87,9 @@ async function setUsers(page) {
 
       userCard.querySelector('.delete').addEventListener('click', async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/user/delete', {
-          method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: user._id,
-          }),
-        });
-        const resJson = await res.json();
 
-        if (resJson.success) {
-          const currUserCard = document.getElementById(user._id);
-          document.getElementById('cardHolder').removeChild(currUserCard);
-          setUsers(currentPage);
-          userIdClicked = user._id;
-          showToast('success', 'User deleted');
-        } else {
-          showToast('error', resJson.payload);
-        }
+        deleteConfirmationModal.show();
+        setUserIdClicked(user._id);
       });
 
       userCard.querySelector('.edit').addEventListener('click', async (e) => {

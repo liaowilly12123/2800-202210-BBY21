@@ -20,7 +20,9 @@ export default class Modal {
   }
 
   inject() {
-    document.body.removeChild(this.contentNode);
+    if (document.body.contains(this.contentNode)) {
+      document.body.removeChild(this.contentNode);
+    }
 
     const animations = document.createElement('link');
     animations.setAttribute('rel', 'stylesheet');
