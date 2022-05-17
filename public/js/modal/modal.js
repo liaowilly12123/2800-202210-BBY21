@@ -22,6 +22,12 @@ export default class Modal {
   inject() {
     document.body.removeChild(this.contentNode);
 
+    const animations = document.createElement('link');
+    animations.setAttribute('rel', 'stylesheet');
+    animations.type = 'text/css';
+    animations.href = '/css/animations.css';
+    document.head.appendChild(animations);
+
     const modal = document.createElement('div');
     modal.id = this.modalId;
     modal.style.position = 'fixed';
@@ -33,6 +39,7 @@ export default class Modal {
     modal.style.display = 'none';
     modal.style.justifyContent = 'center';
     modal.style.alignItems = 'center';
+    modal.classList.add('modalFadeIn');
 
     const tint = document.createElement('div');
     tint.id = this.tintId;
@@ -58,11 +65,16 @@ export default class Modal {
 
   show() {
     const modal = document.getElementById(this.modalId);
+    modal.classList.add('modalFadeIn');
     modal.style.display = 'flex';
   }
 
   hide() {
     const modal = document.getElementById(this.modalId);
-    modal.style.display = 'none';
+    modal.classList.add('modalFadeOut');
+    setTimeout(() => {
+      modal.classList.remove('modalFadeOut');
+      modal.style.display = 'none';
+    }, 300);
   }
 }
