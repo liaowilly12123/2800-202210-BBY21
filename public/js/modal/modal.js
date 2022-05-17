@@ -50,6 +50,7 @@ export default class Modal {
     tint.addEventListener('click', () => this.hide());
 
     const content = document.createElement('div');
+    content.style.position = 'absolute';
     content.style.display = 'flex';
     content.style.justifyContent = 'center';
     content.style.alignItems = 'center';

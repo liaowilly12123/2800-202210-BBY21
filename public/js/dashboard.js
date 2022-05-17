@@ -1,17 +1,21 @@
 'use strict';
 import { showToast } from '/js/toast.js';
+import Modal from '/js/modal/modal.js';
 
 let currentPage = 1;
 let totalPages = null;
 let userIdClicked = '';
-let isModalOpen = false;
-let buttonType = 'create';
 
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const userType = document.getElementById('userType');
+
+const editCreateModal = new Modal(
+  'editDeleteModal',
+  document.getElementById('userForm')
+);
 
 function setButtonsState() {
   if (currentPage === 1) {
@@ -79,8 +83,14 @@ async function setUsers(page) {
 
       userCard.querySelector('.edit').addEventListener('click', async (e) => {
         e.preventDefault();
-        displayEditButton();
-        getUserInfo(user._id);
+
+        displayButton('update');
+        hideButton('create');
+        clearFields();
+
+        editCreateModal.show();
+
+        setPlaceHolders(user);
         setUserIdClicked(user._id);
       });
       cardHolder.appendChild(userCard);
@@ -113,30 +123,12 @@ document.getElementById('prev').addEventListener('click', () => {
   }
 });
 
-function openModal() {
-  document.getElementById('error').innerText = '';
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.remove('hidden');
-  isModalOpen = true;
+function hideButton(name) {
+  document.getElementById(`${name}ButtonContainer`).classList.add('hidden');
 }
 
-function closeModal() {
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.add('hidden');
-  isModalOpen = false;
-  clearFields();
-}
-
-function hideButton() {
-  document
-    .getElementById(`${buttonType}ButtonContainer`)
-    .classList.add('hidden');
-}
-
-function displayButton() {
-  document
-    .getElementById(`${buttonType}ButtonContainer`)
-    .classList.remove('hidden');
+function displayButton(name) {
+  document.getElementById(`${name}ButtonContainer`).classList.remove('hidden');
 }
 
 function clearFields() {
@@ -159,12 +151,6 @@ function setUserIdClicked(userId) {
   userIdClicked = userId;
 }
 
-function displayEditButton() {
-  buttonType = 'update';
-  displayButton();
-  openModal();
-}
-
 async function updateUser(userId) {
   const response = await fetch(`/api/user/info?id=${userId}`, {
     method: 'PUT',
@@ -185,26 +171,18 @@ async function updateUser(userId) {
   const responseJson = await response.json();
 
   if (responseJson.success) {
-    closeModal();
     showToast('success', 'Succesfully Updated');
   } else {
     showToast('error', responseJson.payload);
   }
 }
 
-async function getUserInfo(userId) {
-  const userInfo = await fetch(`/api/user/info?id=${userId}`);
-  const userInfoJSON = await userInfo.json();
-
-  if (userInfoJSON.success) {
-    firstName.placeholder = userInfoJSON.payload.firstName;
-    lastName.placeholder = userInfoJSON.payload.lastName;
-    email.placeholder = userInfoJSON.payload.email;
-    password.placeholder = 'password';
-    userType.value = userInfoJSON.payload.userType;
-  } else {
-    showToast('error', userInfoJSON.payload);
-  }
+async function setPlaceHolders(user) {
+  firstName.placeholder = user.firstName;
+  lastName.placeholder = user.lastName;
+  email.placeholder = user.email;
+  password.placeholder = 'password';
+  userType.value = user.userType;
 }
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
@@ -213,14 +191,10 @@ function removeEmpty(obj) {
 }
 
 document.getElementById('createUser').addEventListener('click', () => {
-  buttonType = 'create';
-  displayButton();
-  openModal();
-});
-
-document.getElementById('modalClose').addEventListener('click', () => {
-  hideButton();
-  closeModal();
+  displayButton('create');
+  hideButton('update');
+  clearFields();
+  editCreateModal.show();
 });
 
 document.getElementById('createButton').addEventListener('click', async (e) => {
@@ -244,10 +218,10 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   const responseJson = await response.json();
 
   if (responseJson.success) {
-    hideButton();
-    closeModal();
+    hideButton('create');
     setUsers(currentPage);
     showToast('success', 'Created user succesfully');
+    editCreateModal.hide();
   } else {
     showToast('error', responseJson.payload);
   }
@@ -256,7 +230,6 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
   await updateUser(userIdClicked);
-  hideButton();
-  closeModal();
   setUsers(currentPage);
+  editCreateModal.hide();
 });
