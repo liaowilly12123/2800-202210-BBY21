@@ -85,7 +85,25 @@
           <i class="fa-solid fa-pen"></i>
           <span>Edit Profile</span>
         </button>
+        <button id="postButton">
+          <i class="fa-solid fa-paper-plane-top"></i>
+          <span>Create Post</span>
+        </button>
       </div>
+
+      <form id="postForm">
+        <div>
+          <label for="edit-description" class="label">Description</label>
+          <input type="text" name="edit-description" id="edit-description" />
+        </div>
+
+        <div>
+          <label for="edit-image" class="label">Picture</label>
+          <input id="edit-image" type="file" accept="image/*" />
+        </div>
+  
+        <input type="submit" id="post-submit" value="Post" />
+      </form>
     </main>
 
     <script type="module" src="/js/toast.js"></script>

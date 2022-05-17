@@ -1,7 +1,7 @@
 'use strict';
 
 export default class Modal {
-  constructor(name, content) {
+  constructor(name, content) { //constructor(postToTimeline, document.getElementByID("formID"))
     this.name = name;
     this.contentNode = content;
     this.inject();
