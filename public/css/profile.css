@@ -156,3 +156,27 @@ main {
   align-items: center;
   gap: 10px;
 }
+
+@media screen and (max-width: 700px) {
+  main {
+    grid-template-columns: auto;
+    gap: unset;
+    overflow: unset;
+  }
+
+  #posts {
+    margin: unset;
+    margin-bottom: 20px;
+    overflow: unset;
+  }
+
+  #sidebar {
+    gap: 30px;
+  }
+
+  #postsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
