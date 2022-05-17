@@ -1,25 +1,20 @@
 'use strict';
 
 import { showToast } from '/js/toast.js';
+import Modal from '/js/modal/modal.js';
 
 const params = new URLSearchParams(location.search);
 const userId = params.get('id');
 
-const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
-const userInfo = await userInfoRes.json();
+const editModal = new Modal('editProfile', document.getElementById('editForm'));
+document
+  .getElementById('editButton')
+  .addEventListener('click', () => editModal.show());
 
 function setProfileData(payload) {
   document.getElementById('fname').innerText = payload.firstName;
   document.getElementById('lname').innerText = payload.lastName;
   document.getElementById('userType').innerText = payload.userType;
-}
-
-function showModal() {
-  document.getElementById('editModal').style.display = 'flex';
-}
-
-function hideModal() {
-  document.getElementById('editModal').style.display = 'none';
 }
 
 async function setProfilePic() {
@@ -35,18 +30,16 @@ async function setProfilePic() {
   }
 }
 
+const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
+const userInfo = await userInfoRes.json();
+
 if (userInfo.success) {
-  hideModal();
   setProfilePic();
 
   const payload = userInfo.payload;
 
   // Set info on profile
   setProfileData(payload);
-
-  // modal stuff
-  document.getElementById('editButton').addEventListener('click', showModal);
-  document.getElementById('editTint').addEventListener('click', hideModal);
 
   document.getElementById('edit-fname').placeholder = payload.firstName;
   document.getElementById('edit-lname').placeholder = payload.lastName;
@@ -111,7 +104,7 @@ if (userInfo.success) {
     if (responseJson.success) {
       setProfileData(responseJson.payload);
       await setProfilePic();
-      hideModal();
+      editModal.hide();
       showToast('success', 'Profile Updated Successfully');
     } else {
       showToast('error', responseJson.payload);
