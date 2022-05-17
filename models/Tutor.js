@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 
-const tutorQualificationsSchema = new mongoose.Schema({
+const tutorSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "BBY_21_user",
@@ -27,8 +27,8 @@ const tutorQualificationsSchema = new mongoose.Schema({
   }
 });
 
-const tutorQualificationsModel = mongoose.model(
-  "BBY21_tutor_qualifications",
-  tutorQualificationsSchema
+const tutorModel = mongoose.model(
+  "BBY_21_tutors",
+  tutorSchema
 );
-module.exports = tutorQualificationsModel;
+module.exports = tutorModel;
