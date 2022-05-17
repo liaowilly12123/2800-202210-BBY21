@@ -41,9 +41,7 @@ async function setUsers(page) {
     const template = document.getElementById('userCardTemplate');
     const cardHolder = document.getElementById('cardHolder');
 
-    if (totalPages == null) {
-      totalPages = payload.totalPages;
-    }
+    totalPages = payload.totalPages;
 
     cardHolder.replaceChildren([]);
     for (const user of payload.users) {
