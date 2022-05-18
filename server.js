@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes.js');
 const responseMiddleware = require('./middleware/responseMiddleware.js');
+const { Server } = require('socket.io');
+
+// Express app
 const app = express();
 
 const MONGOOSE_URI =
@@ -19,6 +22,9 @@ async function main() {
   }
 
   await mongoose.connect(MONGOOSE_URI);
+
+  // Socket.io obj
+  const io = new Server(server);
 
   app.use('/css', express.static('./public/css'));
   app.use('/js', express.static('./public/js'));
@@ -71,10 +77,27 @@ async function main() {
     return res.send(doc);
   });
 
+  app.get('/chat', function (_, res) {
+    let doc = fs.readFileSync('./public/html/chat.html', 'utf8');
+    return res.send(doc);
+  });
+
   app.get('/template/nav', function (_, res) {
     const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
     return res.send(doc);
   });
+
+  io.on('connection', (socket) => {
+    io.emit('connection', `Someone connected ${socket.id}`);
+
+    socket.on('send-message', (msg, room) => {
+      io.to(room).emit('msg', msg, socket.id);
+    });
+
+    socket.on('join-room', (room) => {
+      socket.join(room);
+    });
+  });
 }
 
-app.listen(PORT, main);
+const server = app.listen(PORT, main);
