@@ -1,18 +1,6 @@
 "use strict";
 const router = require("express").Router();
 const Tutor = require("../../models/Tutor.js");
-const User = require("../../models/User.js");
-
-// Checks if data is undefined and sends a fail message back to the client if it
-// is.
-// Returns true if data is undefined, else false
-function validate(res, data, msg) {
-  if (typeof data === "undefined") {
-    res.fail(msg);
-    return true;
-  }
-  return false;
-}
 
 router.put("/info", async function (req, res) {
   if (!req.session.loggedIn) {
