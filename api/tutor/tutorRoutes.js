@@ -14,7 +14,7 @@ function validate(res, data, msg) {
   return false;
 }
 
-router.put('/info', async function (req, res) {
+router.put("/info", async function (req, res) {
   if (!req.session.loggedIn) {
     return res.fail("User not logged in");
   }
@@ -44,17 +44,39 @@ router.put('/info', async function (req, res) {
   );
 });
 
+// Gets tutor information and filters by price, rating, and/or topics
 router.get("/all", async function (req, res) {
   if (!req.session.loggedIn) {
     return res.fail("User not logged in");
   }
 
+  const { topics, pricing, rating } = removeEmpty(req.body);
+
   // https://javascript.plainenglish.io/simple-pagination-with-node-js-mongoose-and-express-4942af479ab2
   const { page = 1, limit = 20 } = req.query;
 
-  // https://stackoverflow.com/questions/26691543/return-certain-fields-with-populate-from-mongoose  
-  const tutors = await Tutor.find()
-    .populate('user_id', 'firstName lastName')
+  // https://stackoverflow.com/questions/8145523/mongodb-find-by-multiple-array-items
+  let findByTopics = {};
+
+  if (topics) {
+    findByTopics.topics = { $in: topics };
+  }
+
+  // https://kb.objectrocket.com/mongo-db/mongoose-sort-multiple-fields-609
+  let filters = [];
+
+  if (pricing && ['asc', 'desc'].includes(pricing)) {
+    filters.push(['pricing', pricing]);
+  }
+
+  if (rating && ['asc', 'desc'].includes(rating)) {
+    filters.push(['rating', rating]);
+  }
+
+  // https://stackoverflow.com/questions/26691543/return-certain-fields-with-populate-from-mongoose
+  const tutors = await Tutor.find(findByTopics)
+    .populate("user_id", "firstName lastName")
+    .sort(filters)
     .limit(limit)
     .skip((page - 1) * limit);
 
