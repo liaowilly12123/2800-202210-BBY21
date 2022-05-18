@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const tutorSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BBY_21_user",
+    ref: "BBY_21_users",
     required: true,
     unique: true
   },
