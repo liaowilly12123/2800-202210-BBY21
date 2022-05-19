@@ -18,6 +18,22 @@
   </head>
 
   <body>
+    <template id="postCardTemplate">
+      <div class="postCard">
+        <img
+          class="postCardImg"
+          src="https://www.thedesignwork.com/wp-content/uploads/2011/10/Random-Pictures-of-Conceptual-and-Creative-Ideas-02.jpg"
+          alt="bruh"
+        />
+        <p class="postCardTitle">Lorem ipsum dolor sit.</p>
+        <p class="postCardDesc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
+          deserunt qui deleniti molestiae laudantium provident ducimus, unde
+          modi sequi laborum?
+        </p>
+      </div>
+    </template>
+
     <form id="postForm">
       <div>
         <label for="edit-heading" class="label">Heading</label>
@@ -36,6 +52,7 @@
 
       <input type="submit" id="post-submit" value="Post" />
     </form>
+
     <form id="editForm">
       <div>
         <label for="edit-fname" class="label">First Name</label>
@@ -66,47 +83,37 @@
     </form>
     <div id="nav-holder"></div>
     <main>
-      <div id="imgName">
-        <img
-          src="https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg"
-          alt=""
-          id="profilePic"
-        />
-        <div id="nameType">
-          <div id="fullName">
-            <h1 id="fname">FName</h1>
-            <h1 id="lname">LName</h1>
+      <div id="sidebar">
+        <div id="imgName">
+          <img
+            src="https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg"
+            alt=""
+            id="profilePic"
+          />
+          <div id="nameType">
+            <div id="fullName">
+              <h1 id="fname">FName</h1>
+              <h1 id="lname">LName</h1>
+            </div>
+            <p id="userType">Type</p>
           </div>
-          <p id="userType">Type</p>
+        </div>
+
+        <div id="buttons">
+          <button id="editButton">
+            <i class="fa-solid fa-pen"></i>
+            <span>Edit Profile</span>
+          </button>
         </div>
       </div>
-
-      <div id="cards">
-        <div>
-          <p class="label">Description</p>
-          <div class="card">Stuff</div>
+      <div id="posts">
+        <div id="postsHeadingRow">
+          <p id="allPostsHeading">My Posts</p>
+          <button id="addPostButton">
+            <i class="fa-solid fa-pen"></i>
+          </button>
         </div>
-
-        <div>
-          <p class="label">Qualifications</p>
-          <div class="card">Stuff</div>
-        </div>
-
-        <div>
-          <p class="label">Past Posts</p>
-          <div class="card">Stuff</div>
-        </div>
-      </div>
-
-      <div id="buttons">
-        <button id="editButton">
-          <i class="fa-solid fa-pen"></i>
-          <span>Edit Profile</span>
-        </button>
-        <button id="postButton">
-          <i class="fa-solid fa-paper-plane-top"></i>
-          <span>Create Post</span>
-        </button>
+        <div id="postsGrid"></div>
       </div>
     </main>
 
