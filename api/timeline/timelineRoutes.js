@@ -1,15 +1,26 @@
 const router = require('express').Router();
 const validate = require('../../utils/validationUtils.js');
 const Timeline = require('../../models/Timeline.js');
+const Image = require('../../models/image.js');
 
 router.get('/posts', async function (req, res) {
-  const { user_id } = req.query;
+  if (!req.session.loggedIn) {
+    return res.fail('User is not logged in!');
+  }
+
+  const user_id = req.session.userId;
 
   const timelinePosts = await Timeline.find({ user_id: user_id }).sort([
     ['date', 'desc'],
   ]);
 
-  res.success({ posts: timelinePosts });
+  const postsWithImage = await Promise.all(
+    timelinePosts.map(async function (value) {
+      return { ...value._doc, img: (await Image.findById(value._doc.img)).img };
+    })
+  );
+
+  res.success({ posts: postsWithImage });
 });
 
 router.post('/new', async function (req, res) {
@@ -20,8 +31,6 @@ router.post('/new', async function (req, res) {
   if (req.session.userType === 'student') {
     return res.fail("Students can't make posts");
   }
-
-  console.log(req.body);
 
   const { heading, desc, img } = req.body;
   if (validate(res, heading, 'Invalid Heading')) return;
