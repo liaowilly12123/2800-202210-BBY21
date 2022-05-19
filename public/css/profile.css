@@ -43,6 +43,10 @@ textarea {
   border: none;
 }
 
+#post-description {
+  margin-bottom: 20px;
+}
+
 #edit-submit {
   width: 100%;
   padding: 15px 20px;
