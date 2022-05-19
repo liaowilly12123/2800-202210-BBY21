@@ -15,7 +15,8 @@ body {
   background-color: var(--nord0);
 }
 
-#editForm {
+#editForm,
+#postForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -97,14 +98,38 @@ main {
 
 #posts {
   margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   overflow-y: scroll;
 }
 
 #allPostsHeading {
   color: var(--nord6);
-  padding-bottom: 10px;
   font-weight: bold;
   font-size: 1.7em;
+}
+
+#postsHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#addPostButton {
+  background-color: var(--nord3);
+  color: var(--nord14);
+
+  padding: 15px;
+
+  font-size: 1.25em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #postsGrid {
