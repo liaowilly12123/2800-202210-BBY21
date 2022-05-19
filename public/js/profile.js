@@ -63,10 +63,10 @@ async function setTimelinePosts() {
           });
           const resJson = await res.json();
           if (resJson.success) {
-            console.log('deleted Succesfully');
+            showToast('success', 'Deleted Succesfully');
+            setTimelinePosts();
           } else {
-            console.log(resJson);
-            console.error('problem in deleting');
+            showToast('error', resJson.payload);
           }
         });
 
