@@ -11,6 +11,15 @@ document
   .getElementById('editButton')
   .addEventListener('click', () => editModal.show());
 
+const addPostModal = new Modal(
+  'postButton',
+  document.getElementById('postForm')
+);
+
+document
+  .getElementById('postButton')
+  .addEventListener('click', () => addPostModal.show());
+
 function setProfileData(payload) {
   document.getElementById('fname').innerText = payload.firstName;
   document.getElementById('lname').innerText = payload.lastName;

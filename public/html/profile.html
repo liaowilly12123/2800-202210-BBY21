@@ -18,6 +18,24 @@
   </head>
 
   <body>
+    <form id="postForm">
+      <div>
+        <label for="edit-heading" class="label">Heading</label>
+        <input type="text" name="edit-heading" id="edit-heading" />
+      </div>
+
+      <div>
+        <label for="edit-description" class="label">Description</label>
+        <input type="text" name="edit-description" id="edit-description" />
+      </div>
+
+      <div>
+        <label for="edit-image" class="label">Image</label>
+        <input id="edit-image" type="file" accept="image/*" />
+      </div>
+
+      <input type="submit" id="post-submit" value="Post" />
+    </form>
     <form id="editForm">
       <div>
         <label for="edit-fname" class="label">First Name</label>
@@ -90,20 +108,6 @@
           <span>Create Post</span>
         </button>
       </div>
-
-      <form id="postForm">
-        <div>
-          <label for="edit-description" class="label">Description</label>
-          <input type="text" name="edit-description" id="edit-description" />
-        </div>
-
-        <div>
-          <label for="edit-image" class="label">Picture</label>
-          <input id="edit-image" type="file" accept="image/*" />
-        </div>
-  
-        <input type="submit" id="post-submit" value="Post" />
-      </form>
     </main>
 
     <script type="module" src="/js/toast.js"></script>

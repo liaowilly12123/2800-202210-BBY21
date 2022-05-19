@@ -24,7 +24,8 @@ main {
   gap: 20px;
 }
 
-#editForm {
+#editForm,
+#postForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -106,7 +107,8 @@ input {
   align-items: center;
 }
 
-#editButton {
+#editButton,
+#postButton {
   background-color: var(--nord1);
   color: var(--nord14);
 
