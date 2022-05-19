@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="filtersContainer">
+      <div>
+        <label for="pricing-sort">Pricing</label>
+        <select name="pricing-sort" id="pricing-sort">
+          <option value="">Default</option>
+          <option value="asc">ascending</option>
+          <option value="desc">descending</option>
+        </select>
+      </div>
+      <div>
+        <label for="rating-sort">Rating</label>
+        <select name="rating-sort" id="rating-sort">
+          <option value="">Default</option>
+          <option value="asc">ascending</option>
+          <option value="desc">descending</option>
+        </select>
+      </div>
+      <div>
+        <label for="topics">Topics</label>
+        <input type="text" id="topicsInput" placeholder="Add topics..." />
+        <div id="topicPillContainer"></div>
+      </div>
+      <button id="apply-filter">Apply</button>
+    </div>
+
+    <button id="filterButton">filter</button>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
