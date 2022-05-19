@@ -75,6 +75,11 @@ async function main() {
     const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
     return res.send(doc);
   });
+
+  app.get('/main', function (_, res) {
+    let doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+    return res.send(doc);
+  })
 }
 
 app.listen(PORT, main);
