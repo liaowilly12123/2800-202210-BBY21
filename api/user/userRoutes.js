@@ -263,38 +263,4 @@ router.get('/profilePicture', async (req, res) => {
   return res.success({ path: image.img });
 });
 
-router.post('/uploadPostPicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
-  }
-
-  await PostPicture.findOneAndUpdate(
-    {
-      user_id: req.session.userId,
-    },
-    {
-      img: req.body.imgId,
-    },
-    {
-      upsert: true,
-    }
-  );
-
-  return res.success();
-});
-
-router.get('/postPicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
-  }
-
-  const picture = await PostPicture.findOne({ user_id: req.session.userId });
-  if (!picture) {
-    return res.fail('No Post Picture');
-  }
-  const image = await Image.findById(picture.img);
-
-  return res.success({ path: image.img });
-})
-
 module.exports = router;
