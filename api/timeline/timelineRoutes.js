@@ -20,8 +20,6 @@ router.get('/posts', async function (req, res) {
     })
   );
 
-  console.log(postsWithImage);
-
   res.success({ posts: postsWithImage });
 });
 
@@ -33,8 +31,6 @@ router.post('/new', async function (req, res) {
   if (req.session.userType === 'student') {
     return res.fail("Students can't make posts");
   }
-
-  console.log(req.body);
 
   const { heading, desc, img } = req.body;
   if (validate(res, heading, 'Invalid Heading')) return;

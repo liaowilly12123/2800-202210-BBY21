@@ -33,6 +33,7 @@ async function setTimelinePosts() {
 
   if (userTimeline.success) {
     const posts = userTimeline.payload.posts;
+    postsGrid.replaceChildren();
 
     for (const post of posts) {
       let postTemplate = cardTemplate.content.cloneNode(true);
@@ -180,6 +181,7 @@ if (userInfo.success) {
 
         if (timelinePostResJson.success) {
           showToast('success', 'New post added');
+          setTimelinePosts();
           addPostModal.hide();
         } else {
           showToast('error', timelinePostResJson.payload);
