@@ -3,7 +3,11 @@ const validate = require('../../utils/validationUtils.js');
 const Timeline = require('../../models/Timeline.js');
 
 router.get('/posts', async function (req, res) {
-  const { user_id } = req.query;
+  if (!req.session.loggedIn) {
+    return res.fail('User is not logged in!');
+  }
+
+  const user_id = req.session.userId;
 
   const timelinePosts = await Timeline.find({ user_id: user_id }).sort([
     ['date', 'desc'],

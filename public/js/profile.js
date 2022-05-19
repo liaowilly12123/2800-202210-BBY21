@@ -33,7 +33,8 @@ async function setTimelinePosts(payload) {
     let postTemplate = cardTemplate.content.cloneNode(true);
 
     postTemplate.querySelector('.postCard').id = post._id;
-    postTemplate.querySelector('.postCardDesc').innerText = post.content;
+    postTemplate.querySelector('.postCardTitle').innerText = post.heading;
+    postTemplate.querySelector('.postCardDesc').innerText = post.description;
 
     document.getElementById('postsGrid').appendChild(postTemplate);
   }
@@ -58,6 +59,11 @@ const userInfo = await userInfoRes.json();
 const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
 const userTimeline = await userTimelineRes.json();
 
+if (userTimeline.success) {
+  // Create timeline post cards
+  setTimelinePosts(userTimeline.payload);
+}
+
 if (userInfo.success) {
   setProfilePic();
 
@@ -65,9 +71,6 @@ if (userInfo.success) {
 
   // Set info on profile
   setProfileData(payload);
-
-  // Create timeline post cards
-  setTimelinePosts(userTimeline.payload);
 
   document.getElementById('edit-fname').placeholder = payload.firstName;
   document.getElementById('edit-lname').placeholder = payload.lastName;
