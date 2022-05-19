@@ -24,19 +24,27 @@ function setProfileData(payload) {
     payload.userType.slice(0, 1).toUpperCase() + payload.userType.slice(1);
 }
 
-const cardTemplate = document.getElementById('postCardTemplate');
+async function setTimelinePosts() {
+  const cardTemplate = document.getElementById('postCardTemplate');
+  const postsGrid = document.getElementById('postsGrid');
 
-async function setTimelinePosts(payload) {
-  const posts = payload.posts;
+  const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
+  const userTimeline = await userTimelineRes.json();
 
-  for (const post of posts) {
-    let postTemplate = cardTemplate.content.cloneNode(true);
+  if (userTimeline.success) {
+    const posts = userTimeline.payload.posts;
 
-    postTemplate.querySelector('.postCard').id = post._id;
-    postTemplate.querySelector('.postCardTitle').innerText = post.heading;
-    postTemplate.querySelector('.postCardDesc').innerText = post.description;
+    for (const post of posts) {
+      let postTemplate = cardTemplate.content.cloneNode(true);
 
-    document.getElementById('postsGrid').appendChild(postTemplate);
+      postTemplate.querySelector('.postCard').id = post._id;
+      postTemplate.querySelector('.postCardTitle').innerText = post.heading;
+      postTemplate.querySelector('.postCardDesc').innerText = post.description;
+
+      postsGrid.appendChild(postTemplate);
+    }
+  } else {
+    showToast('error', userTimeline.payload);
   }
 }
 
@@ -55,14 +63,6 @@ async function setProfilePic() {
 
 const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
 const userInfo = await userInfoRes.json();
-
-const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
-const userTimeline = await userTimelineRes.json();
-
-if (userTimeline.success) {
-  // Create timeline post cards
-  setTimelinePosts(userTimeline.payload);
-}
 
 if (userInfo.success) {
   setProfilePic();
@@ -144,7 +144,6 @@ if (userInfo.success) {
 
   document.getElementById('postForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log('here');
 
     const filePicker = document.getElementById('post-image');
 
@@ -160,11 +159,10 @@ if (userInfo.success) {
       const uploadResJSON = await uploadRes.json();
 
       if (uploadResJSON.success) {
-        console.log('heherhehr');
         const heading = document.getElementById('post-heading').value;
         const desc = document.getElementById('post-description').value;
 
-        const ret = await fetch('/api/timeline/new', {
+        const timelinePostRes = await fetch('/api/timeline/new', {
           method: 'post',
           headers: {
             Accept: 'application/json',
@@ -177,13 +175,22 @@ if (userInfo.success) {
           }),
         });
 
-        console.log(await ret.json());
+        const timelinePostResJson = await timelinePostRes.json();
+
+        if (timelinePostResJson.success) {
+          showToast('success', 'New post added');
+          addPostModal.hide();
+        } else {
+          showToast('error', timelinePostResJson.payload);
+        }
       } else {
         showToast('error', uploadResJSON.payload);
         return;
       }
     }
   });
+
+  setTimelinePosts();
 } else {
   window.location.href = '/';
 }
