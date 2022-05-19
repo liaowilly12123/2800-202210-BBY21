@@ -4,11 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<<<<<<< Updated upstream
+=======
+ 
+    <link rel="stylesheet" href="/css/tutors.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <title>Document</title>
+</head>
+>>>>>>> Stashed changes
 
     <link rel="icon" type="image/png" href="/img/logo.png" />
 
+<<<<<<< Updated upstream
     <title>Document</title>
   </head>
+=======
+        <label class="label" for="tutor-education">Higher level of Education</label><br>
+        <input type="text" name="tutor-education" id="tutor-education" /><br>
+
+
+        <label class="label" for="tutor-experience">Experience</label><br>
+        <input type="text" name="tutor-experience" id="tutor-experience" /><br>
+>>>>>>> Stashed changes
 
   <body>
     <form id="tutor">
@@ -27,7 +44,41 @@
       <input type="text" name="tutor-experience" id="tutor-experience" />
       <input type="submit" value="Click Me!" id="Submit" />
     </form>
+    <div id="buttons">
+      <button id="editButton">
+        <i class="fa-solid fa-pen"></i>
+        <span>Edit Profile</span>
+      </button>
+    </div>
 
+    <div id="editModal">
+      <div id="editTint"></div>
+      <form id="editForm">
+        <div>
+          <label for="edit-fname" class="label">Higher level of Education</label>
+          <input type="text" name="edit-fname" id="edit-fname" />
+        </div>
+
+        <div>
+          <label for="edit-lname" class="label">Experience</label>
+          <input type="text" name="edit-lname" id="edit-lname" />
+        </div>
+
+        <div>
+          <label for="edit-email" class="label">Contact Number</label>
+          <input type="number" name="edit-email" id="edit-email" />
+        </div>
+
+        <div>
+          <label for="edit-password" class="label">Subject</label>
+          <input type="text" name="edit-password" id="edit-password" />
+        </div>
+        <div>
+          <label for="edit-password" class="label">Hourly Pay</label>
+          <input type="number" name="edit-password" id="edit-passwor" />
+        </div>
+
+<<<<<<< Updated upstream
     <form
       id="form2"
       action="/api/user/uploadphoto"
@@ -36,6 +87,14 @@
     >
       <input type="file" name="myImage" accept="file/*" />
     </form>
+=======
+        <input type="submit" id="edit-submit" value="Update" />
+      </form>
+    </div>
+    <!-- <button id="buttons" type="button">Click Me!</button>
+ -->
+
+>>>>>>> Stashed changes
     <script type="module" src="/js/tutors.js"></script>
   </body>
 </html>

@@ -5,6 +5,7 @@ const multer = require('multer');
 const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
 const ProfilePicture = require('../../models/profilePicture.js');
+const tutor = require('../../models/tutorQualifications.js');
 
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
@@ -250,9 +251,86 @@ router.post('/uploadProfilePicture', async (req, res) => {
 });
 
 router.get('/profilePicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
-  }
+    if (!req.session.loggedIn) {
+      return res.fail('User not logged in');
+    }
+  
+    const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
+    if (!picture) {
+      return res.fail('No Profile Picture');
+    }
+    const image = await Image.findById(picture.img);
+  
+    return res.success({ path: image.img });
+  });
+// router.delete('/delete1', function(req, res) {
+  
+//   const userId = '627ea358904aac5b60929ff5';
+//   tutor.findByIdAndDelete(userId, function(err) {
+//       if (err) {
+//           return res.fail('Error deleting post');
+//       }
+//       return res.success();
+//   });
+// });
+// router.get('/info1', async function (req, res) {
+//     let userId = '627d6e6b73d5e11c502d71c7';
+//     if (req.query.id != 'null') {
+//       userId = req.query.id;
+//     }
+  
+//     if (validate(res, userId, 'User id not provided')) return;
+  
+//     if (!mongoose.isValidObjectId(userId)) {
+//       return res.fail(`${userId} is an invalid id`);
+//     }
+  
+//     const user = await tutor.findById(userId);
+//     if (user === null) {
+//       return res.fail(`User with id ${userId} not found`);
+//     }
+  
+//     return res.success({
+//       higherEducation: user.higherEducation,
+//       experience: user.experience,
+//       contactNumber: user.contactNumber,
+//       subject: user.subject,
+//       hourlyPay: user.hourlyPay,
+//     });
+//   });
+  
+// router.put('/info1', function (req, res) {
+//     if (!req.session.loggedIn) {
+//         return res.fail('User is not logged in.');
+//       }
+    
+//       const userId = '627d6e6b73d5e11c502d71c7';
+//       console.log(userId);
+//       if (validate(res, userId, 'User ID is undefined')) return;
+    
+//       const payload = req.body.payload;
+    
+//       // Validate each entry of the payload, cannot be null or undefined
+//       for (const entry of Object.entries(payload)) {
+//         if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return;
+//       }
+    
+//       tutor.findByIdAndUpdate(
+//         userId,
+//         payload,
+//         { returnDocument: 'after' },
+//         function (err, result) {
+//           if (err) {
+//             return res.fail(`${err}. Unable to update user qualification.`);
+//           }
+//           return res.success(result);
+//         }
+//       );
+//     });
+router.post('/uploadphoto', upload.single('myImage'), async(req, res) => {
+    if (!req.session.loggedIn) {
+        return res.fail('User not logged in');
+    }
 
   const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
   if (!picture) {
