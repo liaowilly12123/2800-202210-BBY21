@@ -28,7 +28,9 @@ body {
   margin-bottom: 2px;
 }
 
-input {
+input,
+textarea {
+  display: inline-block;
   width: 100%;
 
   background-color: var(--nord3);

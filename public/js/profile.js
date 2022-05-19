@@ -138,6 +138,49 @@ if (userInfo.success) {
       showToast('error', responseJson.payload);
     }
   });
+
+  document.getElementById('postForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    console.log('here');
+
+    const filePicker = document.getElementById('post-image');
+
+    // Profile picture stuff
+    if (filePicker.files.length !== 0) {
+      const formData = new FormData();
+      formData.append('myImage', filePicker.files[0]);
+
+      const uploadRes = await fetch('/api/user/uploadphoto', {
+        method: 'post',
+        body: formData,
+      });
+      const uploadResJSON = await uploadRes.json();
+
+      if (uploadResJSON.success) {
+        console.log('heherhehr');
+        const heading = document.getElementById('post-heading').value;
+        const desc = document.getElementById('post-description').value;
+
+        const ret = await fetch('/api/timeline/new', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            heading: heading,
+            desc: desc,
+            img: uploadResJSON.payload.id,
+          }),
+        });
+
+        console.log(await ret.json());
+      } else {
+        showToast('error', uploadResJSON.payload);
+        return;
+      }
+    }
+  });
 } else {
   window.location.href = '/';
 }
