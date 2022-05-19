@@ -47,10 +47,33 @@ async function setTimelinePosts() {
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       // postTemplate.querySelector('.postCardDesc').innerText = post.description;
 
+      postTemplate
+        .querySelector('.delete')
+        .addEventListener('click', async (e) => {
+          e.preventDefault();
+          const res = await fetch('/api/timeline/delete', {
+            method: 'DELETE',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              postId: post._id,
+            }),
+          });
+          const resJson = await res.json();
+          if (resJson.success) {
+            showToast('success', 'Deleted Succesfully');
+            setTimelinePosts();
+          } else {
+            showToast('error', resJson.payload);
+          }
+        });
+
       postsGrid.appendChild(postTemplate);
 
       setTimeout(function () {
-        const descQuill = new Quill(`div[id="${post._id}"] > .postCardDesc`, {
+        const descQuill = new Quill(`div[id="${post._id}"] .postCardDesc`, {
           readOnly: true,
         });
         descQuill.setContents(JSON.parse(post.description));
