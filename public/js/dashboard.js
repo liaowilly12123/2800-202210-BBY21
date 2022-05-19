@@ -1,17 +1,27 @@
 'use strict';
 import { showToast } from '/js/toast.js';
+import Modal from '/js/modal/modal.js';
+import ModalFactory from '/js/modal/modalFactory.js';
 
 let currentPage = 1;
 let totalPages = null;
 let userIdClicked = '';
-let isModalOpen = false;
-let buttonType = 'create';
 
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const userType = document.getElementById('userType');
+
+const editCreateModal = new Modal(
+  'editDeleteModal',
+  document.getElementById('userForm')
+);
+
+const deleteConfirmationModal = ModalFactory.getConfirmationModal(
+  'Are you sure you wanna delete this user?',
+  deleteUser
+);
 
 function setButtonsState() {
   if (currentPage === 1) {
@@ -27,6 +37,31 @@ function setButtonsState() {
   }
 }
 
+async function deleteUser() {
+  const res = await fetch('/api/user/delete', {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId: userIdClicked,
+    }),
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    const currUserCard = document.getElementById(userIdClicked);
+    document.getElementById('cardHolder').removeChild(currUserCard);
+    setUsers(currentPage);
+    showToast('success', 'User deleted');
+  } else {
+    showToast('error', resJson.payload);
+  }
+
+  deleteConfirmationModal.hide();
+}
+
 async function setUsers(page) {
   const usersRes = await fetch(`/api/user/all?page=${page}&limit=9`);
   const users = await usersRes.json();
@@ -37,9 +72,7 @@ async function setUsers(page) {
     const template = document.getElementById('userCardTemplate');
     const cardHolder = document.getElementById('cardHolder');
 
-    if (totalPages == null) {
-      totalPages = payload.totalPages;
-    }
+    totalPages = payload.totalPages;
 
     cardHolder.replaceChildren([]);
     for (const user of payload.users) {
@@ -54,33 +87,21 @@ async function setUsers(page) {
 
       userCard.querySelector('.delete').addEventListener('click', async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/user/delete', {
-          method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: user._id,
-          }),
-        });
-        const resJson = await res.json();
 
-        if (resJson.success) {
-          const currUserCard = document.getElementById(user._id);
-          document.getElementById('cardHolder').removeChild(currUserCard);
-          setUsers(currentPage);
-          userIdClicked = user._id;
-          showToast('success', 'User deleted');
-        } else {
-          showToast('error', resJson.payload);
-        }
+        deleteConfirmationModal.show();
+        setUserIdClicked(user._id);
       });
 
       userCard.querySelector('.edit').addEventListener('click', async (e) => {
         e.preventDefault();
-        displayEditButton();
-        getUserInfo(user._id);
+
+        displayButton('update');
+        hideButton('create');
+        clearFields();
+
+        editCreateModal.show();
+
+        setPlaceHolders(user);
         setUserIdClicked(user._id);
       });
       cardHolder.appendChild(userCard);
@@ -113,30 +134,12 @@ document.getElementById('prev').addEventListener('click', () => {
   }
 });
 
-function openModal() {
-  document.getElementById('error').innerText = '';
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.remove('hidden');
-  isModalOpen = true;
+function hideButton(name) {
+  document.getElementById(`${name}ButtonContainer`).classList.add('hidden');
 }
 
-function closeModal() {
-  const modal = document.getElementsByClassName('modal');
-  modal[0].classList.add('hidden');
-  isModalOpen = false;
-  clearFields();
-}
-
-function hideButton() {
-  document
-    .getElementById(`${buttonType}ButtonContainer`)
-    .classList.add('hidden');
-}
-
-function displayButton() {
-  document
-    .getElementById(`${buttonType}ButtonContainer`)
-    .classList.remove('hidden');
+function displayButton(name) {
+  document.getElementById(`${name}ButtonContainer`).classList.remove('hidden');
 }
 
 function clearFields() {
@@ -159,12 +162,6 @@ function setUserIdClicked(userId) {
   userIdClicked = userId;
 }
 
-function displayEditButton() {
-  buttonType = 'update';
-  displayButton();
-  openModal();
-}
-
 async function updateUser(userId) {
   const response = await fetch(`/api/user/info?id=${userId}`, {
     method: 'PUT',
@@ -185,26 +182,18 @@ async function updateUser(userId) {
   const responseJson = await response.json();
 
   if (responseJson.success) {
-    closeModal();
     showToast('success', 'Succesfully Updated');
   } else {
     showToast('error', responseJson.payload);
   }
 }
 
-async function getUserInfo(userId) {
-  const userInfo = await fetch(`/api/user/info?id=${userId}`);
-  const userInfoJSON = await userInfo.json();
-
-  if (userInfoJSON.success) {
-    firstName.placeholder = userInfoJSON.payload.firstName;
-    lastName.placeholder = userInfoJSON.payload.lastName;
-    email.placeholder = userInfoJSON.payload.email;
-    password.placeholder = 'password';
-    userType.value = userInfoJSON.payload.userType;
-  } else {
-    showToast('error', userInfoJSON.payload);
-  }
+async function setPlaceHolders(user) {
+  firstName.placeholder = user.firstName;
+  lastName.placeholder = user.lastName;
+  email.placeholder = user.email;
+  password.placeholder = 'password';
+  userType.value = user.userType;
 }
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
@@ -213,14 +202,10 @@ function removeEmpty(obj) {
 }
 
 document.getElementById('createUser').addEventListener('click', () => {
-  buttonType = 'create';
-  displayButton();
-  openModal();
-});
-
-document.getElementById('modalClose').addEventListener('click', () => {
-  hideButton();
-  closeModal();
+  displayButton('create');
+  hideButton('update');
+  clearFields();
+  editCreateModal.show();
 });
 
 document.getElementById('createButton').addEventListener('click', async (e) => {
@@ -244,10 +229,10 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
   const responseJson = await response.json();
 
   if (responseJson.success) {
-    hideButton();
-    closeModal();
+    hideButton('create');
     setUsers(currentPage);
     showToast('success', 'Created user succesfully');
+    editCreateModal.hide();
   } else {
     showToast('error', responseJson.payload);
   }
@@ -256,7 +241,6 @@ document.getElementById('createButton').addEventListener('click', async (e) => {
 document.getElementById('updateButton').addEventListener('click', async (e) => {
   e.preventDefault();
   await updateUser(userIdClicked);
-  hideButton();
-  closeModal();
   setUsers(currentPage);
+  editCreateModal.hide();
 });
