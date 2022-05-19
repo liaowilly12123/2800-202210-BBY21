@@ -4,12 +4,27 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/colors.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <title>Document</title>
   </head>
   <body>
+    <template id="tutorsCardTemplate">
+      <div class="tutorCards">
+        <div class="tutorHeader">
+          <div class="tutorName"></div>
+          <div class="pricing"></div>
+        </div>
+        <div class="tutorTags"></div>
+        <div class="tutorFooter">
+          <div class="rating"></div>
+        </div>
+      </div>
+    </template>
+
     <div id="filtersContainer">
       <div>
-        <label for="pricing-sort">Pricing</label>
+        <label for="pricing-sort" class="label">Pricing</label>
         <select name="pricing-sort" id="pricing-sort">
           <option value="">Default</option>
           <option value="asc">ascending</option>
@@ -17,7 +32,7 @@
         </select>
       </div>
       <div>
-        <label for="rating-sort">Rating</label>
+        <label for="rating-sort" class="label">Rating</label>
         <select name="rating-sort" id="rating-sort">
           <option value="">Default</option>
           <option value="asc">ascending</option>
@@ -25,7 +40,7 @@
         </select>
       </div>
       <div>
-        <label for="topics">Topics</label>
+        <label for="topics" class="label">Topics</label>
         <input type="text" id="topicsInput" placeholder="Add topics..." />
         <div id="topicPillContainer"></div>
       </div>
@@ -33,6 +48,8 @@
     </div>
 
     <button id="filterButton">filter</button>
+
+    <div id="tutorsList"></div>
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,71 @@
+* {
+  font-family: "Radio Canada", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-auto-rows: min-content;
+  background-color: var(--nord0);
+}
+
+#filterButton {
+  display: block;
+  width: 100%;
+  background-color: var(--nord3);
+  color: var(--nord4);
+  border-radius: 8px;
+  border: none;
+  padding: 12.5px 17.5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#filterButton {
+  background-color: var(--nord14);
+  color: var(--nord0);
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#filtersContainer {
+  background-color: var(--nord0);
+  padding: 50px;
+  border-radius: 8px;
+}
+
+#tutorsList {
+  justify-self: center;
+}
+
+.label {
+  color: var(--nord6);
+  display: block;
+  margin-bottom: 10px;
+}
+
+#topicPillContainer {
+  color: white;
+}
+
+.tutorCards {
+  color: white;
+  margin: 2em;
+  border: 1px white solid;
+}
+
+.tutorTags {
+  margin: 10px 0px;
+}
+
+.pills {
+  margin: 10px;
+  border: 1px white solid;
+  border-radius: 20px;
+  padding: 5px;
+}

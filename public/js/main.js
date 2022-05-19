@@ -33,6 +33,14 @@ function addTopic(e) {
 }
 
 async function applyFilters() {
+  const tutorsJSON = await getTutors();
+  const tutors = tutorsJSON.payload.tutors;
+
+  document.getElementById('tutorsList').innerHTML = '';
+  createTutorCards(tutors);
+}
+
+async function getTutors() {
 
   const pricing = document.getElementById('pricing-sort').value;
   const rating = document.getElementById('rating-sort').value;
@@ -53,7 +61,34 @@ async function applyFilters() {
   const tutorsJSON = await tutors.json();
   
   if (tutorsJSON.success) {
-    console.log(tutorsJSON);
-    return true;
+    return tutorsJSON;
   }
 }
+
+
+function createTutorCards(tutors) {
+  const tutorsList = document.getElementById("tutorsList");
+  const tutorsCardTemplate = document.getElementById("tutorsCardTemplate");
+
+  for (const tutor of tutors) {
+    const tutorsCard = tutorsCardTemplate.content.cloneNode(true);
+    tutorsCard.querySelector(".tutorName").innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`
+    tutorsCard.querySelector(".rating").innerText = `Rating: ${tutor.rating.$numberDecimal}`;
+    tutorsCard.querySelector(".pricing").innerText = `$${tutor.pricing.$numberDecimal}/hr`;
+
+    const tagsContainer = tutorsCard.querySelector(".tutorTags");
+    for (const topic of tutor.topics) {
+      const tag = document.createElement('span');
+      tag.classList.add('pills');
+      tag.innerText = topic;
+      
+      tagsContainer.appendChild(tag);
+    }
+    tutorsList.appendChild(tutorsCard);
+  }
+}
+
+const tutorsJSON = await getTutors();
+const tutors = tutorsJSON.payload.tutors;
+
+createTutorCards(tutors);
