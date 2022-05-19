@@ -14,6 +14,11 @@ const timelineSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true
+  },
+  img: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BBY_21_Image',
+    required: true,
   }
 });
 

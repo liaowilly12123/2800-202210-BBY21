@@ -15,16 +15,8 @@ body {
   background-color: var(--nord0);
 }
 
-main {
-  width: min(100% - 2em, 1200px);
-  margin-inline: auto;
-  padding: 20px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-#editForm {
+#editForm,
+#postForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -68,11 +60,30 @@ input {
   object-fit: cover;
 }
 
+main {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  margin: 0px 20px;
+  gap: 20px;
+  overflow: hidden;
+}
+
+#sidebar {
+  margin: 20px 0px;
+  background-color: var(--nord1);
+  border-radius: 8px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 #imgName {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 10px;
 }
 
 #fullName {
@@ -85,29 +96,77 @@ input {
   color: var(--nord5);
 }
 
-#cards {
+#posts {
+  margin: 20px 0px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: scroll;
 }
 
-.label {
+#allPostsHeading {
   color: var(--nord6);
-  padding-bottom: 5px;
+  font-weight: bold;
+  font-size: 1.7em;
 }
 
-.card {
-  background-color: var(--nord1);
-  padding: 75px 0px;
-  border-radius: 8px;
-  color: var(--nord6);
+#postsHeadingRow {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#addPostButton {
+  background-color: var(--nord3);
+  color: var(--nord14);
+
+  padding: 15px;
+
+  font-size: 1.25em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
-#editButton {
+#postsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 15px;
+}
+
+.postCard {
   background-color: var(--nord1);
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--nord5);
+}
+
+.postCardImg {
+  width: 100%;
+  object-fit: cover;
+  max-height: 300px;
+  border-radius: 8px;
+}
+
+.postCardTitle {
+  font-weight: bold;
+  font-size: 1.3em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.postCardDesc {
+  color: var(--nord5);
+}
+
+#editButton {
+  width: 100%;
+
+  background-color: var(--nord3);
   color: var(--nord14);
 
   padding: 15px;
@@ -121,4 +180,28 @@ input {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  main {
+    grid-template-columns: auto;
+    gap: unset;
+    overflow: unset;
+  }
+
+  #posts {
+    margin: unset;
+    margin-bottom: 20px;
+    overflow: unset;
+  }
+
+  #sidebar {
+    gap: 30px;
+  }
+
+  #postsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
