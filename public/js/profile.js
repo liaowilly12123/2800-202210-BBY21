@@ -43,6 +43,28 @@ async function setTimelinePosts() {
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       postTemplate.querySelector('.postCardDesc').innerText = post.description;
 
+      postTemplate.querySelector('.delete').addEventListener('click', async (e) => {
+        e.preventDefault();
+        const res = await fetch("/api/user/delete1", {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              postId: post._id,
+            }),
+        });
+        const resJson = await res.json();
+        if (resJson.success) {
+            console.log('deleted Succesfully');
+       
+        } else {
+            console.log(resJson);
+            console.error('problem in deleting');
+        }
+    })
+
       postsGrid.appendChild(postTemplate);
     }
   } else {
@@ -202,3 +224,10 @@ if (userInfo.success) {
 function removeEmpty(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
 }
+
+
+
+
+
+  
+

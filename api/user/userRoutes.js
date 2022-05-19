@@ -5,7 +5,7 @@ const multer = require('multer');
 const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
 const ProfilePicture = require('../../models/profilePicture.js');
-
+const timeline = require('../../models/Timeline.js');
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
     cb(null, 'uploads');
@@ -261,6 +261,17 @@ router.get('/profilePicture', async (req, res) => {
   const image = await Image.findById(picture.img);
 
   return res.success({ path: image.img });
+});
+
+router.delete('/delete1', function (req, res) {
+
+  const postId = req.body.postId;
+  timeline.findByIdAndDelete(postId, function (err) {
+    if (err) {
+      return res.fail('Error deleting post');
+    }
+    return res.success();
+  });
 });
 
 module.exports = router;
