@@ -64,7 +64,7 @@ main {
   grid-template-columns: 2fr 8fr;
   margin: 0px 20px;
   gap: 20px;
-  overflow: clip;
+  overflow: hidden;
 }
 
 #sidebar {
