@@ -38,6 +38,7 @@ async function setTimelinePosts() {
       let postTemplate = cardTemplate.content.cloneNode(true);
 
       postTemplate.querySelector('.postCard').id = post._id;
+      postTemplate.querySelector('.postCardImg').src = post.img;
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       postTemplate.querySelector('.postCardDesc').innerText = post.description;
 

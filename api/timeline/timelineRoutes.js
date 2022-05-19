@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const validate = require('../../utils/validationUtils.js');
 const Timeline = require('../../models/Timeline.js');
+const Image = require('../../models/image.js');
 
 router.get('/posts', async function (req, res) {
   if (!req.session.loggedIn) {
@@ -13,7 +14,15 @@ router.get('/posts', async function (req, res) {
     ['date', 'desc'],
   ]);
 
-  res.success({ posts: timelinePosts });
+  const postsWithImage = await Promise.all(
+    timelinePosts.map(async function (value) {
+      return { ...value._doc, img: (await Image.findById(value._doc.img)).img };
+    })
+  );
+
+  console.log(postsWithImage);
+
+  res.success({ posts: postsWithImage });
 });
 
 router.post('/new', async function (req, res) {
