@@ -1,0 +1,55 @@
+* {
+    font-family: 'Radio Canada', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#tutor {
+    margin-top: 3%;
+    margin-left: 30%;
+}
+
+body {
+    background-color: #2e3440;
+    color: white;
+}
+
+input,
+select {
+    width: 50%;
+    background-color: #4c566a;
+    color: #d8dee9;
+    padding: 12.5px 17.5px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+.label input {
+    display: block;
+}
+
+.label {
+    color: #eceff4;
+    display: block;
+    margin-bottom: 1px;
+}
+
+
+/* Hack for arrow padding */
+
+select {
+    border-right: 17.5px solid transparent;
+}
+
+#submit {
+    width: 50%;
+    padding: 15px 20px;
+    background-color: #5e81ac;
+    border-radius: 8px;
+    border: none;
+    color: #e5e9f0;
+    font-weight: bold;
+    font-size: 1.1em;
+}

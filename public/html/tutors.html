@@ -4,45 +4,36 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< Updated upstream
-=======
  
     <link rel="stylesheet" href="/css/tutors.css" />
     <link rel="stylesheet" href="/css/nav.css" />
     <title>Document</title>
 </head>
->>>>>>> Stashed changes
+  <body>
+    <div id="nav-holder"></div>
+    <form id="tutor">
 
-    <link rel="icon" type="image/png" href="/img/logo.png" />
-
-<<<<<<< Updated upstream
-    <title>Document</title>
-  </head>
-=======
         <label class="label" for="tutor-education">Higher level of Education</label><br>
-        <input type="text" name="tutor-education" id="tutor-education" /><br>
-
+        <select name="tutor-education" id="tutor-education">
+            <option value="Secondary">Secondary</option>
+            <option value="Past-Secondary">Post-Secondary</option>
+            <option value="Tertiary">Tertiary</option>
+        </select><br>
 
         <label class="label" for="tutor-experience">Experience</label><br>
         <input type="text" name="tutor-experience" id="tutor-experience" /><br>
->>>>>>> Stashed changes
 
-  <body>
-    <form id="tutor">
-      <h3>Tutorria</h3>
+        <label class="label" for="tutor-contact">Contact Number</label><br>
+        <input type="number" name="tutor-contact" id="tutor-contact" /><br>
 
-      <label for="tutor-name">First Name</label>
-      <input type="text" name="tutor-name" id="tutor-name" />
+        <label class="label" for="tutor-subject">Subject</label><br>
+        <input type="text" name="tutor-subject" id="tutor-subject" /><br>
 
-      <label for="tutor-name">Last Name</label>
-      <input type="text" name="tutor-name" id="tutor-name1" />
+        <label class="label" for="tutor-info">Expected Pay in dollars</label><br>
+        <input type="number" name="tutor-info" id="tutor-info" /><br>
 
-      <label for="tutor-education">Higher Education</label>
-      <input type="text" name="tutor-education" id="tutor-education" />
+        <input type="submit" value=" Next" id="submit" />
 
-      <label for="tutor-experience">Experience</label>
-      <input type="text" name="tutor-experience" id="tutor-experience" />
-      <input type="submit" value="Click Me!" id="Submit" />
     </form>
     <div id="buttons">
       <button id="editButton">
@@ -55,46 +46,36 @@
       <div id="editTint"></div>
       <form id="editForm">
         <div>
-          <label for="edit-fname" class="label">Higher level of Education</label>
-          <input type="text" name="edit-fname" id="edit-fname" />
+          <label for="edit-education" class="label">Higher level of Education</label><br>
+          <input type="text" name="edit-education" id="edit-education" /><br>
         </div>
 
         <div>
-          <label for="edit-lname" class="label">Experience</label>
-          <input type="text" name="edit-lname" id="edit-lname" />
+          <label for="edit-experience" class="label">Experience</label><br>
+          <input type="text" name="edit-experience" id="edit-experience" /><br>
         </div>
 
         <div>
-          <label for="edit-email" class="label">Contact Number</label>
-          <input type="number" name="edit-email" id="edit-email" />
+          <label for="edit-contact" class="label">Contact Number</label><br>
+          <input type="number" name="edit-contact" id="edit-contact" /><br>
         </div>
 
         <div>
-          <label for="edit-password" class="label">Subject</label>
-          <input type="text" name="edit-password" id="edit-password" />
+          <label for="edit-subject" class="label">Subject</label><br>
+          <input type="text" name="edit-subject" id="edit-subject" /><br>
         </div>
         <div>
-          <label for="edit-password" class="label">Hourly Pay</label>
-          <input type="number" name="edit-password" id="edit-passwor" />
+          <label for="edit-pay" class="label">Hourly Pay</label><br>
+          <input type="number" name="edit-pay" id="edit-pay" />
         </div>
 
-<<<<<<< Updated upstream
-    <form
-      id="form2"
-      action="/api/user/uploadphoto"
-      enctype="multipart/form-data"
-      method="POST"
-    >
-      <input type="file" name="myImage" accept="file/*" />
-    </form>
-=======
-        <input type="submit" id="edit-submit" value="Update" />
+        <input type="submit" id="edit-submit" value="Update" /><br>
       </form>
     </div>
     <!-- <button id="buttons" type="button">Click Me!</button>
  -->
 
->>>>>>> Stashed changes
     <script type="module" src="/js/tutors.js"></script>
+    <script type="module" src="/js/template.js"></script>
   </body>
 </html>
