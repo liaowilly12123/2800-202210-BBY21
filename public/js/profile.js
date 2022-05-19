@@ -73,7 +73,7 @@ async function setTimelinePosts() {
       postsGrid.appendChild(postTemplate);
 
       setTimeout(function () {
-        const descQuill = new Quill(`div[id="${post._id}"] > .postCardDesc`, {
+        const descQuill = new Quill(`div[id="${post._id}"] .postCardDesc`, {
           readOnly: true,
         });
         descQuill.setContents(JSON.parse(post.description));

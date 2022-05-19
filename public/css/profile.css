@@ -169,6 +169,28 @@ main {
   color: var(--nord5);
 }
 
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postCard .delete {
+  background-color: var(--nord3);
+  color: var(--nord14);
+
+  padding: 15px;
+
+  font-size: 1.2em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #editButton {
   width: 100%;
 
