@@ -12,7 +12,7 @@ router.get('/posts', async function (req, res) {
   res.success({ posts: timelinePosts });
 });
 
-router.post('/new', function (req, res) {
+router.post('/new', async function (req, res) {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
   }
@@ -21,20 +21,23 @@ router.post('/new', function (req, res) {
     return res.fail("Students can't make posts");
   }
 
-  const { heading, desc, img } = req.body;
-  if (!validate(heading)) return res.fail('Invalid heading');
-  if (!validate(desc)) return res.fail('Invalid description');
-  if (!validate(img)) return res.fail('Invalid image');
+  console.log(req.body);
 
-  new Timeline({
+  const { heading, desc, img } = req.body;
+  if (validate(res, heading, 'Invalid Heading')) return;
+  if (validate(res, desc, 'Invalid description')) return;
+  if (validate(res, img, 'Invalid Image')) return;
+
+  const tl = new Timeline({
     user_id: req.session.userId,
     heading: heading,
     description: desc,
     img: img,
     date: Date.now(),
   });
+  await tl.save();
 
-  res.success();
+  return res.success();
 });
 
 module.exports = router;
