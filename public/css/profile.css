@@ -16,7 +16,8 @@ body {
 }
 
 #editForm,
-#postForm {
+#postForm,
+#postEditForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -43,7 +44,8 @@ textarea {
   border: none;
 }
 
-#post-description {
+#post-description,
+#post-edit-description {
   margin-bottom: 20px;
 }
 
@@ -175,7 +177,13 @@ main {
   align-items: center;
 }
 
-.postCard .delete {
+.postCardButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.postCard .delete,
+.postCard .edit {
   background-color: var(--nord3);
   color: var(--nord14);
 

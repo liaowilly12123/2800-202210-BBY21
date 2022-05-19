@@ -37,9 +37,14 @@
             <div class="postCardDesc"></div>
           </div>
 
-          <button class="delete">
-            <i class="fa-solid fa-trash"></i>
-          </button>
+          <div class="postCardButtons">
+            <button class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
         </div>
       </div>
     </template>
@@ -61,6 +66,24 @@
       </div>
 
       <input type="submit" id="post-submit" value="Post" />
+    </form>
+
+    <form id="postEditForm">
+      <div>
+        <label for="post-edit-heading" class="label">Heading</label>
+        <input type="text" name="post-edit-heading" id="post-edit-heading" />
+      </div>
+
+      <div>
+        <label for="post-edit-description" class="label">Description</label>
+        <div
+          type="text"
+          name="post-edit-description"
+          id="post-edit-description"
+        ></div>
+      </div>
+
+      <input type="submit" id="post-edit-submit" value="Update" />
     </form>
 
     <form id="editForm">
