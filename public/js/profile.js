@@ -338,6 +338,8 @@ if (userInfo.success) {
         showToast('error', uploadResJSON.payload);
         return;
       }
+    } else {
+      showToast('info', 'Post needs atleast one picture');
     }
   });
 
