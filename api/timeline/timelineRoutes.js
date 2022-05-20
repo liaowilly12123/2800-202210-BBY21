@@ -1,7 +1,20 @@
 const router = require('express').Router();
+const multer = require('multer');
 const validate = require('../../utils/validationUtils.js');
 const Timeline = require('../../models/Timeline.js');
 const Image = require('../../models/image.js');
+const { append } = require('express/lib/response');
+
+const storage = multer.diskStorage({
+  destination: function (_req, _file, cb) {
+    cb(null, 'uploads');
+  },
+  filename: function (_req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now());
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.get('/posts', async function (req, res) {
   if (!req.session.loggedIn) {
@@ -47,6 +60,27 @@ router.post('/new', async function (req, res) {
   await tl.save();
 
   return res.success();
+});
+
+// https://stackoverflow.com/questions/39350040/uploading-multiple-files-with-multer
+router.post('/uploadphoto', upload.array('images'), async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+  
+  let images = [];
+
+  for (const file of req.files) {
+    const doc = new Image({
+      user_id: req.session.userId,
+      img: file.path
+    })
+
+    await doc.save();
+
+    images.push({path: file.path, id: doc._id});
+  }
+  return res.success(images);
 });
 
 module.exports = router;
