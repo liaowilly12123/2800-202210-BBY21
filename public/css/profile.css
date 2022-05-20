@@ -213,6 +213,14 @@ main {
   color: var(--nord5);
 }
 
+.imgDelete {
+  background-color: var(--nord2);
+  border: none;
+  color: var(--nord11);
+  padding: 10px;
+  border-radius: 8px;
+}
+
 .deletableImgAndButton img {
   width: 50px;
   height: 50px;
