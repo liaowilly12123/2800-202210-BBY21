@@ -82,7 +82,7 @@ function setDeletableImagesInEditModal(images) {
           return showToast('error', 'Post needs atleast one image');
         }
 
-        currentImages = currentImages.filter((cimg) => cimg.img != image.img);
+        currentImages = currentImages.filter((cimg) => cimg._id != image._id);
 
         document
           .getElementById('uploadedImagesContainer')
@@ -121,6 +121,7 @@ async function setTimelinePosts() {
         currentImages = post.img;
 
         document.getElementById('post-edit-heading').placeholder = post.heading;
+        document.getElementById('post-edit-image').value = '';
         editDescEditor.setContents(JSON.parse(post.description));
         editPostModal.show();
       });
