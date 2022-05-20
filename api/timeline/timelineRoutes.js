@@ -83,6 +83,35 @@ router.post("/uploadphoto", upload.array("images"), async function (req, res) {
   return res.success({ ids: images });
 });
 
+router.put('/update', function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User is not logged in.');
+  }
+
+  const postId = req.body.postId;
+  if (validate(res, postId, 'Post ID is undefined')) return;
+
+  const payload = req.body.payload;
+  console.log(payload);
+
+  // Validate each entry of the payload, cannot be null or undefined
+  for (const entry of Object.entries(payload)) {
+    if (validate(res, entry[1], `${entry[0]} is undefined or null`)) return;
+  }
+
+  Timeline.findByIdAndUpdate(
+    postId,
+    payload,
+    { returnDocument: 'after' },
+    function (err, result) {
+      if (err) {
+        return res.fail(`${err}. Unable to update user profile.`);
+      }
+      return res.success(result);
+    }
+  );
+});
+
 router.delete('/delete', function (req, res) {
   const postId = req.body.postId;
   Timeline.findByIdAndDelete(postId, function (err) {

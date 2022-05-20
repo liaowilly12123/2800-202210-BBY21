@@ -6,7 +6,13 @@ import Modal from '/js/modal/modal.js';
 const params = new URLSearchParams(location.search);
 const userId = params.get('id');
 
+let currentPostId = '';
+
 var editor = new Quill('#post-description', {
+  theme: 'snow',
+});
+
+var editDescEditor = new Quill(`#post-edit-description`, {
   theme: 'snow',
 });
 
@@ -17,6 +23,11 @@ document
 
 const addPostModal = new Modal('addPost', document.getElementById('postForm'));
 
+const editPostModal = new Modal(
+  'editPost',
+  document.getElementById('postEditForm')
+);
+
 document
   .getElementById('addPostButton')
   .addEventListener('click', () => addPostModal.show());
@@ -26,6 +37,29 @@ function setProfileData(payload) {
   document.getElementById('lname').innerText = payload.lastName;
   document.getElementById('userType').innerText =
     payload.userType.slice(0, 1).toUpperCase() + payload.userType.slice(1);
+}
+
+async function updatePost(newData) {
+  const res = await fetch('/api/timeline/update', {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      postId: currentPostId,
+      payload: newData,
+    }),
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    editPostModal.hide();
+    showToast('success', 'Post Updated Succesfully');
+    setTimelinePosts();
+  } else {
+    showToast('error', resJson.payload);
+  }
 }
 
 async function setTimelinePosts() {
@@ -46,6 +80,16 @@ async function setTimelinePosts() {
       postTemplate.querySelector('.postCardImg').src = post.img;
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       // postTemplate.querySelector('.postCardDesc').innerText = post.description;
+
+      postTemplate.querySelector('.edit').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        currentPostId = post._id;
+
+        document.getElementById('post-edit-heading').placeholder = post.heading;
+        editDescEditor.setContents(JSON.parse(post.description));
+        editPostModal.show();
+      });
 
       postTemplate
         .querySelector('.delete')
@@ -177,6 +221,21 @@ if (userInfo.success) {
       showToast('error', responseJson.payload);
     }
   });
+
+  document
+    .getElementById('postEditForm')
+    .addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const newHeading = document.getElementById('post-edit-heading');
+
+      updatePost(
+        removeEmpty({
+          heading: newHeading.value || null,
+          description: JSON.stringify(editDescEditor.getContents()),
+        })
+      );
+    });
 
   document.getElementById('postForm').addEventListener('submit', async (e) => {
     e.preventDefault();
