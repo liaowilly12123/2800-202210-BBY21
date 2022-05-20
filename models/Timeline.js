@@ -7,14 +7,24 @@ const timelineSchema = new mongoose.Schema({
     ref: "BBY_21_user",
     required: true,
   },
+  heading: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   date: {
     type: Date,
-    required: true
+    required: true,
   },
-  content: {
-    type: String,
-    required: true
-  }
+  img: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BBY_21_Image",
+    },
+  ],
 });
 
 const timelineModel = mongoose.model("BBY_21_timeline", timelineSchema);
