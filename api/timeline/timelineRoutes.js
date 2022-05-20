@@ -1,3 +1,4 @@
+'use strict';
 const router = require('express').Router();
 const multer = require('multer');
 const validate = require('../../utils/validationUtils.js');
