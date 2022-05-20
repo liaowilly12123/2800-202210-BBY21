@@ -14,86 +14,161 @@
       src="https://kit.fontawesome.com/b1c534a736.js"
       crossorigin="anonymous"
     ></script>
+
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/quillOverrides.css" />
+
     <title>Profile</title>
   </head>
 
   <body>
-    <div id="editModal">
-      <div id="editTint"></div>
-      <form id="editForm">
-        <div>
-          <label for="edit-fname" class="label">First Name</label>
-          <input type="text" name="edit-fname" id="edit-fname" />
-        </div>
+    <template id="postCardTemplate">
+      <div class="postCard">
+        <img
+          class="postCardImg"
+          src="https://www.thedesignwork.com/wp-content/uploads/2011/10/Random-Pictures-of-Conceptual-and-Creative-Ideas-02.jpg"
+          alt="bruh"
+        />
+        <div class="cardRow">
+          <div>
+            <p class="postCardTitle"></p>
+            <div class="postCardDesc"></div>
+          </div>
 
-        <div>
-          <label for="edit-lname" class="label">Last Name</label>
-          <input type="text" name="edit-lname" id="edit-lname" />
+          <div class="postCardButtons">
+            <button class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
         </div>
+      </div>
+    </template>
 
-        <div>
-          <label for="edit-email" class="label">Email</label>
-          <input type="email" name="edit-email" id="edit-email" />
-        </div>
+    <template id="uploadedImage">
+      <div class="deletableImgAndButton">
+        <img class="deletableImg" alt="" srcset="" />
+        <button class="imgDelete">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </template>
 
-        <div>
-          <label for="edit-password" class="label">Password</label>
-          <input type="password" name="edit-password" id="edit-password" />
-        </div>
+    <form id="postForm">
+      <div>
+        <label for="post-heading" class="label">Heading</label>
+        <input type="text" name="post-heading" id="post-heading" />
+      </div>
 
-        <div>
-          <label for="edit-profilepic" class="label">Profile Picture</label>
-          <input id="edit-profilepic" type="file" accept="image/*" />
-        </div>
+      <div>
+        <label class="label">Description</label>
+        <div id="post-description"></div>
+      </div>
 
-        <input type="submit" id="edit-submit" value="Update" />
-      </form>
-    </div>
+      <div>
+        <label for="post-image" class="label">Image</label>
+        <input id="post-image" type="file" accept="image/*" multiple />
+      </div>
+
+      <input type="submit" id="post-submit" value="Post" />
+    </form>
+
+    <form id="postEditForm">
+      <div>
+        <label for="post-edit-heading" class="label">Heading</label>
+        <input type="text" name="post-edit-heading" id="post-edit-heading" />
+      </div>
+
+      <div>
+        <label class="label">Description</label>
+        <div
+          id="post-edit-description"
+        ></div>
+      </div>
+
+      <div>
+        <label for="post-edit-image" class="label"
+          >Uploaded Images</label
+        >
+        <div id="uploadedImagesContainer"></div>
+        <input id="post-edit-image" type="file" accept="image/*" multiple />
+      </div>
+
+      <input type="submit" id="post-edit-submit" value="Update" />
+    </form>
+
+    <form id="editForm">
+      <div>
+        <label for="edit-fname" class="label">First Name</label>
+        <input type="text" name="edit-fname" id="edit-fname" />
+      </div>
+
+      <div>
+        <label for="edit-lname" class="label">Last Name</label>
+        <input type="text" name="edit-lname" id="edit-lname" />
+      </div>
+
+      <div>
+        <label for="edit-email" class="label">Email</label>
+        <input type="email" name="edit-email" id="edit-email" />
+      </div>
+
+      <div>
+        <label for="edit-password" class="label">Password</label>
+        <input type="password" name="edit-password" id="edit-password" />
+      </div>
+
+      <div>
+        <label for="edit-profilepic" class="label">Profile Picture</label>
+        <input id="edit-profilepic" type="file" accept="image/*" />
+      </div>
+
+      <input type="submit" id="edit-submit" value="Update" />
+    </form>
     <div id="nav-holder"></div>
     <main>
-      <div id="imgName">
-        <img
-          src="https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg"
-          alt=""
-          id="profilePic"
-        />
-        <div id="nameType">
-          <div id="fullName">
-            <h1 id="fname">FName</h1>
-            <h1 id="lname">LName</h1>
+      <div id="sidebar">
+        <div id="imgName">
+          <img
+            src="https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg"
+            alt=""
+            id="profilePic"
+          />
+          <div id="nameType">
+            <div id="fullName">
+              <h1 id="fname">FName</h1>
+              <h1 id="lname">LName</h1>
+            </div>
+            <p id="userType">Type</p>
           </div>
-          <p id="userType">Type</p>
+        </div>
+
+        <div id="buttons">
+          <button id="editButton">
+            <i class="fa-solid fa-pen"></i>
+            <span>Edit Profile</span>
+          </button>
         </div>
       </div>
-
-      <div id="cards">
-        <div>
-          <p class="label">Description</p>
-          <div class="card">Stuff</div>
+      <div id="posts">
+        <div id="postsHeadingRow">
+          <p id="allPostsHeading">My Posts</p>
+          <button id="addPostButton">
+            <i class="fa-solid fa-plus"></i>
+          </button>
         </div>
-
-        <div>
-          <p class="label">Qualifications</p>
-          <div class="card">Stuff</div>
-        </div>
-
-        <div>
-          <p class="label">Past Posts</p>
-          <div class="card">Stuff</div>
-        </div>
-      </div>
-
-      <div id="buttons">
-        <button id="editButton">
-          <i class="fa-solid fa-pen"></i>
-          <span>Edit Profile</span>
-        </button>
+        <div id="postsGrid"></div>
       </div>
     </main>
 
-    <script type="module" src="/js/toast.js"></script>
     <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/profile.js"></script>
     <script type="module" src="/js/logout.js"></script>
+    <script type="module" src="/js/easterEgg.js"></script>
+    <script type="module" src="/js/toast.js"></script>
   </body>
 </html>

@@ -1,0 +1,32 @@
+.ql-toolbar.ql-snow {
+  background-color: var(--nord2);
+  border: none;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.ql-container.ql-snow {
+  background-color: var(--nord2);
+  color: var(--nord6);
+  border: none;
+  border-radius: 0px 0px 8px 8px;
+}
+
+.ql-snow .ql-picker {
+  color: var(--nord5);
+}
+
+.ql-snow .ql-picker:hover {
+  color: var(--nord13);
+}
+
+.ql-snow .ql-stroke {
+  stroke: var(--nord5);
+}
+
+.postCardDesc .ql-editor {
+  padding: 0px;
+}
+
+.ql-container {
+  height: unset;
+}
