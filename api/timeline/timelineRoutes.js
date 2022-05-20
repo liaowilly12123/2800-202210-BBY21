@@ -100,8 +100,6 @@ router.put('/update', function (req, res) {
     { returnDocument: 'after' },
     function (err, result) {
       if (err) {
-        console.log(err);
-        console.log(payload);
         return res.fail(`${err}. Unable to update user profile.`);
       }
       return res.success(result);
