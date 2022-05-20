@@ -51,7 +51,7 @@
 
     <template id="uploadedImage">
       <div class="deletableImgAndButton">
-        <img class="deletableImg" src="" alt="" srcset="" />
+        <img class="deletableImg" alt="" srcset="" />
         <button class="imgDelete">
           <i class="fa-solid fa-trash"></i>
         </button>
@@ -65,8 +65,8 @@
       </div>
 
       <div>
-        <label for="post-description" class="label">Description</label>
-        <div type="text" name="post-description" id="post-description"></div>
+        <label class="label">Description</label>
+        <div id="post-description"></div>
       </div>
 
       <div>
@@ -84,16 +84,14 @@
       </div>
 
       <div>
-        <label for="post-edit-description" class="label">Description</label>
+        <label class="label">Description</label>
         <div
-          type="text"
-          name="post-edit-description"
           id="post-edit-description"
         ></div>
       </div>
 
       <div>
-        <label for="uploadedImagesContainer" class="label"
+        <label for="post-edit-image" class="label"
           >Uploaded Images</label
         >
         <div id="uploadedImagesContainer"></div>
