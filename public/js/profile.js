@@ -6,6 +6,10 @@ import Modal from '/js/modal/modal.js';
 const params = new URLSearchParams(location.search);
 const userId = params.get('id');
 
+var editor = new Quill('#post-description', {
+  theme: 'snow',
+});
+
 const editModal = new Modal('editProfile', document.getElementById('editForm'));
 document
   .getElementById('editButton')
@@ -41,9 +45,39 @@ async function setTimelinePosts() {
       postTemplate.querySelector('.postCard').id = post._id;
       postTemplate.querySelector('.postCardImg').src = post.img;
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
-      postTemplate.querySelector('.postCardDesc').innerText = post.description;
+      // postTemplate.querySelector('.postCardDesc').innerText = post.description;
+
+      postTemplate
+        .querySelector('.delete')
+        .addEventListener('click', async (e) => {
+          e.preventDefault();
+          const res = await fetch('/api/timeline/delete', {
+            method: 'DELETE',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              postId: post._id,
+            }),
+          });
+          const resJson = await res.json();
+          if (resJson.success) {
+            showToast('success', 'Deleted Succesfully');
+            setTimelinePosts();
+          } else {
+            showToast('error', resJson.payload);
+          }
+        });
 
       postsGrid.appendChild(postTemplate);
+
+      setTimeout(function () {
+        const descQuill = new Quill(`div[id="${post._id}"] .postCardDesc`, {
+          readOnly: true,
+        });
+        descQuill.setContents(JSON.parse(post.description));
+      }, 0);
     }
   } else {
     showToast('error', userTimeline.payload);
@@ -164,7 +198,6 @@ if (userInfo.success) {
 
       if (uploadResJSON.success) {
         const heading = document.getElementById('post-heading').value;
-        const desc = document.getElementById('post-description').value;
 
         const timelinePostRes = await fetch('/api/timeline/new', {
           method: 'post',
@@ -174,7 +207,7 @@ if (userInfo.success) {
           },
           body: JSON.stringify({
             heading: heading,
-            desc: desc,
+            desc: JSON.stringify(editor.getContents()),
             img: uploadResJSON.payload.ids,
           }),
         });

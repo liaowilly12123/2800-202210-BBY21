@@ -83,4 +83,14 @@ router.post("/uploadphoto", upload.array("images"), async function (req, res) {
   return res.success({ ids: images });
 });
 
+router.delete('/delete', function (req, res) {
+  const postId = req.body.postId;
+  Timeline.findByIdAndDelete(postId, function (err) {
+    if (err) {
+      return res.fail('Error deleting post');
+    }
+    return res.success();
+  });
+});
+
 module.exports = router;
