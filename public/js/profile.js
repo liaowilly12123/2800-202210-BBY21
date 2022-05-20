@@ -108,26 +108,9 @@ async function setTimelinePosts() {
       let postTemplate = cardTemplate.content.cloneNode(true);
 
       postTemplate.querySelector('.postCard').id = post._id;
-      // postTemplate.querySelector('.postCardImg').src = post.img[0].img;
+      postTemplate.querySelector('.postCardImg').src = post.img[0].img;
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       // postTemplate.querySelector('.postCardDesc').innerText = post.description;
-
-      for (const image of post.img) {
-        const newLi = document.createElement('li');
-        newLi.className = 'splide__slide';
-
-        const newImg = document.createElement('img');
-        newImg.src = image.img;
-
-        newLi.appendChild(newImg);
-
-        postTemplate.querySelector('.splide__list').appendChild(newLi);
-      }
-
-      new Splide(postTemplate.querySelector('.splide'), {
-        arrows: false,
-        height: '300px',
-      }).mount();
 
       postTemplate.querySelector('.edit').addEventListener('click', (e) => {
         e.preventDefault();
