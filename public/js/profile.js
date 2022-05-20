@@ -29,9 +29,10 @@ const editPostModal = new Modal(
   document.getElementById('postEditForm')
 );
 
-document
-  .getElementById('addPostButton')
-  .addEventListener('click', () => addPostModal.show());
+document.getElementById('addPostButton').addEventListener('click', () => {
+  document.getElementById('post-image').value = '';
+  addPostModal.show();
+});
 
 function setProfileData(payload) {
   document.getElementById('fname').innerText = payload.firstName;
@@ -319,9 +320,9 @@ if (userInfo.success) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            heading: heading,
-            desc: JSON.stringify(editor.getContents()),
-            img: uploadResJSON.payload.ids,
+            heading: heading || null,
+            desc: JSON.stringify(editor.getContents()) || null,
+            img: uploadResJSON.payload.ids || null,
           }),
         });
 
