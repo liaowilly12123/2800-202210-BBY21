@@ -151,6 +151,7 @@ main {
   padding: 20px;
   border-radius: 8px;
   color: var(--nord5);
+  height: fit-content;
 }
 
 .postCardImg {
@@ -211,6 +212,14 @@ main {
   justify-content: space-between;
   align-items: center;
   color: var(--nord5);
+}
+
+.imgDelete {
+  background-color: var(--nord2);
+  border: none;
+  color: var(--nord11);
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .deletableImgAndButton img {
