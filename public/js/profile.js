@@ -149,12 +149,14 @@ if (userInfo.success) {
 
     const filePicker = document.getElementById('post-image');
 
-    // Profile picture stuff
     if (filePicker.files.length !== 0) {
       const formData = new FormData();
-      formData.append('myImage', filePicker.files[0]);
 
-      const uploadRes = await fetch('/api/user/uploadphoto', {
+      for (const file of filePicker.files) {
+        formData.append('images', file);
+      }
+
+      const uploadRes = await fetch('/api/timeline/uploadphoto', {
         method: 'post',
         body: formData,
       });
@@ -173,7 +175,7 @@ if (userInfo.success) {
           body: JSON.stringify({
             heading: heading,
             desc: desc,
-            img: uploadResJSON.payload.id,
+            img: uploadResJSON.payload.ids,
           }),
         });
 
