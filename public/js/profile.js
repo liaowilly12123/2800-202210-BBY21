@@ -171,7 +171,6 @@ async function setProfilePic() {
     document.getElementById('profilePic').src = profileJSON.payload.path;
     return true;
   } else {
-    showToast('error', profileJSON.payload);
     return false;
   }
 }
