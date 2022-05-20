@@ -49,6 +49,13 @@
       </div>
     </template>
 
+    <template id="uploadedImage">
+      <div class="deletableImgAndButton">
+        <img class="deletableImg" src="" alt="" srcset="" />
+        <button class="imgDelete">Delete</button>
+      </div>
+    </template>
+
     <form id="postForm">
       <div>
         <label for="post-heading" class="label">Heading</label>
@@ -62,7 +69,7 @@
 
       <div>
         <label for="post-image" class="label">Image</label>
-        <input id="post-image" type="file" accept="image/*" />
+        <input id="post-image" type="file" accept="image/*" multiple />
       </div>
 
       <input type="submit" id="post-submit" value="Post" />
@@ -81,6 +88,14 @@
           name="post-edit-description"
           id="post-edit-description"
         ></div>
+      </div>
+
+      <div>
+        <label for="uploadedImagesContainer" class="label"
+          >Uploaded Images</label
+        >
+        <div id="uploadedImagesContainer"></div>
+        <input id="post-edit-image" type="file" accept="image/*" multiple />
       </div>
 
       <input type="submit" id="post-edit-submit" value="Update" />
@@ -150,9 +165,9 @@
       </div>
     </main>
 
-    <script type="module" src="/js/toast.js"></script>
     <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/profile.js"></script>
     <script type="module" src="/js/logout.js"></script>
+    <script type="module" src="/js/toast.js"></script>
   </body>
 </html>

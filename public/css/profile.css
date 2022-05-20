@@ -199,6 +199,27 @@ main {
   align-items: center;
 }
 
+#uploadedImagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.deletableImgAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--nord5);
+}
+
+.deletableImgAndButton img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 #editButton {
   width: 100%;
 

@@ -7,6 +7,7 @@ const params = new URLSearchParams(location.search);
 const userId = params.get('id');
 
 let currentPostId = '';
+let currentImages = [];
 
 var editor = new Quill('#post-description', {
   theme: 'snow',
@@ -62,6 +63,36 @@ async function updatePost(newData) {
   }
 }
 
+function setDeletableImagesInEditModal(images) {
+  const holder = document.getElementById('uploadedImagesContainer');
+  holder.replaceChildren();
+
+  const template = document.getElementById('uploadedImage');
+
+  for (const image of images) {
+    const newDiv = template.content.cloneNode(true);
+    newDiv.querySelector('.deletableImg').src = image.img;
+
+    newDiv
+      .querySelector('.imgDelete')
+      .addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        if (currentImages.length === 1) {
+          return showToast('error', 'Post needs atleast one image');
+        }
+
+        currentImages = currentImages.filter((cimg) => cimg.img != image.img);
+
+        document
+          .getElementById('uploadedImagesContainer')
+          .removeChild(this.parentNode);
+      });
+
+    holder.appendChild(newDiv);
+  }
+}
+
 async function setTimelinePosts() {
   const cardTemplate = document.getElementById('postCardTemplate');
   const postsGrid = document.getElementById('postsGrid');
@@ -77,14 +108,17 @@ async function setTimelinePosts() {
       let postTemplate = cardTemplate.content.cloneNode(true);
 
       postTemplate.querySelector('.postCard').id = post._id;
-      postTemplate.querySelector('.postCardImg').src = post.img;
+      postTemplate.querySelector('.postCardImg').src = post.img[0].img;
       postTemplate.querySelector('.postCardTitle').innerText = post.heading;
       // postTemplate.querySelector('.postCardDesc').innerText = post.description;
 
       postTemplate.querySelector('.edit').addEventListener('click', (e) => {
         e.preventDefault();
 
+        setDeletableImagesInEditModal(post.img);
+
         currentPostId = post._id;
+        currentImages = post.img;
 
         document.getElementById('post-edit-heading').placeholder = post.heading;
         editDescEditor.setContents(JSON.parse(post.description));
@@ -141,6 +175,42 @@ async function setProfilePic() {
   }
 }
 
+async function uploadImages(filePicker) {
+  if (filePicker.files.length !== 0) {
+    const formData = new FormData();
+    formData.append('myImage', filePicker.files[0]);
+
+    const uploadRes = await fetch('/api/user/uploadphoto', {
+      method: 'post',
+      body: formData,
+    });
+    const uploadResJSON = await uploadRes.json();
+    return uploadResJSON;
+  }
+}
+
+async function uploadMultipleImages(filePicker) {
+  if (filePicker.files.length !== 0) {
+    const formData = new FormData();
+
+    for (const file of filePicker.files) {
+      formData.append('images', file);
+    }
+
+    const uploadRes = await fetch('/api/timeline/uploadphoto', {
+      method: 'post',
+      body: formData,
+    });
+    const uploadResJSON = await uploadRes.json();
+
+    return uploadResJSON;
+  } else {
+    return {
+      payload: { ids: [] },
+    };
+  }
+}
+
 const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
 const userInfo = await userInfoRes.json();
 
@@ -162,30 +232,20 @@ if (userInfo.success) {
 
     const filePicker = document.getElementById('edit-profilepic');
 
-    // Profile picture stuff
-    if (filePicker.files.length !== 0) {
-      const formData = new FormData();
-      formData.append('myImage', filePicker.files[0]);
+    const uploadResJSON = await uploadImages(filePicker);
 
-      const uploadRes = await fetch('/api/user/uploadphoto', {
+    if (uploadResJSON.success) {
+      await fetch('/api/user/uploadProfilePicture', {
         method: 'post',
-        body: formData,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imgId: uploadResJSON.payload.id }),
       });
-      const uploadResJSON = await uploadRes.json();
-
-      if (uploadResJSON.success) {
-        await fetch('/api/user/uploadProfilePicture', {
-          method: 'post',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ imgId: uploadResJSON.payload.id }),
-        });
-      } else {
-        showToast('error', uploadResJSON.payload);
-        return;
-      }
+    } else {
+      showToast('error', uploadResJSON.payload);
+      return;
     }
 
     // Other edits
@@ -224,15 +284,19 @@ if (userInfo.success) {
 
   document
     .getElementById('postEditForm')
-    .addEventListener('submit', function (e) {
+    .addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const newHeading = document.getElementById('post-edit-heading');
+      const imagesUp = await uploadMultipleImages(
+        document.getElementById('post-edit-image')
+      );
 
       updatePost(
         removeEmpty({
           heading: newHeading.value || null,
           description: JSON.stringify(editDescEditor.getContents()),
+          img: [...currentImages, ...imagesUp.payload.ids],
         })
       );
     });
@@ -242,16 +306,8 @@ if (userInfo.success) {
 
     const filePicker = document.getElementById('post-image');
 
-    // Profile picture stuff
     if (filePicker.files.length !== 0) {
-      const formData = new FormData();
-      formData.append('myImage', filePicker.files[0]);
-
-      const uploadRes = await fetch('/api/user/uploadphoto', {
-        method: 'post',
-        body: formData,
-      });
-      const uploadResJSON = await uploadRes.json();
+      const uploadResJSON = await uploadMultipleImages(filePicker);
 
       if (uploadResJSON.success) {
         const heading = document.getElementById('post-heading').value;
@@ -265,7 +321,7 @@ if (userInfo.success) {
           body: JSON.stringify({
             heading: heading,
             desc: JSON.stringify(editor.getContents()),
-            img: uploadResJSON.payload.id,
+            img: uploadResJSON.payload.ids,
           }),
         });
 
