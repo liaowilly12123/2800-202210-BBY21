@@ -6,6 +6,7 @@ const filterModal = new Modal('filter', document.getElementById('filtersContaine
 document.getElementById('filterButton').addEventListener('click', () => filterModal.show());
 document.getElementById('topicsInput').addEventListener('keyup', addTopic);
 document.getElementById('apply-filter').addEventListener('click', applyFilters);
+document.getElementById('reset-filter').addEventListener('click', resetFilters);
 
 let searchTopics = [];
 
@@ -38,6 +39,15 @@ async function applyFilters() {
 
   document.getElementById('tutorsList').innerHTML = '';
   createTutorCards(tutors);
+}
+
+function resetFilters() {
+  document.getElementById('pricing-sort').value  = '';
+  document.getElementById('rating-sort').value  = '';
+
+  // Reset topic pills for filter
+  searchTopics = [];
+  document.getElementById('topicPillContainer').innerHTML = '';
 }
 
 async function getTutors() {
