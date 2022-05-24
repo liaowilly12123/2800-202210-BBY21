@@ -271,8 +271,6 @@ router.post('/bookmarks', async (req, res) => {
 
   const profile = await Tutor.findOne({ user_id: req.body.profile_id })
 
-  console.log(profile._id);
-
   Bookmark.findOneAndUpdate(
     { user_id: req.session.userId },
     { $addToSet: { bookmarks: profile._id } },
@@ -302,10 +300,28 @@ router.get('/bookmarks', async (req, res) => {
   const populatedBookmarks = [];
 
   for (let i = 0; i < bookmarks.bookmarks.length; i++) {
-    populatedBookmarks.push(await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName'));
+    populatedBookmarks.push(
+      await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName')
+    );
   }
 
   return res.success(populatedBookmarks);
+});
+
+// https://stackoverflow.com/questions/14763721/mongoose-delete-array-element-in-document-and-save
+router.put('/bookmarks', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+  
+  const profile = await Tutor.findOne({ user_id: req.body.profile_id })
+
+  const bookmarks = await Bookmark.updateOne(
+    { user_id: req.session.userId },
+    { $pullAll: { bookmarks: [profile._id] } }
+  );
+
+  return res.success('Bookmark removed');
 });
 
 module.exports = router;
