@@ -16,7 +16,8 @@ body {
 }
 
 #editForm,
-#postForm {
+#postForm,
+#postEditForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -41,6 +42,11 @@ textarea {
 
   border-radius: 8px;
   border: none;
+}
+
+#post-description,
+#post-edit-description {
+  margin-bottom: 20px;
 }
 
 #edit-submit {
@@ -145,6 +151,7 @@ main {
   padding: 20px;
   border-radius: 8px;
   color: var(--nord5);
+  height: fit-content;
 }
 
 .postCardImg {
@@ -163,6 +170,63 @@ main {
 
 .postCardDesc {
   color: var(--nord5);
+}
+
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postCardButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.postCard .delete,
+.postCard .edit {
+  background-color: var(--nord3);
+  color: var(--nord14);
+
+  padding: 15px;
+
+  font-size: 1.2em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#uploadedImagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.deletableImgAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--nord5);
+}
+
+.imgDelete {
+  background-color: var(--nord2);
+  border: none;
+  color: var(--nord11);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.deletableImgAndButton img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 #editButton {

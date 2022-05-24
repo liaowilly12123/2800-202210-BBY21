@@ -66,11 +66,6 @@ async function main() {
     return res.send(doc);
   });
 
-  app.get('/tutors', function (_, res) {
-    let doc = fs.readFileSync('./public/html/tutors.html', 'utf8');
-    return res.send(doc);
-  });
-
   app.get('/template/nav', function (_, res) {
     const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
     return res.send(doc);
