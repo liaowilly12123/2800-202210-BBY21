@@ -6,6 +6,7 @@ const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
 const ProfilePicture = require('../../models/profilePicture.js');
 const Bookmark = require('../../models/Bookmark.js');
+const Tutor = require('../../models/Tutor.js');
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
     cb(null, 'uploads');
@@ -268,10 +269,13 @@ router.post('/bookmarks', async (req, res) => {
     return res.fail('User not logged in');
   }
 
-  console.log(req.body);
+  const profile = await Tutor.findOne({ user_id: req.body.profile_id })
+
+  console.log(profile._id);
+
   Bookmark.findOneAndUpdate(
     { user_id: req.session.userId },
-    { $addToSet: { bookmarks: req.body.profile_id } },
+    { $addToSet: { bookmarks: profile._id } },
     {
       upsert: true,
     },  
@@ -282,6 +286,26 @@ router.post('/bookmarks', async (req, res) => {
       return res.success('Successfully bookmarked');
     }
   );
+});
+
+router.get('/bookmarks', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  const bookmarks = await Bookmark.findOne({
+    user_id: req.session.userId,
+  })
+    .populate('bookmarks')
+    .select('bookmarks');
+  
+  const populatedBookmarks = [];
+
+  for (let i = 0; i < bookmarks.bookmarks.length; i++) {
+    populatedBookmarks.push(await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName'));
+  }
+
+  return res.success(populatedBookmarks);
 });
 
 module.exports = router;

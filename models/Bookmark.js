@@ -11,7 +11,7 @@ const bookmarksSchema = new mongoose.Schema({
   bookmarks: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "BBY_21_users",
+      ref: "BBY_21_tutors",
     },
   ],
 });
