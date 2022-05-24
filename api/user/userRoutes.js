@@ -5,6 +5,7 @@ const multer = require('multer');
 const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
 const ProfilePicture = require('../../models/profilePicture.js');
+const Bookmark = require('../../models/Bookmark.js');
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
     cb(null, 'uploads');
@@ -260,6 +261,27 @@ router.get('/profilePicture', async (req, res) => {
   const image = await Image.findById(picture.img);
 
   return res.success({ path: image.img });
+});
+
+router.post('/bookmarks', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  console.log(req.body);
+  Bookmark.findOneAndUpdate(
+    { user_id: req.session.userId },
+    { $addToSet: { bookmarks: req.body.profile_id } },
+    {
+      upsert: true,
+    },  
+    function (err, result) {
+      if (err) {
+        return res.fail('Unable to bookmark')
+      }
+      return res.success('Successfully bookmarked');
+    }
+  );
 });
 
 module.exports = router;
