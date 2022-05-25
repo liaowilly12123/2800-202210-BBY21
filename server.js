@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes.js');
 const responseMiddleware = require('./middleware/responseMiddleware.js');
+const sanitizeMiddleware = require('./middleware/sanitizeMiddleware.js');
 const app = express();
 
 const MONGOOSE_URI =
@@ -35,10 +36,12 @@ async function main() {
     })
   );
 
-  // Utility functions to send responses
-  app.use(responseMiddleware);
   // Parse incoming payloads as json
   app.use(express.json());
+  // Utility functions to send responses
+  app.use(responseMiddleware);
+  // Mongo sanitize to prevent injections
+  app.use(sanitizeMiddleware);
 
   app.use('/api', apiRoutes);
 
