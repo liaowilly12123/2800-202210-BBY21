@@ -248,11 +248,16 @@ router.post('/uploadProfilePicture', async (req, res) => {
 });
 
 router.get('/profilePicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
-  const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
+  const picture = await ProfilePicture.findOne({ user_id: userId });
   if (!picture) {
     return res.fail('No Profile Picture');
   }

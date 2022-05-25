@@ -167,7 +167,7 @@ async function setTimelinePosts() {
 
 async function setProfilePic() {
   // Load profile pic
-  const profilepic = await fetch('/api/user/profilePicture');
+  const profilepic = await fetch(`/api/user/profilePicture?userId=${userId}`);
   const profileJSON = await profilepic.json();
   if (profileJSON.success) {
     document.getElementById('profilePic').src = profileJSON.payload.path;
