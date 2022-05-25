@@ -181,10 +181,10 @@
         </div>
         <div id="postsGrid"></div>
       </div>
-      <div id="myModal" class="modal">
+      <div id="tutorModal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
-          <form id="tutor">
+          <form id="tutor" onkeydown="return event.key != 'Enter';">
       
             <label class="label" for="tutor-education">Higher level of Education</label><br>
             <select name="tutor-education" id="tutor-education">
@@ -199,8 +199,9 @@
             <label class="label" for="tutor-contact">Contact Number</label><br>
             <input type="number" name="tutor-contact" id="tutor-contact" /><br>
       
-            <label class="label" for="tutor-subject" multiple>Topics</label><br>
+            <label class="label" for="tutor-subject">Topics</label><br>
             <input type="text" name="tutor-subject" id="tutor-subject" /><br>
+            <div id="topicPillContainer"></div>
       
             <label class="label" for="tutor-info">Expected Pay in dollars</label><br>
             <input type="number" name="tutor-info" id="tutor-info" /><br>
