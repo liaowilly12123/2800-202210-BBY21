@@ -39,7 +39,7 @@ loginForm.addEventListener('submit', async (e) => {
 
   if (responseJson.success) {
     login();
-    window.location.href = '/profile';
+    window.location.reload();
   } else {
     showToast('error', responseJson.payload);
   }
@@ -73,7 +73,7 @@ registerForm.addEventListener('submit', async (e) => {
 
   if (responseJson.success) {
     login();
-    window.location.href = '/profile';
+    window.location.reload();
   } else {
     showToast('error', responseJson.payload);
   }

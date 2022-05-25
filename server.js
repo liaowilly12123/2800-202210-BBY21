@@ -44,7 +44,7 @@ async function main() {
 
   app.get('/', function (req, res) {
     if (req.session.userType) {
-      return res.redirect('/profile');
+      return res.redirect('/main');
     }
     const doc = fs.readFileSync('./public/html/landing.html', 'utf8');
     return res.send(doc);
@@ -74,7 +74,7 @@ async function main() {
   app.get('/main', function (_, res) {
     let doc = fs.readFileSync('./public/html/main.html', 'utf-8');
     return res.send(doc);
-  })
+  });
 }
 
 app.listen(PORT, main);
