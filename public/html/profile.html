@@ -24,6 +24,19 @@
   </head>
 
   <body>
+    <template id="tutorsCardTemplate">
+      <div class="tutorCards">
+        <div class="tutorHeader">
+          <div class="tutorName"></div>
+          <div class="pricing"></div>
+        </div>
+        <div class="tutorTags"></div>
+        <div class="tutorFooter">
+          <div class="rating"></div>
+        </div>
+      </div>
+    </template>
+
     <template id="postCardTemplate">
       <div class="postCard">
         <img
@@ -151,6 +164,10 @@
           <button id="editButton">
             <i class="fa-solid fa-pen"></i>
             <span>Edit Profile</span>
+          </button>
+          <button id="bookmarkButton">
+            <i class="fa-solid fa-bookmark"></i>
+            <span id="bookmarkText">Bookmark</span>
           </button>
         </div>
       </div>
