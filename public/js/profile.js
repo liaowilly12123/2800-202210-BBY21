@@ -545,7 +545,7 @@ async function setRating() {
   let rating;
   const numRating = resJson.payload.count;
   
-  if (!(numRating === 0)) {
+  if (numRating !== 0) {
     totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
     rating = totalRating / numRating;
   } else {

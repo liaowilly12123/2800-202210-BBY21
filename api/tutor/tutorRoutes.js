@@ -111,6 +111,10 @@ router.get('/ratings', async function (req, res) {
 
   let userId = req.query.userId === 'null' ? req.body.userId : req.query.userId;
 
+  if (userId === undefined) {
+    userId = req.session.userId;
+  }
+
   if (!mongoose.isValidObjectId(userId)) {
     return res.fail(`${userId} is an invalid id`);
   }
