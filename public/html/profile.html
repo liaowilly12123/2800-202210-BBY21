@@ -117,17 +117,49 @@
       <div id="posts">
         <div id="postsHeadingRow">
           <p id="allPostsHeading">My Posts</p>
+          <button id="myBtn"><i class="fa-solid fa-graduation-cap"></i></button>
           <button id="addPostButton">
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
         <div id="postsGrid"></div>
       </div>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="tutor">
+
+      <label class="label" for="tutor-education">Higher level of Education</label><br>
+      <select name="tutor-education" id="tutor-education">
+          <option value="Secondary">Secondary</option>
+          <option value="Past-Secondary">Post-Secondary</option>
+          <option value="Tertiary">Tertiary</option>
+      </select><br>
+
+      <label class="label" for="tutor-experience">Experience</label><br>
+      <input type="text" name="tutor-experience" id="tutor-experience" /><br>
+
+      <label class="label" for="tutor-contact">Contact Number</label><br>
+      <input type="number" name="tutor-contact" id="tutor-contact" /><br>
+
+      <label class="label" for="tutor-subject" multiple>Topics</label><br>
+      <input type="text" name="tutor-subject" id="tutor-subject" /><br>
+
+      <label class="label" for="tutor-info">Expected Pay in dollars</label><br>
+      <input type="number" name="tutor-info" id="tutor-info" /><br>
+
+      <input type="submit" value="Update" id="submit" />
+
+  </form>
+  </div>
+
+</div>
     </main>
 
     <script type="module" src="/js/toast.js"></script>
     <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/profile.js"></script>
     <script type="module" src="/js/logout.js"></script>
+    <script type="module" src="/js/tutors.js"></script>
   </body>
 </html>

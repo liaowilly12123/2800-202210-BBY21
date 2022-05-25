@@ -183,6 +183,105 @@ main {
   align-items: center;
   gap: 10px;
 }
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+#myBtn{
+  background-color: var(--nord3);
+  color: var(--nord14);
+  padding: 15px;
+  font-size: 1.25em;
+  border: none;
+  border-radius: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 50%;
+}
+#tutor {
+  margin-top: 3%;
+ 
+}
+
+form {
+  background-color: #2e3440;
+  color: white;
+}
+
+input,
+select {
+  width: 50%;
+  background-color: #4c566a;
+  color: #d8dee9;
+  padding: 12.5px 17.5px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+}
+
+.label input {
+  display: block;
+}
+
+.label {
+  color: #eceff4;
+  display: block;
+  margin-bottom: 1px;
+}
+
+
+/* Hack for arrow padding */
+
+select {
+  border-right: 17.5px solid transparent;
+}
+
+#submit {
+  width: 50%;
+  padding: 15px 20px;
+  background-color: #5e81ac;
+  border-radius: 8px;
+  border: none;
+  color: #e5e9f0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
 
 @media screen and (max-width: 700px) {
   main {
