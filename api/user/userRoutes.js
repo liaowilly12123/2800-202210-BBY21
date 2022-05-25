@@ -282,8 +282,9 @@ router.put('/bookmarks', async (req, res) => {
     return res.fail('User not logged in');
   }
 
-  let profileId = req.query.userId ?? req.body.profile_id;
-
+  let profileId =
+    req.query.userId === 'null' ? req.body.profile_id : req.query.userId;
+    
   if (!mongoose.isValidObjectId(profileId)) {
     return res.fail(`${profileId} is an invalid id`);
   }
@@ -332,8 +333,9 @@ router.delete('/bookmarks', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
   }
-  
-  let profileId = req.query.userId ?? req.body.profile_id;
+
+  let profileId =
+    req.query.userId === 'null' ? req.body.profile_id : req.query.userId;
 
   if (!mongoose.isValidObjectId(profileId)) {
     return res.fail(`${profileId} is an invalid id`);
