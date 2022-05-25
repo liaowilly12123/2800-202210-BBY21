@@ -498,6 +498,38 @@ async function unbookmark() {
   }
 }
 
+const stars = document.getElementById('rating').children;
+const urlParams = new URLSearchParams(window.location.search);
+const profileId = urlParams.get('userId');
+
+for (let i = 0; i < stars.length; i++) {
+  stars[i].addEventListener('click', () => {
+    const rating = Math.abs(i - 4) + 1;
+    updateRating(rating);
+  })
+}
+
+async function updateRating(rating) {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rating: rating,
+    }),
+  });
+
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Rating received');
+  } else {
+    showToast('error', 'Unable to receive rating');
+  }
+}
+
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
 function removeEmpty(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
