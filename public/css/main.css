@@ -1,5 +1,5 @@
 * {
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,11 +9,66 @@ body {
   height: 100vh;
   width: 100%;
   display: grid;
-  grid-auto-rows: min-content;
+  grid-template-rows: auto 1fr;
   background-color: var(--nord0);
 }
 
+main {
+  width: min(100% - 2em, 1200px);
+  margin-inline: auto;
+  padding: 40px 0;
+
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+#topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#topRow p {
+  color: var(--nord6);
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
 #filterButton {
+  width: fit-content;
+  background-color: var(--nord14);
+  color: var(--nord0);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  padding: 12.5px 17.5px;
+}
+
+#filtersContainer {
+  background-color: var(--nord0);
+  padding: 40px;
+  border-radius: 8px;
+}
+
+#tutorsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.label {
+  color: var(--nord6);
+  display: block;
+  margin-bottom: 10px;
+}
+
+select,
+input {
   display: block;
   width: 100%;
   background-color: var(--nord3);
@@ -26,37 +81,58 @@ body {
   font-weight: 300;
 }
 
-#filterButton {
+select {
+  border-right: 17.5px solid transparent;
+}
+
+#reset-filter,
+#apply-filter {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--nord3);
+  color: var(--nord6);
+}
+
+#apply-filter {
   background-color: var(--nord14);
   color: var(--nord0);
   font-weight: bold;
-  font-size: 1.1em;
 }
 
-#filtersContainer {
-  background-color: var(--nord0);
-  padding: 50px;
-  border-radius: 8px;
-}
-
-#tutorsList {
-  justify-self: center;
-}
-
-.label {
-  color: var(--nord6);
-  display: block;
-  margin-bottom: 10px;
+#row-end {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 #topicPillContainer {
-  color: white;
+  color: var(--nord1);
+}
+
+.newPill {
+  color: var(--nord5);
 }
 
 .tutorCards {
-  color: white;
-  margin: 2em;
-  border: 1px white solid;
+  color: var(--nord6);
+  background-color: var(--nord1);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease-in;
+}
+
+.tutorCards:hover {
+  background-color: var(--nord3);
+  cursor: pointer;
+}
+
+.tutorName {
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .tutorTags {
@@ -64,8 +140,14 @@ body {
 }
 
 .pills {
-  margin: 10px;
-  border: 1px white solid;
+  border: 1px var(--nord9) solid;
   border-radius: 20px;
-  padding: 5px;
+  padding: 5px 20px;
+  background-color: var(--nord3);
+}
+
+.tutorTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }

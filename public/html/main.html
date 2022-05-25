@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://kit.fontawesome.com/b1c534a736.js"
+      crossorigin="anonymous"
+    ></script>
+
     <link rel="stylesheet" href="/css/colors.css" />
     <link rel="stylesheet" href="/css/main.css" />
-    <title>Document</title>
+
+    <title>Main</title>
   </head>
   <body>
     <template id="tutorsCardTemplate">
@@ -44,13 +51,26 @@
         <input type="text" id="topicsInput" placeholder="Add topics..." />
         <div id="topicPillContainer"></div>
       </div>
-      <button id="reset-filter">Reset</button>
-      <button id="apply-filter">Apply</button>
+      <div id="row-end">
+        <button id="reset-filter">Reset</button>
+        <button id="apply-filter">Apply</button>
+      </div>
     </div>
 
-    <button id="filterButton">filter</button>
+    <div id="nav-holder"></div>
+    <main>
+      <div id="topRow">
+        <p>Featured Tutors</p>
+        <button id="filterButton">
+          <i class="fa-solid fa-filter"></i>
+          Filter
+        </button>
+      </div>
 
-    <div id="tutorsList"></div>
+      <div id="tutorsList"></div>
+    </main>
+
+    <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
