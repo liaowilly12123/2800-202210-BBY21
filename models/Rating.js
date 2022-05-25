@@ -23,7 +23,7 @@ const ratingsSchema = new mongoose.Schema({
 ratingsSchema.index(
   {
     user_id: 1,
-    rater: 1,
+    rater_id: 1,
   },
   {
     unique: true,
