@@ -131,10 +131,8 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/info', async function (req, res) {
-  let userId = req.session.userId;
-  if (req.query.id != 'null') {
-    userId = req.query.id;
-  }
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
 
   if (validate(res, userId, 'User id not provided')) return;
 
@@ -153,6 +151,7 @@ router.get('/info', async function (req, res) {
     email: user.email,
     userType: user.userType,
     joinDate: user.joinDate,
+    isOwner: req.query.userId === 'null',
   });
 });
 
@@ -206,6 +205,15 @@ router.delete('/delete', function (req, res) {
   }
 
   const userId = req.body.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  if (userId === req.session.userId) {
+    return res.fail('You cannot delete yourself!');
+  }
+
   User.findByIdAndDelete(userId, function (err) {
     if (err) {
       return res.fail('Error deleting user');
@@ -251,11 +259,16 @@ router.post('/uploadProfilePicture', async (req, res) => {
 });
 
 router.get('/profilePicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
-  const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
+  const picture = await ProfilePicture.findOne({ user_id: userId });
   if (!picture) {
     return res.fail('No Profile Picture');
   }

@@ -2,12 +2,14 @@
 
 import { showToast } from '/js/toast.js';
 import Modal from '/js/modal/modal.js';
+import ModalFactory from '/js/modal/modalFactory.js';
 
 const params = new URLSearchParams(location.search);
-const userId = params.get('id');
+const userId = params.get('userId');
 
 let currentPostId = '';
 let currentImages = [];
+let isOwner = false;
 
 var editor = new Quill('#post-description', {
   theme: 'snow',
@@ -23,6 +25,11 @@ document
   .addEventListener('click', () => editModal.show());
 
 const addPostModal = new Modal('addPost', document.getElementById('postForm'));
+
+const deleteConfirmationModal = ModalFactory.getConfirmationModal(
+  'Are you sure you wanna delete this?',
+  () => 0
+);
 
 const editPostModal = new Modal(
   'editPost',
@@ -98,7 +105,7 @@ async function setTimelinePosts() {
   const cardTemplate = document.getElementById('postCardTemplate');
   const postsGrid = document.getElementById('postsGrid');
 
-  const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
+  const userTimelineRes = await fetch(`/api/timeline/posts?userId=${userId}`);
   const userTimeline = await userTimelineRes.json();
 
   if (userTimeline.success) {
@@ -131,23 +138,26 @@ async function setTimelinePosts() {
         .querySelector('.delete')
         .addEventListener('click', async (e) => {
           e.preventDefault();
-          const res = await fetch('/api/timeline/delete', {
-            method: 'DELETE',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              postId: post._id,
-            }),
+          deleteConfirmationModal.show(async () => {
+            deleteConfirmationModal.hide();
+            const res = await fetch('/api/timeline/delete', {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                postId: post._id,
+              }),
+            });
+            const resJson = await res.json();
+            if (resJson.success) {
+              showToast('success', 'Deleted Succesfully');
+              setTimelinePosts();
+            } else {
+              showToast('error', resJson.payload);
+            }
           });
-          const resJson = await res.json();
-          if (resJson.success) {
-            showToast('success', 'Deleted Succesfully');
-            setTimelinePosts();
-          } else {
-            showToast('error', resJson.payload);
-          }
         });
 
       postsGrid.appendChild(postTemplate);
@@ -166,7 +176,7 @@ async function setTimelinePosts() {
 
 async function setProfilePic() {
   // Load profile pic
-  const profilepic = await fetch('/api/user/profilePicture');
+  const profilepic = await fetch(`/api/user/profilePicture?userId=${userId}`);
   const profileJSON = await profilepic.json();
   if (profileJSON.success) {
     document.getElementById('profilePic').src = profileJSON.payload.path;
@@ -212,13 +222,15 @@ async function uploadMultipleImages(filePicker) {
   }
 }
 
-const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
+const userInfoRes = await fetch(`/api/user/info?userId=${userId}`);
 const userInfo = await userInfoRes.json();
 
 if (userInfo.success) {
   setProfilePic();
 
   const payload = userInfo.payload;
+
+  isOwner = payload.isOwner;
 
   // Set info on profile
   setProfileData(payload);
@@ -344,7 +356,18 @@ if (userInfo.success) {
     }
   });
 
-  setTimelinePosts();
+  await setTimelinePosts();
+
+  if (!isOwner) {
+    document.getElementById('addPostButton').style.display = 'none';
+    document.getElementById('editButton').style.display = 'none';
+    document
+      .querySelectorAll('.edit')
+      .forEach((v) => (v.style.display = 'none'));
+    document
+      .querySelectorAll('.delete')
+      .forEach((v) => (v.style.display = 'none'));
+  }
 } else {
   window.location.href = '/';
 }
