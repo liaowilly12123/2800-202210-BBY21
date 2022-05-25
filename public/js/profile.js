@@ -280,6 +280,17 @@ async function uploadMultipleImages(filePicker) {
 const userInfoRes = await fetch(`/api/user/info?userId=${userId}`);
 const userInfo = await userInfoRes.json();
 
+const stars = document.getElementById('rating').children;
+const urlParams = new URLSearchParams(window.location.search);
+const profileId = urlParams.get('userId');
+
+for (let i = 0; i < stars.length; i++) {
+  stars[i].addEventListener('click', () => {
+    const starNum = Math.abs(i - 4) + 1;
+    updateRating(starNum);
+  })
+}
+
 if (userInfo.success) {
   setProfilePic();
 
@@ -414,6 +425,7 @@ if (userInfo.success) {
 
   if (isTutor) {
     await setTimelinePosts();
+    await setRating();
   } else {
     await setBookmarkedTutors();
   }
@@ -498,17 +510,6 @@ async function unbookmark() {
   }
 }
 
-const stars = document.getElementById('rating').children;
-const urlParams = new URLSearchParams(window.location.search);
-const profileId = urlParams.get('userId');
-
-for (let i = 0; i < stars.length; i++) {
-  stars[i].addEventListener('click', () => {
-    const rating = Math.abs(i - 4) + 1;
-    updateRating(rating);
-  })
-}
-
 async function updateRating(rating) {
   const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
     method: 'POST',
@@ -525,8 +526,42 @@ async function updateRating(rating) {
 
   if (resJson.success) {
     showToast('success', 'Rating received');
+    clearStarRating();
+    setRating();
   } else {
     showToast('error', 'Unable to receive rating');
+  }
+}
+
+// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the 
+// floor of the rating value
+async function setRating() {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'GET'
+  });
+
+  const resJson = await res.json();
+  let totalRating;
+  let rating;
+  const numRating = resJson.payload.count;
+  
+  if (!(numRating === 0)) {
+    totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
+    rating = totalRating / numRating;
+  } else {
+    rating = 0;
+  }
+
+  document.getElementById('ratingValue').innerText = rating.toFixed(1);
+
+  for (let i = 0; i < Math.floor(rating); i++) {
+    stars[Math.abs(i - 4)].classList.add('star-filled');
+  }
+}
+
+function clearStarRating() {
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].classList.remove('star-filled');
   }
 }
 
