@@ -10,6 +10,7 @@ const userId = params.get('userId');
 let currentPostId = '';
 let currentImages = [];
 let isOwner = false;
+let isTutor = true;
 
 var editor = new Quill('#post-description', {
   theme: 'snow',
@@ -98,6 +99,60 @@ function setDeletableImagesInEditModal(images) {
       });
 
     holder.appendChild(newDiv);
+  }
+}
+
+async function setBookmarkedTutors() {
+  document.getElementById('allPostsHeading').innerText = 'My Tutors';
+  document.getElementById('addPostButton').style.display = 'none';
+
+  const cardTemplate = document.getElementById('tutorsCardTemplate');
+  const postsGrid = document.getElementById('postsGrid');
+
+  const bookmarkedTutorsRes = await fetch(
+    `/api/user/bookmarks?userId=${userId}`
+  );
+  const bookmarkedTutors = await bookmarkedTutorsRes.json();
+
+  if (bookmarkedTutors.success) {
+    const tutors = bookmarkedTutors.payload;
+    postsGrid.replaceChildren();
+
+    for (const tutor of tutors) {
+      function redirectToProfile() {
+        window.location.href = `/profile?userId=${tutor.user_id._id}`;
+      }
+
+      let tutorTemplate = cardTemplate.content.cloneNode(true);
+
+      tutorTemplate
+        .querySelector('.tutorCards')
+        .addEventListener('click', redirectToProfile);
+
+      tutorTemplate.querySelector(
+        '.tutorName'
+      ).innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`;
+      tutorTemplate.querySelector(
+        '.pricing'
+      ).innerText = `${tutor.rating.$numberDecimal}/hr`;
+
+      tutorTemplate.querySelector(
+        '.rating'
+      ).innerText = `Rating: ${tutor.rating.$numberDecimal}`;
+
+      const tagsContainer = tutorTemplate.querySelector('.tutorTags');
+      for (const topic of tutor.topics) {
+        const tag = document.createElement('span');
+        tag.classList.add('pills');
+        tag.innerText = topic;
+
+        tagsContainer.appendChild(tag);
+      }
+
+      postsGrid.appendChild(tutorTemplate);
+    }
+  } else {
+    showToast('error', bookmarkedTutors.payload);
   }
 }
 
@@ -231,6 +286,7 @@ if (userInfo.success) {
   const payload = userInfo.payload;
 
   isOwner = payload.isOwner;
+  isTutor = payload.userType === 'tutor';
 
   // Set info on profile
   setProfileData(payload);
@@ -356,7 +412,17 @@ if (userInfo.success) {
     }
   });
 
-  await setTimelinePosts();
+  if (isTutor) {
+    await setTimelinePosts();
+  } else {
+    await setBookmarkedTutors();
+  }
+
+  if (await isBookmarked()) {
+    setUnbookmarkContent();
+  } else {
+    setBookmarkContent();
+  }
 
   if (!isOwner) {
     document.getElementById('addPostButton').style.display = 'none';
@@ -367,9 +433,69 @@ if (userInfo.success) {
     document
       .querySelectorAll('.delete')
       .forEach((v) => (v.style.display = 'none'));
+  } else {
+    document.getElementById('bookmarkButton').style.display = 'none';
   }
 } else {
   window.location.href = '/';
+}
+
+function setBookmarkContent() {
+  document
+    .getElementById('bookmarkButton')
+    .removeEventListener('click', unbookmark);
+  document.getElementById('bookmarkButton').addEventListener('click', bookmark);
+  document.getElementById('bookmarkText').innerText = 'Bookmark';
+}
+
+function setUnbookmarkContent() {
+  document
+    .getElementById('bookmarkButton')
+    .removeEventListener('click', bookmark);
+  document
+    .getElementById('bookmarkButton')
+    .addEventListener('click', unbookmark);
+  document.getElementById('bookmarkText').innerText = 'Unbookmark';
+}
+
+async function isBookmarked() {
+  const res = await fetch('/api/user/bookmarks?userId=null');
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    return resJson.payload.some((e) => {
+      return e.user_id._id === userId;
+    });
+  }
+  return false;
+}
+
+async function bookmark() {
+  const res = await fetch(`/api/user/bookmarks?userId=${userId}`, {
+    method: 'PUT',
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Bookmarked Succesfully');
+    setUnbookmarkContent();
+  } else {
+    showToast('error', 'An error occured while bookmarking');
+  }
+}
+
+async function unbookmark() {
+  const res = await fetch(`/api/user/bookmarks?userId=${userId}`, {
+    method: 'DELETE',
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Bookmarked Removed Succesfully');
+    setBookmarkContent();
+  } else {
+    showToast('error', 'An error occured while removing bookmarking');
+  }
 }
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript

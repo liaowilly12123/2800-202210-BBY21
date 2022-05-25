@@ -284,22 +284,22 @@ router.put('/bookmarks', async (req, res) => {
 
   let profileId =
     req.query.userId === 'null' ? req.body.profile_id : req.query.userId;
-    
+
   if (!mongoose.isValidObjectId(profileId)) {
     return res.fail(`${profileId} is an invalid id`);
   }
 
-  const profile = await Tutor.findOne({ user_id: profileId })
+  const profile = await Tutor.findOne({ user_id: profileId });
 
   Bookmark.findOneAndUpdate(
     { user_id: req.session.userId },
     { $addToSet: { bookmarks: profile._id } },
     {
       upsert: true,
-    },  
+    },
     function (err, result) {
       if (err) {
-        return res.fail('Unable to bookmark')
+        return res.fail('Unable to bookmark');
       }
       return res.success('Successfully bookmarked');
     }
@@ -307,22 +307,29 @@ router.put('/bookmarks', async (req, res) => {
 });
 
 router.get('/bookmarks', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
   const bookmarks = await Bookmark.findOne({
-    user_id: req.session.userId,
+    user_id: userId,
   })
     .populate('bookmarks')
     .select('bookmarks');
-  
+
   const populatedBookmarks = [];
 
-  for (let i = 0; i < bookmarks.bookmarks.length; i++) {
-    populatedBookmarks.push(
-      await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName')
-    );
+  if (bookmarks !== null) {
+    for (let i = 0; i < bookmarks.bookmarks.length; i++) {
+      populatedBookmarks.push(
+        await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName')
+      );
+    }
   }
 
   return res.success(populatedBookmarks);
@@ -343,7 +350,7 @@ router.delete('/bookmarks', async (req, res) => {
 
   const profile = await Tutor.findOne({ user_id: profileId });
 
-  const bookmarks = await Bookmark.updateOne(
+  await Bookmark.updateOne(
     { user_id: req.session.userId },
     { $pullAll: { bookmarks: [profile._id] } }
   );

@@ -229,7 +229,8 @@ main {
   border-radius: 4px;
 }
 
-#editButton {
+#editButton,
+#bookmarkButton {
   width: 100%;
 
   background-color: var(--nord3);
@@ -246,6 +247,52 @@ main {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+#topicPillContainer {
+  color: var(--nord1);
+}
+
+.newPill {
+  color: var(--nord5);
+}
+
+.tutorCards {
+  color: var(--nord6);
+  background-color: var(--nord1);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease-in;
+}
+
+.tutorCards:hover {
+  background-color: var(--nord3);
+  cursor: pointer;
+}
+
+.tutorName {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.tutorTags {
+  margin: 10px 0px;
+}
+
+.pills {
+  border: 1px var(--nord9) solid;
+  border-radius: 20px;
+  padding: 5px 20px;
+  background-color: var(--nord3);
+}
+
+.tutorTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 @media screen and (max-width: 700px) {
