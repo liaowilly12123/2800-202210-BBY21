@@ -4,10 +4,11 @@ import { showToast } from '/js/toast.js';
 import Modal from '/js/modal/modal.js';
 
 const params = new URLSearchParams(location.search);
-const userId = params.get('id');
+const userId = params.get('userId');
 
 let currentPostId = '';
 let currentImages = [];
+let isOwner = false;
 
 var editor = new Quill('#post-description', {
   theme: 'snow',
@@ -212,13 +213,15 @@ async function uploadMultipleImages(filePicker) {
   }
 }
 
-const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
+const userInfoRes = await fetch(`/api/user/info?userId=${userId}`);
 const userInfo = await userInfoRes.json();
 
 if (userInfo.success) {
   setProfilePic();
 
   const payload = userInfo.payload;
+
+  isOwner = payload.isOwner;
 
   // Set info on profile
   setProfileData(payload);
@@ -344,7 +347,18 @@ if (userInfo.success) {
     }
   });
 
-  setTimelinePosts();
+  await setTimelinePosts();
+
+  if (!isOwner) {
+    document.getElementById('addPostButton').style.display = 'none';
+    document.getElementById('editButton').style.display = 'none';
+    document
+      .querySelectorAll('.edit')
+      .forEach((v) => (v.style.display = 'none'));
+    document
+      .querySelectorAll('.delete')
+      .forEach((v) => (v.style.display = 'none'));
+  }
 } else {
   window.location.href = '/';
 }

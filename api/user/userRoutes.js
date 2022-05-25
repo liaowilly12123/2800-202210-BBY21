@@ -129,10 +129,8 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/info', async function (req, res) {
-  let userId = req.session.userId;
-  if (req.query.id != 'null') {
-    userId = req.query.id;
-  }
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
 
   if (validate(res, userId, 'User id not provided')) return;
 
@@ -151,6 +149,7 @@ router.get('/info', async function (req, res) {
     email: user.email,
     userType: user.userType,
     joinDate: user.joinDate,
+    isOwner: req.query.userId === 'null',
   });
 });
 
