@@ -121,5 +121,5 @@ function createTutorCards(tutors) {
 
 const tutorsJSON = await getTutors();
 const tutors = tutorsJSON.payload.tutors;
-console.log(tutors);
+
 createTutorCards(tutors);

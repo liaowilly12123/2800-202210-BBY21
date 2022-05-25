@@ -35,10 +35,10 @@ router.put("/info", async function (req, res) {
 });
 
 // Gets tutor information and filters by price, rating, and/or topics
-router.get("/all", async function (req, res) {
-  if (!req.session.loggedIn) {
-    return res.fail("User not logged in");
-  }
+router.post("/all", async function (req, res) {
+  // if (!req.session.loggedIn) {
+  //   return res.fail("User not logged in");
+  // }
 
   const { topics, pricing, rating } = removeEmpty(req.body);
 
