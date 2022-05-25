@@ -322,7 +322,7 @@ router.get('/bookmarks', async (req, res) => {
 });
 
 // https://stackoverflow.com/questions/14763721/mongoose-delete-array-element-in-document-and-save
-router.put('/bookmarks', async (req, res) => {
+router.delete('/bookmarks', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
   }
