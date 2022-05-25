@@ -277,12 +277,18 @@ router.get('/profilePicture', async (req, res) => {
   return res.success({ path: image.img });
 });
 
-router.post('/bookmarks', async (req, res) => {
+router.put('/bookmarks', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
   }
 
-  const profile = await Tutor.findOne({ user_id: req.body.profile_id })
+  let profileId = req.query.userId ?? req.body.profile_id;
+
+  if (!mongoose.isValidObjectId(profileId)) {
+    return res.fail(`${profileId} is an invalid id`);
+  }
+
+  const profile = await Tutor.findOne({ user_id: profileId })
 
   Bookmark.findOneAndUpdate(
     { user_id: req.session.userId },
@@ -327,7 +333,13 @@ router.delete('/bookmarks', async (req, res) => {
     return res.fail('User not logged in');
   }
   
-  const profile = await Tutor.findOne({ user_id: req.body.profile_id })
+  let profileId = req.query.userId ?? req.body.profile_id;
+
+  if (!mongoose.isValidObjectId(profileId)) {
+    return res.fail(`${profileId} is an invalid id`);
+  }
+
+  const profile = await Tutor.findOne({ user_id: profileId });
 
   const bookmarks = await Bookmark.updateOne(
     { user_id: req.session.userId },
