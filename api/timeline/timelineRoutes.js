@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 const validate = require('../../utils/validationUtils.js');
+const mongoose = require('mongoose');
 const Timeline = require('../../models/Timeline.js');
 const Image = require('../../models/image.js');
 
@@ -17,13 +18,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/posts', async function (req, res) {
-  if (!req.session.loggedIn) {
-    return res.fail('User is not logged in!');
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
-  const user_id = req.session.userId;
-
-  const timelinePosts = await Timeline.find({ user_id: user_id })
+  const timelinePosts = await Timeline.find({ user_id: userId })
     .sort([['date', 'desc']])
     .populate('img', 'img');
   res.success({ posts: timelinePosts });

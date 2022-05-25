@@ -99,7 +99,7 @@ async function setTimelinePosts() {
   const cardTemplate = document.getElementById('postCardTemplate');
   const postsGrid = document.getElementById('postsGrid');
 
-  const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
+  const userTimelineRes = await fetch(`/api/timeline/posts?userId=${userId}`);
   const userTimeline = await userTimelineRes.json();
 
   if (userTimeline.success) {
