@@ -1,6 +1,8 @@
 "use strict";
 const router = require("express").Router();
+const mongoose = require('mongoose');
 const Tutor = require("../../models/Tutor.js");
+const Rating = require("../../models/Rating.js");
 
 router.put("/info", async function (req, res) {
   if (!req.session.loggedIn) {
@@ -33,10 +35,10 @@ router.put("/info", async function (req, res) {
 });
 
 // Gets tutor information and filters by price, rating, and/or topics
-router.post("/all", async function (req, res) {
-  // if (!req.session.loggedIn) {
-  //   return res.fail("User not logged in");
-  // }
+router.get("/all", async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail("User not logged in");
+  }
 
   const { topics, pricing, rating } = removeEmpty(req.body);
 
@@ -71,6 +73,35 @@ router.post("/all", async function (req, res) {
   const totalPages = Math.ceil((await Tutor.count()) / limit);
 
   return res.success({ tutors: tutors, totalPages: totalPages });
+});
+
+router.post('/ratings', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+  
+  const userId = req.query.userId;
+  const rating = req.body.rating;
+
+  if (userId == req.session.userId) {
+    return res.fail('You cannot rate yourself');
+  }
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  Rating.findOneAndUpdate(
+    { user_id: userId, rater_id: req.session.userId },
+    { rating: rating },
+    { upsert: true },
+    function (err, result) {
+      if (err) {
+        return res.fail('Failed to rate user');
+      }
+      return res.success('Successfully rated user');
+    }
+  );
 });
 
 /**
