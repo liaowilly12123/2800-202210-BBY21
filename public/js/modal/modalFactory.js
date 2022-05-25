@@ -42,6 +42,16 @@ export default class ModalFactory {
 
     const ret = new Modal(`${message}ConfirmationModal`, content);
 
+    ret.show = (onConfirm) => {
+      if (onConfirm) {
+        confirmButton.addEventListener('click', onConfirm);
+      }
+
+      const modal = document.getElementById(ret.modalId);
+      modal.classList.add('modalFadeIn');
+      modal.style.display = 'flex';
+    };
+
     cancelButton.addEventListener('click', () => ret.hide());
 
     return ret;
