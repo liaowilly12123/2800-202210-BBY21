@@ -203,6 +203,15 @@ router.delete('/delete', function (req, res) {
   }
 
   const userId = req.body.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  if (userId === req.session.userId) {
+    return res.fail('You cannot delete yourself!');
+  }
+
   User.findByIdAndDelete(userId, function (err) {
     if (err) {
       return res.fail('Error deleting user');
