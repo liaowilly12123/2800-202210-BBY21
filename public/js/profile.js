@@ -2,6 +2,7 @@
 
 import { showToast } from '/js/toast.js';
 import Modal from '/js/modal/modal.js';
+import ModalFactory from '/js/modal/modalFactory.js';
 
 const params = new URLSearchParams(location.search);
 const userId = params.get('userId');
@@ -24,6 +25,11 @@ document
   .addEventListener('click', () => editModal.show());
 
 const addPostModal = new Modal('addPost', document.getElementById('postForm'));
+
+const deleteConfirmationModal = ModalFactory.getConfirmationModal(
+  'Are you sure you wanna delete this?',
+  () => 0
+);
 
 const editPostModal = new Modal(
   'editPost',
@@ -132,23 +138,26 @@ async function setTimelinePosts() {
         .querySelector('.delete')
         .addEventListener('click', async (e) => {
           e.preventDefault();
-          const res = await fetch('/api/timeline/delete', {
-            method: 'DELETE',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              postId: post._id,
-            }),
+          deleteConfirmationModal.show(async () => {
+            deleteConfirmationModal.hide();
+            const res = await fetch('/api/timeline/delete', {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                postId: post._id,
+              }),
+            });
+            const resJson = await res.json();
+            if (resJson.success) {
+              showToast('success', 'Deleted Succesfully');
+              setTimelinePosts();
+            } else {
+              showToast('error', resJson.payload);
+            }
           });
-          const resJson = await res.json();
-          if (resJson.success) {
-            showToast('success', 'Deleted Succesfully');
-            setTimelinePosts();
-          } else {
-            showToast('error', resJson.payload);
-          }
         });
 
       postsGrid.appendChild(postTemplate);
