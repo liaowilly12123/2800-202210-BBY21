@@ -104,6 +104,40 @@ router.post('/ratings', async function (req, res) {
   );
 });
 
+router.get('/ratings', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  let userId = req.query.userId === 'null' ? req.body.userId : req.query.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  const numRatings = await Rating.countDocuments({ user_id: userId });
+
+  // https://jsshowcase.com/question/how-to-sum-field-values-in-collections-in-mongoose
+  const totalRatingValue = await Rating.aggregate([
+    {
+      $match: { 
+        user_id: mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        value: {
+          $sum: '$rating',
+        },
+      },
+    },
+    { $unset: ['_id'] },
+  ]);
+  
+  res.success({ count: numRatings, totalRating: totalRatingValue });
+});
+
 /**
  * Removes undefined, null, and empty values
  * https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
