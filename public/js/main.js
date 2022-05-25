@@ -88,7 +88,9 @@ function createTutorCards(tutors) {
 
   for (const tutor of tutors) {
     const tutorsCard = tutorsCardTemplate.content.cloneNode(true);
-
+    const stars = tutorsCard.getElementById('rating').children;
+    const ratingValueElement = tutorsCard.querySelector('.ratingValue');
+    
     function redirectToProfile() {
       window.location.href = `/profile?userId=${tutor.user_id._id}`;
     }
@@ -101,9 +103,6 @@ function createTutorCards(tutors) {
       '.tutorName'
     ).innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`;
     tutorsCard.querySelector(
-      '.rating'
-    ).innerText = `Rating: ${tutor.rating.$numberDecimal}`;
-    tutorsCard.querySelector(
       '.pricing'
     ).innerText = `$${tutor.pricing.$numberDecimal}/hr`;
 
@@ -115,8 +114,38 @@ function createTutorCards(tutors) {
 
       tagsContainer.appendChild(tag);
     }
+
+    setRating(tutor.user_id._id, stars, ratingValueElement);
+
     tutorsList.appendChild(tutorsCard);
   }
+}
+
+// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the 
+// floor of the rating value
+async function setRating(profileId, stars, ratingValueElement) {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'GET'
+  });
+
+  const resJson = await res.json();
+  let totalRating;
+  let rating;
+  const numRating = resJson.payload.count;
+  
+  if (numRating !== 0) {
+    totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
+    rating = totalRating / numRating;
+  } else {
+    rating = 0;
+  }
+
+  ratingValueElement.innerText = rating.toFixed(1);
+
+  for (let i = 0; i < Math.floor(rating); i++) {
+    stars[i].classList.add('star-filled');
+  }
+
 }
 
 const tutorsJSON = await getTutors();
