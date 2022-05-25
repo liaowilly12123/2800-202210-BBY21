@@ -82,7 +82,14 @@ function createTutorCards(tutors) {
 
   for (const tutor of tutors) {
     const tutorsCard = tutorsCardTemplate.content.cloneNode(true);
-    tutorsCard.querySelector(".tutorName").innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`
+
+    function redirectToProfile() {
+      window.location.href = `/profile?userId=${tutor.user_id._id}`;
+    }
+
+    tutorsCard.querySelector('.tutorCards').addEventListener('click', redirectToProfile);
+
+    tutorsCard.querySelector(".tutorName").innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName} ${tutor._id}`
     tutorsCard.querySelector(".rating").innerText = `Rating: ${tutor.rating.$numberDecimal}`;
     tutorsCard.querySelector(".pricing").innerText = `$${tutor.pricing.$numberDecimal}/hr`;
 
@@ -100,5 +107,5 @@ function createTutorCards(tutors) {
 
 const tutorsJSON = await getTutors();
 const tutors = tutorsJSON.payload.tutors;
-
+console.log(tutors);
 createTutorCards(tutors);
