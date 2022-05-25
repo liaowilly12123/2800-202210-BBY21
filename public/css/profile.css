@@ -1,5 +1,5 @@
 * {
-  font-family: 'Radio Canada', sans-serif;
+  font-family: "Radio Canada", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -16,8 +16,7 @@ body {
 }
 
 #editForm,
-#postForm,
-#postEditForm {
+#postForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -42,11 +41,6 @@ textarea {
 
   border-radius: 8px;
   border: none;
-}
-
-#post-description,
-#post-edit-description {
-  margin-bottom: 20px;
 }
 
 #edit-submit {
@@ -151,7 +145,6 @@ main {
   padding: 20px;
   border-radius: 8px;
   color: var(--nord5);
-  height: fit-content;
 }
 
 .postCardImg {
@@ -172,65 +165,7 @@ main {
   color: var(--nord5);
 }
 
-.cardRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.postCardButtons {
-  display: flex;
-  gap: 5px;
-}
-
-.postCard .delete,
-.postCard .edit {
-  background-color: var(--nord3);
-  color: var(--nord14);
-
-  padding: 15px;
-
-  font-size: 1.2em;
-
-  border: none;
-  border-radius: 8px;
-
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#uploadedImagesContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.deletableImgAndButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--nord5);
-}
-
-.imgDelete {
-  background-color: var(--nord2);
-  border: none;
-  color: var(--nord11);
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.deletableImgAndButton img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-#editButton,
-#bookmarkButton {
+#editButton {
   width: 100%;
 
   background-color: var(--nord3);
@@ -248,51 +183,96 @@ main {
   align-items: center;
   gap: 10px;
 }
-
-#topicPillContainer {
-  color: var(--nord1);
-}
-
-.newPill {
-  color: var(--nord5);
-}
-
-.tutorCards {
-  color: var(--nord6);
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
   background-color: var(--nord1);
-  border-radius: 8px;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: all 0.3s ease-in;
+  border: 1px solid #888;
+  width: 60%;
+}
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 50%;
 }
 
-.tutorCards:hover {
-  background-color: var(--nord3);
+.close:hover,
+.close:focus {
+  color: red;
+  text-decoration: none;
   cursor: pointer;
 }
-
-.tutorName {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-.tutorTags {
-  margin: 10px 0px;
-}
-
-.pills {
-  border: 1px var(--nord9) solid;
-  border-radius: 20px;
-  padding: 5px 20px;
+#myBtn {
   background-color: var(--nord3);
+  color: var(--nord14);
+  padding: 15px;
+  font-size: 1.25em;
+  border: none;
+  border-radius: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 50%;
+}
+#tutor {
+  background-color: var(--nord1);
+  padding: 40px;
+  border-radius: 8px;
 }
 
-.tutorTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+input,
+select {
+  display: inline-block;
+  width: 100%;
+
+  background-color: var(--nord3);
+  color: var(--nord4);
+
+  padding: 12.5px 17.5px;
+  margin-bottom: 20px;
+
+  border-radius: 8px;
+  border: none;
+}
+
+.label input {
+  display: block;
+}
+
+.label {
+  color: #eceff4;
+  display: block;
+  margin-bottom: 1px;
+}
+
+/* Hack for arrow padding */
+
+select {
+  border-right: 17.5px solid transparent;
+}
+
+#submit {
+  width: 100%;
+  padding: 15px 20px;
+  background-color: var(--nord10);
+  border-radius: 8px;
+  border: none;
+  color: var(--nord5);
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0px;
 }
 
 @media screen and (max-width: 700px) {
