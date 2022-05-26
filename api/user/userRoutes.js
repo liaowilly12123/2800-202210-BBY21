@@ -5,7 +5,8 @@ const multer = require('multer');
 const User = require('../../models/User.js');
 const Image = require('../../models/image.js');
 const ProfilePicture = require('../../models/profilePicture.js');
-const timeline = require('../../models/Timeline.js');
+const Bookmark = require('../../models/Bookmark.js');
+const Tutor = require('../../models/Tutor.js');
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
     cb(null, 'uploads');
@@ -130,10 +131,8 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/info', async function (req, res) {
-  let userId = req.session.userId;
-  if (req.query.id != 'null') {
-    userId = req.query.id;
-  }
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
 
   if (validate(res, userId, 'User id not provided')) return;
 
@@ -152,6 +151,7 @@ router.get('/info', async function (req, res) {
     email: user.email,
     userType: user.userType,
     joinDate: user.joinDate,
+    isOwner: req.query.userId === 'null',
   });
 });
 
@@ -205,6 +205,15 @@ router.delete('/delete', function (req, res) {
   }
 
   const userId = req.body.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  if (userId === req.session.userId) {
+    return res.fail('You cannot delete yourself!');
+  }
+
   User.findByIdAndDelete(userId, function (err) {
     if (err) {
       return res.fail('Error deleting user');
@@ -250,11 +259,16 @@ router.post('/uploadProfilePicture', async (req, res) => {
 });
 
 router.get('/profilePicture', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.fail('User not logged in');
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
-  const picture = await ProfilePicture.findOne({ user_id: req.session.userId });
+  const picture = await ProfilePicture.findOne({ user_id: userId });
   if (!picture) {
     return res.fail('No Profile Picture');
   }
@@ -263,15 +277,85 @@ router.get('/profilePicture', async (req, res) => {
   return res.success({ path: image.img });
 });
 
-router.delete('/delete1', function (req, res) {
+router.put('/bookmarks', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
 
-  const postId = req.body.postId;
-  timeline.findByIdAndDelete(postId, function (err) {
-    if (err) {
-      return res.fail('Error deleting post');
+  let profileId =
+    req.query.userId === 'null' ? req.body.profile_id : req.query.userId;
+
+  if (!mongoose.isValidObjectId(profileId)) {
+    return res.fail(`${profileId} is an invalid id`);
+  }
+
+  const profile = await Tutor.findOne({ user_id: profileId });
+
+  Bookmark.findOneAndUpdate(
+    { user_id: req.session.userId },
+    { $addToSet: { bookmarks: profile._id } },
+    {
+      upsert: true,
+    },
+    function (err, result) {
+      if (err) {
+        return res.fail('Unable to bookmark');
+      }
+      return res.success('Successfully bookmarked');
     }
-    return res.success();
-  });
+  );
+});
+
+router.get('/bookmarks', async (req, res) => {
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  const bookmarks = await Bookmark.findOne({
+    user_id: userId,
+  })
+    .populate('bookmarks')
+    .select('bookmarks');
+
+  const populatedBookmarks = [];
+
+  if (bookmarks !== null) {
+    for (let i = 0; i < bookmarks.bookmarks.length; i++) {
+      populatedBookmarks.push(
+        await bookmarks.bookmarks[i].populate('user_id', 'firstName lastName')
+      );
+    }
+  }
+
+  return res.success(populatedBookmarks);
+});
+
+// https://stackoverflow.com/questions/14763721/mongoose-delete-array-element-in-document-and-save
+router.delete('/bookmarks', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  let profileId =
+    req.query.userId === 'null' ? req.body.profile_id : req.query.userId;
+
+  if (!mongoose.isValidObjectId(profileId)) {
+    return res.fail(`${profileId} is an invalid id`);
+  }
+
+  const profile = await Tutor.findOne({ user_id: profileId });
+
+  await Bookmark.updateOne(
+    { user_id: req.session.userId },
+    { $pullAll: { bookmarks: [profile._id] } }
+  );
+
+  return res.success('Bookmark removed');
 });
 
 module.exports = router;

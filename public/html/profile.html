@@ -14,10 +14,38 @@
       src="https://kit.fontawesome.com/b1c534a736.js"
       crossorigin="anonymous"
     ></script>
+
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/quillOverrides.css" />
+
     <title>Profile</title>
   </head>
 
   <body>
+    <template id="tutorsCardTemplate">
+      <div class="tutorCards">
+        <div class="tutorHeader">
+          <div class="tutorName"></div>
+          <div class="pricing"></div>
+        </div>
+        <div class="tutorTags"></div>
+        <div class="tutorFooter">
+          <div class="ratingContainer">
+            <div class="rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <span class="ratingValue"></span>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <template id="postCardTemplate">
       <div class="postCard">
         <img
@@ -25,14 +53,29 @@
           src="https://www.thedesignwork.com/wp-content/uploads/2011/10/Random-Pictures-of-Conceptual-and-Creative-Ideas-02.jpg"
           alt="bruh"
         />
-        <p class="postCardTitle">Lorem ipsum dolor sit.</p>
-        <p class="postCardDesc">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
-          deserunt qui deleniti molestiae laudantium provident ducimus, unde
-          modi sequi laborum?
-        </p>
-        <button class="delete">
-          Delete
+        <div class="cardRow">
+          <div>
+            <p class="postCardTitle"></p>
+            <div class="postCardDesc"></div>
+          </div>
+
+          <div class="postCardButtons">
+            <button class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="uploadedImage">
+      <div class="deletableImgAndButton">
+        <img class="deletableImg" alt="" srcset="" />
+        <button class="imgDelete">
+          <i class="fa-solid fa-trash"></i>
         </button>
       </div>
     </template>
@@ -44,21 +87,36 @@
       </div>
 
       <div>
-        <label for="post-description" class="label">Description</label>
-        <textarea
-          type="text"
-          name="post-description"
-          id="post-description"
-        ></textarea>
-
+        <label class="label">Description</label>
+        <div id="post-description"></div>
       </div>
 
       <div>
         <label for="post-image" class="label">Image</label>
-        <input id="post-image" type="file" accept="image/*" />
+        <input id="post-image" type="file" accept="image/*" multiple />
       </div>
 
       <input type="submit" id="post-submit" value="Post" />
+    </form>
+
+    <form id="postEditForm">
+      <div>
+        <label for="post-edit-heading" class="label">Heading</label>
+        <input type="text" name="post-edit-heading" id="post-edit-heading" />
+      </div>
+
+      <div>
+        <label class="label">Description</label>
+        <div id="post-edit-description"></div>
+      </div>
+
+      <div>
+        <label for="post-edit-image" class="label">Uploaded Images</label>
+        <div id="uploadedImagesContainer"></div>
+        <input id="post-edit-image" type="file" accept="image/*" multiple />
+      </div>
+
+      <input type="submit" id="post-edit-submit" value="Update" />
     </form>
 
     <form id="editForm">
@@ -89,6 +147,33 @@
 
       <input type="submit" id="edit-submit" value="Update" />
     </form>
+
+    <form id="tutorQualificationsForm">
+      <label class="label" for="tutor-education"
+        >Highest level of Education</label
+      >
+      <select name="tutor-education" id="tutor-education">
+        <option value="Secondary">Secondary</option>
+        <option value="Post-Secondary">Post-Secondary</option>
+        <option value="Tertiary">Tertiary</option>
+      </select>
+
+      <label class="label" for="tutor-experience">Experience</label>
+      <input type="text" name="tutor-experience" id="tutor-experience" />
+
+      <label class="label" for="tutor-contact">Contact Number</label>
+      <input type="number" name="tutor-contact" id="tutor-contact" />
+
+      <label class="label" for="tutor-subject">Topics</label>
+      <input type="text" name="tutor-subject" id="tutor-subject" />
+      <div id="topicPillContainer"></div>
+
+      <label class="label" for="tutor-info">Expected Pay in dollars</label>
+      <input type="number" name="tutor-info" id="tutor-info" />
+
+      <input type="submit" value="Update" id="tutor-submit" />
+    </form>
+
     <div id="nav-holder"></div>
     <main>
       <div id="sidebar">
@@ -100,10 +185,36 @@
           />
           <div id="nameType">
             <div id="fullName">
-              <h1 id="fname">FName</h1>
-              <h1 id="lname">LName</h1>
+              <h1 id="fname"></h1>
+              <h1 id="lname"></h1>
             </div>
-            <p id="userType">Type</p>
+            <div id="userInfo">
+              <div class="row">
+                <i class="fa-solid fa-user"></i>
+                <p id="userType"></p>
+              </div>
+              <div id="tutorInfo">
+                <div class="row">
+                  <i class="fa-solid fa-dollar-sign"></i>
+                  <p id="pricing"></p>
+                </div>
+                <div class="row">
+                  <i class="fa-solid fa-atom"></i>
+                  <p id="highestEducation"></p>
+                </div>
+              </div>
+            </div>
+            <div id="topics"></div>
+          </div>
+          <div id="ratingContainer">
+            <div id="rating">
+              <i class="fa-solid fa-star star1 ratingStar"></i>
+              <i class="fa-solid fa-star star2 ratingStar"></i>
+              <i class="fa-solid fa-star star4 ratingStar"></i>
+              <i class="fa-solid fa-star star4 ratingStar"></i>
+              <i class="fa-solid fa-star star5 ratingStar"></i>
+            </div>
+            <span id="ratingValue"></span>
           </div>
         </div>
 
@@ -112,14 +223,23 @@
             <i class="fa-solid fa-pen"></i>
             <span>Edit Profile</span>
           </button>
+          <button id="bookmarkButton">
+            <i class="fa-solid fa-bookmark"></i>
+            <span id="bookmarkText">Bookmark</span>
+          </button>
         </div>
       </div>
       <div id="posts">
         <div id="postsHeadingRow">
           <p id="allPostsHeading">My Posts</p>
-          <button id="addPostButton">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+          <div>
+            <button id="addQualificationsButton">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </button>
+            <button id="addPostButton">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
         </div>
         <div id="postsGrid"></div>
       </div>
@@ -129,5 +249,7 @@
     <script type="module" src="/js/template.js"></script>
     <script type="module" src="/js/profile.js"></script>
     <script type="module" src="/js/logout.js"></script>
+    <script type="module" src="/js/easterEgg.js"></script>
+    <script type="module" src="/js/qualifications.js"></script>
   </body>
 </html>
