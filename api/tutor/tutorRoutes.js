@@ -1,8 +1,9 @@
 'use strict';
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const validate = require('../../utils/validationUtils.js');
 const Tutor = require('../../models/Tutor.js');
+const Rating = require('../../models/Rating.js');
+const validate = require('../../utils/validationUtils.js');
 
 router.get('/info', async function (req, res) {
   let userId =
@@ -16,7 +17,7 @@ router.get('/info', async function (req, res) {
 
   const info = await Tutor.findOne({ user_id: userId });
   if (info === null) {
-    return res.success({});
+    return res.fail('Tutor not found');
   }
   return res.success(info);
 });
@@ -90,6 +91,103 @@ router.post('/all', async function (req, res) {
   const totalPages = Math.ceil((await Tutor.count()) / limit);
 
   return res.success({ tutors: tutors, totalPages: totalPages });
+});
+
+router.post('/ratings', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  const userId = req.query.userId;
+  const rating = req.body.rating;
+
+  if (userId == req.session.userId) {
+    return res.fail('You cannot rate yourself');
+  }
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  Rating.findOneAndUpdate(
+    { user_id: userId, rater_id: req.session.userId },
+    { rating: rating },
+    { upsert: true },
+    function (err, result) {
+      if (err) {
+        return res.fail('Failed to rate user');
+      }
+      return res.success('Successfully rated user');
+    }
+  );
+});
+
+router.get('/ratings', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  let userId = req.query.userId === 'null' ? req.body.userId : req.query.userId;
+
+  if (userId === undefined) {
+    userId = req.session.userId;
+  }
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  const numRatings = await Rating.countDocuments({ user_id: userId });
+
+  // https://jsshowcase.com/question/how-to-sum-field-values-in-collections-in-mongoose
+  const totalRatingValue = await Rating.aggregate([
+    {
+      $match: {
+        user_id: mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        value: {
+          $sum: '$rating',
+        },
+      },
+    },
+    { $unset: ['_id'] },
+  ]);
+
+  res.success({ count: numRatings, totalRating: totalRatingValue });
+});
+
+router.put('/tutorRating', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  let userId = req.query.userId === 'null' ? req.body.userId : req.query.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  // Finds tutor document by user ID and updates if found, else create a new document.
+  Tutor.findOneAndUpdate(
+    { user_id: userId },
+    { ...removeEmpty(req.body) },
+    {
+      setDefaultsOnInsert: true,
+      new: true,
+      upsert: true,
+      returnDocument: 'after',
+    },
+    function (err, result) {
+      if (err) {
+        return res.fail(`${err}. Unable to create/update tutor info`);
+      }
+      return res.success(result);
+    }
+  );
 });
 
 /**

@@ -325,6 +325,56 @@ main {
   gap: 15px;
 }
 
+#ratingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
+}
+
+/* https://codepen.io/Bilal1909/pen/WNGXeQG */
+#rating {
+  direction: rtl;
+}
+
+.ratingStar {
+  font-size: 25px;
+  color: var(--nord4);
+}
+
+.ratingStar:hover {
+  transform: scale(1.3);
+  color: gold;
+}
+
+.star1:hover ~ i {
+  color: gold;
+}
+
+.star2:hover ~ i {
+  color: gold;
+}
+
+.star3:hover ~ i {
+  color: gold;
+}
+
+.star4:hover ~ i {
+  color: gold;
+}
+
+.star5:hover ~ i {
+  color: gold;
+}
+
+.star-filled {
+  color: gold;
+}
+
 #nameType {
   display: flex;
   flex-direction: column;
@@ -345,6 +395,16 @@ main {
   border-radius: 20px;
   padding: 5px 15px;
   background-color: var(--nord3);
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
 }
 
 @media screen and (max-width: 700px) {

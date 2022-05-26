@@ -95,8 +95,6 @@ async function setTutorInfo() {
 
       topicsElem.appendChild(topicElem);
     });
-  } else {
-    showToast('error', qualificationsJson.payload);
   }
 }
 

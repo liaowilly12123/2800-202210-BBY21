@@ -134,11 +134,17 @@ async function setBookmarkedTutors() {
       ).innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`;
       tutorTemplate.querySelector(
         '.pricing'
-      ).innerText = `${tutor.rating.$numberDecimal}/hr`;
+      ).innerText = `$${tutor.rating.$numberDecimal}/hr`;
 
-      tutorTemplate.querySelector(
-        '.rating'
-      ).innerText = `Rating: ${tutor.rating.$numberDecimal}`;
+      const stars = tutorTemplate.querySelector('.rating').children;
+
+      for (let i = 0; i < Math.floor(tutor.rating.$numberDecimal ?? 0); i++) {
+        stars[i].classList.add('star-filled');
+      }
+
+      tutorTemplate.querySelector('.ratingValue').innerText = `${parseInt(
+        tutor.rating.$numberDecimal
+      ).toFixed(1)}`;
 
       const tagsContainer = tutorTemplate.querySelector('.tutorTags');
       for (const topic of tutor.topics) {
@@ -280,6 +286,17 @@ async function uploadMultipleImages(filePicker) {
 const userInfoRes = await fetch(`/api/user/info?userId=${userId}`);
 const userInfo = await userInfoRes.json();
 
+const stars = document.getElementById('rating').children;
+const urlParams = new URLSearchParams(window.location.search);
+const profileId = urlParams.get('userId');
+
+for (let i = 0; i < stars.length; i++) {
+  stars[i].addEventListener('click', () => {
+    const starNum = Math.abs(i - 4) + 1;
+    updateRating(starNum);
+  });
+}
+
 if (userInfo.success) {
   setProfilePic();
 
@@ -414,6 +431,7 @@ if (userInfo.success) {
 
   if (isTutor) {
     await setTimelinePosts();
+    await setRating();
   } else {
     await setBookmarkedTutors();
   }
@@ -439,6 +457,7 @@ if (userInfo.success) {
       document.getElementById('addQualificationsButton').style.display = 'none';
       document.getElementById('tutorInfo').style.display = 'none';
       document.getElementById('topics').style.display = 'none';
+      document.getElementById('ratingContainer').style.display = 'none';
     }
     document.getElementById('bookmarkButton').style.display = 'none';
   }
@@ -501,6 +520,71 @@ async function unbookmark() {
     setBookmarkContent();
   } else {
     showToast('error', 'An error occured while removing bookmarking');
+  }
+}
+
+async function updateRating(rating) {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rating: rating,
+    }),
+  });
+
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Rating received');
+    clearStarRating();
+    setRating();
+  } else {
+    showToast('error', 'Unable to receive rating');
+  }
+}
+
+// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the
+// floor of the rating value
+async function setRating() {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'GET',
+  });
+
+  const resJson = await res.json();
+  let totalRating;
+  let rating;
+  const numRating = resJson.payload.count;
+
+  if (numRating !== 0) {
+    totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
+    rating = totalRating / numRating;
+    await fetch(`/api/tutor/tutorRating?userId=${profileId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rating: rating,
+      }),
+    });
+  } else {
+    rating = 0;
+  }
+
+  document.getElementById('ratingValue').innerText = rating.toFixed(1);
+
+  for (let i = 0; i < Math.floor(rating); i++) {
+    stars[Math.abs(i - 4)].classList.add('star-filled');
+  }
+}
+
+function clearStarRating() {
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].classList.remove('star-filled');
   }
 }
 
