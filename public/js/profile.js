@@ -438,6 +438,7 @@ if (userInfo.success) {
 
   if (!isOwner) {
     document.getElementById('addPostButton').style.display = 'none';
+    document.getElementById('addQualificationsButton').style.display = 'none';
     document.getElementById('editButton').style.display = 'none';
     document
       .querySelectorAll('.edit')
@@ -446,6 +447,11 @@ if (userInfo.success) {
       .querySelectorAll('.delete')
       .forEach((v) => (v.style.display = 'none'));
   } else {
+    if (!isTutor) {
+      document.getElementById('addQualificationsButton').style.display = 'none';
+      document.getElementById('tutorInfo').style.display = 'none';
+      document.getElementById('topics').style.display = 'none';
+    }
     document.getElementById('bookmarkButton').style.display = 'none';
   }
 } else {

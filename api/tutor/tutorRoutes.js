@@ -3,13 +3,31 @@ const router = require("express").Router();
 const mongoose = require('mongoose');
 const Tutor = require("../../models/Tutor.js");
 const Rating = require("../../models/Rating.js");
+const validate = require('../../utils/validationUtils.js');
 
-router.put("/info", async function (req, res) {
-  if (!req.session.loggedIn) {
-    return res.fail("User not logged in");
+router.get('/info', async function (req, res) {
+  let userId =
+    req.query.userId === 'null' ? req.session.userId : req.query.userId;
+
+  if (validate(res, userId, 'User id not provided')) return;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
   }
 
-  if (!["admin", "tutor"].includes(req.session.userType)) {
+  const info = await Tutor.findOne({ user_id: userId });
+  if (info === null) {
+    return res.success({});
+  }
+  return res.success(info);
+});
+
+router.put('/info', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  if (!['admin', 'tutor'].includes(req.session.userType)) {
     return res.fail(
       `User does not have permission: userType: ${req.session.userType}`
     );
@@ -23,7 +41,7 @@ router.put("/info", async function (req, res) {
       setDefaultsOnInsert: true,
       new: true,
       upsert: true,
-      returnDocument: "after",
+      returnDocument: 'after',
     },
     function (err, result) {
       if (err) {
@@ -35,7 +53,7 @@ router.put("/info", async function (req, res) {
 });
 
 // Gets tutor information and filters by price, rating, and/or topics
-router.post("/all", async function (req, res) {
+router.post('/all', async function (req, res) {
   // if (!req.session.loggedIn) {
   //   return res.fail("User not logged in");
   // }
@@ -65,7 +83,7 @@ router.post("/all", async function (req, res) {
 
   // https://stackoverflow.com/questions/26691543/return-certain-fields-with-populate-from-mongoose
   const tutors = await Tutor.find(findByTopics)
-    .populate("user_id", "firstName lastName")
+    .populate('user_id', 'firstName lastName')
     .sort(filters)
     .limit(limit)
     .skip((page - 1) * limit);
@@ -179,7 +197,7 @@ router.put('/tutorRating', async function (req, res) {
  */
 function removeEmpty(obj) {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, value]) => value != null && value != "")
+    Object.entries(obj).filter(([_, value]) => value != null && value != '')
   );
 }
 module.exports = router;
