@@ -53,6 +53,10 @@ select {
   border: none;
 }
 
+#tutor-subject {
+  margin-bottom: 5px;
+}
+
 /* Hack for arrow padding */
 select {
   border-right: 17.5px solid transparent;
@@ -272,6 +276,10 @@ main {
 }
 
 #topicPillContainer {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
   color: var(--nord1);
 }
 

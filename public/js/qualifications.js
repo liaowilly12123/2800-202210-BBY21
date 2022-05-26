@@ -42,6 +42,12 @@ const contact = document.getElementById('tutor-contact');
 const info = document.getElementById('tutor-info');
 const registerForm = document.getElementById('tutorQualificationsForm');
 
+registerForm.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+  }
+});
+
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const res = await fetch('/api/tutor/info', {
