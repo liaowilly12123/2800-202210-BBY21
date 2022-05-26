@@ -325,6 +325,17 @@ main {
   gap: 15px;
 }
 
+#ratingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
+}
+
 /* https://codepen.io/Bilal1909/pen/WNGXeQG */
 #rating {
   direction: rtl;
@@ -332,6 +343,7 @@ main {
 
 .fa-star {
   font-size: 25px;
+  color: var(--nord4);
 }
 
 .fa-star:hover {

@@ -152,6 +152,20 @@ select {
   gap: 15px;
 }
 
+#ratingContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
+}
+
+.fa-star {
+  color: var(--nord4);
+}
+
 .star-filled {
   color: gold;
 }
