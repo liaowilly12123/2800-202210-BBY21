@@ -2,12 +2,15 @@
 
 import { showToast } from '/js/toast.js';
 import Modal from '/js/modal/modal.js';
+import ModalFactory from '/js/modal/modalFactory.js';
 
 const params = new URLSearchParams(location.search);
-const userId = params.get('id');
+const userId = params.get('userId');
 
 let currentPostId = '';
 let currentImages = [];
+let isOwner = false;
+let isTutor = true;
 
 var editor = new Quill('#post-description', {
   theme: 'snow',
@@ -23,6 +26,11 @@ document
   .addEventListener('click', () => editModal.show());
 
 const addPostModal = new Modal('addPost', document.getElementById('postForm'));
+
+const deleteConfirmationModal = ModalFactory.getConfirmationModal(
+  'Are you sure you wanna delete this?',
+  () => 0
+);
 
 const editPostModal = new Modal(
   'editPost',
@@ -94,11 +102,71 @@ function setDeletableImagesInEditModal(images) {
   }
 }
 
+async function setBookmarkedTutors() {
+  document.getElementById('allPostsHeading').innerText = 'My Tutors';
+  document.getElementById('addPostButton').style.display = 'none';
+
+  const cardTemplate = document.getElementById('tutorsCardTemplate');
+  const postsGrid = document.getElementById('postsGrid');
+
+  const bookmarkedTutorsRes = await fetch(
+    `/api/user/bookmarks?userId=${userId}`
+  );
+  const bookmarkedTutors = await bookmarkedTutorsRes.json();
+
+  if (bookmarkedTutors.success) {
+    const tutors = bookmarkedTutors.payload;
+    postsGrid.replaceChildren();
+
+    for (const tutor of tutors) {
+      function redirectToProfile() {
+        window.location.href = `/profile?userId=${tutor.user_id._id}`;
+      }
+
+      let tutorTemplate = cardTemplate.content.cloneNode(true);
+
+      tutorTemplate
+        .querySelector('.tutorCards')
+        .addEventListener('click', redirectToProfile);
+
+      tutorTemplate.querySelector(
+        '.tutorName'
+      ).innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`;
+      tutorTemplate.querySelector(
+        '.pricing'
+      ).innerText = `$${tutor.rating.$numberDecimal}/hr`;
+
+      const stars = tutorTemplate.querySelector('.rating').children;
+
+      for (let i = 0; i < Math.floor(tutor.rating.$numberDecimal ?? 0); i++) {
+        stars[i].classList.add('star-filled');
+      }
+
+      tutorTemplate.querySelector('.ratingValue').innerText = `${parseInt(
+        tutor.rating.$numberDecimal
+      ).toFixed(1)}`;
+
+      const tagsContainer = tutorTemplate.querySelector('.tutorTags');
+      for (const topic of tutor.topics) {
+        const tag = document.createElement('span');
+        tag.classList.add('pills');
+        tag.innerText = topic;
+
+        tagsContainer.appendChild(tag);
+      }
+
+      postsGrid.appendChild(tutorTemplate);
+    }
+  } else {
+    showToast('error', bookmarkedTutors.payload);
+  }
+}
+
 async function setTimelinePosts() {
   const cardTemplate = document.getElementById('postCardTemplate');
   const postsGrid = document.getElementById('postsGrid');
 
-  const userTimelineRes = await fetch(`/api/timeline/posts?user_id=${userId}`);
+  const userTimelineRes = await fetch(`/api/timeline/posts?userId=${userId}`);
   const userTimeline = await userTimelineRes.json();
 
   if (userTimeline.success) {
@@ -131,23 +199,26 @@ async function setTimelinePosts() {
         .querySelector('.delete')
         .addEventListener('click', async (e) => {
           e.preventDefault();
-          const res = await fetch('/api/timeline/delete', {
-            method: 'DELETE',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              postId: post._id,
-            }),
+          deleteConfirmationModal.show(async () => {
+            deleteConfirmationModal.hide();
+            const res = await fetch('/api/timeline/delete', {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                postId: post._id,
+              }),
+            });
+            const resJson = await res.json();
+            if (resJson.success) {
+              showToast('success', 'Deleted Succesfully');
+              setTimelinePosts();
+            } else {
+              showToast('error', resJson.payload);
+            }
           });
-          const resJson = await res.json();
-          if (resJson.success) {
-            showToast('success', 'Deleted Succesfully');
-            setTimelinePosts();
-          } else {
-            showToast('error', resJson.payload);
-          }
         });
 
       postsGrid.appendChild(postTemplate);
@@ -166,7 +237,7 @@ async function setTimelinePosts() {
 
 async function setProfilePic() {
   // Load profile pic
-  const profilepic = await fetch('/api/user/profilePicture');
+  const profilepic = await fetch(`/api/user/profilePicture?userId=${userId}`);
   const profileJSON = await profilepic.json();
   if (profileJSON.success) {
     document.getElementById('profilePic').src = profileJSON.payload.path;
@@ -212,13 +283,27 @@ async function uploadMultipleImages(filePicker) {
   }
 }
 
-const userInfoRes = await fetch(`/api/user/info?id=${userId}`);
+const userInfoRes = await fetch(`/api/user/info?userId=${userId}`);
 const userInfo = await userInfoRes.json();
+
+const stars = document.getElementById('rating').children;
+const urlParams = new URLSearchParams(window.location.search);
+const profileId = urlParams.get('userId');
+
+for (let i = 0; i < stars.length; i++) {
+  stars[i].addEventListener('click', () => {
+    const starNum = Math.abs(i - 4) + 1;
+    updateRating(starNum);
+  });
+}
 
 if (userInfo.success) {
   setProfilePic();
 
   const payload = userInfo.payload;
+
+  isOwner = payload.isOwner;
+  isTutor = payload.userType === 'tutor';
 
   // Set info on profile
   setProfileData(payload);
@@ -344,9 +429,163 @@ if (userInfo.success) {
     }
   });
 
-  setTimelinePosts();
+  if (isTutor) {
+    await setTimelinePosts();
+    await setRating();
+  } else {
+    await setBookmarkedTutors();
+  }
+
+  if (await isBookmarked()) {
+    setUnbookmarkContent();
+  } else {
+    setBookmarkContent();
+  }
+
+  if (!isOwner) {
+    document.getElementById('addPostButton').style.display = 'none';
+    document.getElementById('addQualificationsButton').style.display = 'none';
+    document.getElementById('editButton').style.display = 'none';
+    document
+      .querySelectorAll('.edit')
+      .forEach((v) => (v.style.display = 'none'));
+    document
+      .querySelectorAll('.delete')
+      .forEach((v) => (v.style.display = 'none'));
+  } else {
+    if (!isTutor) {
+      document.getElementById('addQualificationsButton').style.display = 'none';
+      document.getElementById('tutorInfo').style.display = 'none';
+      document.getElementById('topics').style.display = 'none';
+      document.getElementById('ratingContainer').style.display = 'none';
+    }
+    document.getElementById('bookmarkButton').style.display = 'none';
+  }
 } else {
   window.location.href = '/';
+}
+
+function setBookmarkContent() {
+  document
+    .getElementById('bookmarkButton')
+    .removeEventListener('click', unbookmark);
+  document.getElementById('bookmarkButton').addEventListener('click', bookmark);
+  document.getElementById('bookmarkText').innerText = 'Bookmark';
+}
+
+function setUnbookmarkContent() {
+  document
+    .getElementById('bookmarkButton')
+    .removeEventListener('click', bookmark);
+  document
+    .getElementById('bookmarkButton')
+    .addEventListener('click', unbookmark);
+  document.getElementById('bookmarkText').innerText = 'Unbookmark';
+}
+
+async function isBookmarked() {
+  const res = await fetch('/api/user/bookmarks?userId=null');
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    return resJson.payload.some((e) => {
+      return e.user_id._id === userId;
+    });
+  }
+  return false;
+}
+
+async function bookmark() {
+  const res = await fetch(`/api/user/bookmarks?userId=${userId}`, {
+    method: 'PUT',
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Bookmarked Succesfully');
+    setUnbookmarkContent();
+  } else {
+    showToast('error', 'An error occured while bookmarking');
+  }
+}
+
+async function unbookmark() {
+  const res = await fetch(`/api/user/bookmarks?userId=${userId}`, {
+    method: 'DELETE',
+  });
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Bookmarked Removed Succesfully');
+    setBookmarkContent();
+  } else {
+    showToast('error', 'An error occured while removing bookmarking');
+  }
+}
+
+async function updateRating(rating) {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rating: rating,
+    }),
+  });
+
+  const resJson = await res.json();
+
+  if (resJson.success) {
+    showToast('success', 'Rating received');
+    clearStarRating();
+    setRating();
+  } else {
+    showToast('error', 'Unable to receive rating');
+  }
+}
+
+// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the
+// floor of the rating value
+async function setRating() {
+  const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
+    method: 'GET',
+  });
+
+  const resJson = await res.json();
+  let totalRating;
+  let rating;
+  const numRating = resJson.payload.count;
+
+  if (numRating !== 0) {
+    totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
+    rating = totalRating / numRating;
+    await fetch(`/api/tutor/tutorRating?userId=${profileId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rating: rating,
+      }),
+    });
+  } else {
+    rating = 0;
+  }
+
+  document.getElementById('ratingValue').innerText = rating.toFixed(1);
+
+  for (let i = 0; i < Math.floor(rating); i++) {
+    stars[Math.abs(i - 4)].classList.add('star-filled');
+  }
+}
+
+function clearStarRating() {
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].classList.remove('star-filled');
+  }
 }
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript

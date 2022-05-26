@@ -17,10 +17,18 @@ body {
 
 #editForm,
 #postForm,
-#postEditForm {
+#postEditForm,
+#tutorQualificationsForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
 }
 
 .label {
@@ -30,7 +38,8 @@ body {
 }
 
 input,
-textarea {
+textarea,
+select {
   display: inline-block;
   width: 100%;
 
@@ -44,12 +53,22 @@ textarea {
   border: none;
 }
 
+#tutor-subject {
+  margin-bottom: 5px;
+}
+
+/* Hack for arrow padding */
+select {
+  border-right: 17.5px solid transparent;
+}
+
 #post-description,
 #post-edit-description {
   margin-bottom: 20px;
 }
 
-#edit-submit {
+#edit-submit,
+#tutor-submit {
   width: 100%;
   padding: 15px 20px;
   background-color: var(--nord10);
@@ -124,7 +143,14 @@ main {
   align-items: center;
 }
 
-#addPostButton {
+#tutorInfo,
+.fa-user,
+#userType {
+  color: var(--nord6);
+}
+
+#addPostButton,
+#addQualificationsButton {
   background-color: var(--nord3);
   color: var(--nord14);
 
@@ -229,7 +255,8 @@ main {
   border-radius: 4px;
 }
 
-#editButton {
+#editButton,
+#bookmarkButton {
   width: 100%;
 
   background-color: var(--nord3);
@@ -248,9 +275,141 @@ main {
   gap: 10px;
 }
 
+#topicPillContainer {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  color: var(--nord1);
+}
+
+.newPill {
+  color: var(--nord5);
+}
+
+.tutorCards {
+  color: var(--nord6);
+  background-color: var(--nord1);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease-in;
+}
+
+.tutorCards:hover {
+  background-color: var(--nord3);
+  cursor: pointer;
+}
+
+.tutorName {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.tutorTags {
+  margin: 10px 0px;
+}
+
+.pills {
+  border: 1px var(--nord9) solid;
+  border-radius: 20px;
+  padding: 5px 20px;
+  background-color: var(--nord3);
+}
+
+.tutorTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+#ratingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
+}
+
+/* https://codepen.io/Bilal1909/pen/WNGXeQG */
+#rating {
+  direction: rtl;
+}
+
+.ratingStar {
+  font-size: 25px;
+  color: var(--nord4);
+}
+
+.ratingStar:hover {
+  transform: scale(1.3);
+  color: gold;
+}
+
+.star1:hover ~ i {
+  color: gold;
+}
+
+.star2:hover ~ i {
+  color: gold;
+}
+
+.star3:hover ~ i {
+  color: gold;
+}
+
+.star4:hover ~ i {
+  color: gold;
+}
+
+.star5:hover ~ i {
+  color: gold;
+}
+
+.star-filled {
+  color: gold;
+}
+
+#nameType {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#topics {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.topic {
+  color: var(--nord6);
+  border: 1px var(--nord9) solid;
+  border-radius: 20px;
+  padding: 5px 15px;
+  background-color: var(--nord3);
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
+}
+
 @media screen and (max-width: 700px) {
   main {
-    grid-template-columns: auto;
+    display: unset;
     gap: unset;
     overflow: unset;
   }

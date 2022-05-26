@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes.js');
 const responseMiddleware = require('./middleware/responseMiddleware.js');
+const sanitizeMiddleware = require('./middleware/sanitizeMiddleware.js');
 const app = express();
 
 const MONGOOSE_URI =
@@ -35,16 +36,18 @@ async function main() {
     })
   );
 
-  // Utility functions to send responses
-  app.use(responseMiddleware);
   // Parse incoming payloads as json
   app.use(express.json());
+  // Utility functions to send responses
+  app.use(responseMiddleware);
+  // Mongo sanitize to prevent injections
+  app.use(sanitizeMiddleware);
 
   app.use('/api', apiRoutes);
 
   app.get('/', function (req, res) {
     if (req.session.userType) {
-      return res.redirect('/profile');
+      return res.redirect('/main');
     }
     const doc = fs.readFileSync('./public/html/landing.html', 'utf8');
     return res.send(doc);
@@ -69,6 +72,27 @@ async function main() {
   app.get('/template/nav', function (_, res) {
     const doc = fs.readFileSync('./public/html/template/nav.html', 'utf8');
     return res.send(doc);
+  });
+
+  app.get('/main', function (req, res) {
+    let doc;
+
+    if (!req.session.loggedIn) {
+      return res.redirect('/');
+    }
+
+    if (req.session.userType === 'admin') {
+      doc = fs.readFileSync('./public/html/dashboard.html', 'utf8');
+    } else {
+      doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+    }
+
+    return res.send(doc);
+  });
+  
+  app.get('*', function(req, res){
+    const doc = fs.readFileSync('./public/html/error.html', 'utf8');
+    res.status(404).send(doc);
   });
 }
 
