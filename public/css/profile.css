@@ -1,5 +1,5 @@
 * {
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -16,7 +16,9 @@ body {
 }
 
 #editForm,
-#postForm {
+#postForm,
+#postEditForm,
+#tutorQualificationsForm {
   background-color: var(--nord1);
   padding: 40px;
   border-radius: 8px;
@@ -29,7 +31,8 @@ body {
 }
 
 input,
-textarea {
+textarea,
+select {
   display: inline-block;
   width: 100%;
 
@@ -43,7 +46,18 @@ textarea {
   border: none;
 }
 
-#edit-submit {
+/* Hack for arrow padding */
+select {
+  border-right: 17.5px solid transparent;
+}
+
+#post-description,
+#post-edit-description {
+  margin-bottom: 20px;
+}
+
+#edit-submit,
+#tutor-submit {
   width: 100%;
   padding: 15px 20px;
   background-color: var(--nord10);
@@ -118,7 +132,8 @@ main {
   align-items: center;
 }
 
-#addPostButton {
+#addPostButton,
+#addQualificationsButton {
   background-color: var(--nord3);
   color: var(--nord14);
 
@@ -145,6 +160,7 @@ main {
   padding: 20px;
   border-radius: 8px;
   color: var(--nord5);
+  height: fit-content;
 }
 
 .postCardImg {
@@ -165,7 +181,65 @@ main {
   color: var(--nord5);
 }
 
-#editButton {
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postCardButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.postCard .delete,
+.postCard .edit {
+  background-color: var(--nord3);
+  color: var(--nord14);
+
+  padding: 15px;
+
+  font-size: 1.2em;
+
+  border: none;
+  border-radius: 8px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#uploadedImagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.deletableImgAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--nord5);
+}
+
+.imgDelete {
+  background-color: var(--nord2);
+  border: none;
+  color: var(--nord11);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.deletableImgAndButton img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+#editButton,
+#bookmarkButton {
   width: 100%;
 
   background-color: var(--nord3);
@@ -183,102 +257,51 @@ main {
   align-items: center;
   gap: 10px;
 }
-#tutorModal {
-  display: none;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  background-color: transparent;
-}
 
+#topicPillContainer {
+  color: var(--nord1);
+}
 
 .newPill {
   color: var(--nord5);
 }
 
-.modal-content {
+.tutorCards {
+  color: var(--nord6);
   background-color: var(--nord1);
-  margin: auto;
+  border-radius: 8px;
   padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-}
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  margin-left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease-in;
 }
 
-.close:hover,
-.close:focus {
-  color: red;
-  text-decoration: none;
+.tutorCards:hover {
+  background-color: var(--nord3);
   cursor: pointer;
 }
-#myBtn {
-  background-color: var(--nord3);
-  color: var(--nord14);
-  padding: 15px;
-  font-size: 1.25em;
-  border: none;
-  border-radius: 8px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  height: fit-content;
 
-}
-#tutor {
-  background-color: var(--nord1);
-  padding: 40px;
-  border-radius: 8px;
-}
-
-input,
-select {
-  display: inline-block;
-  width: 100%;
-
-  background-color: var(--nord3);
-  color: var(--nord4);
-
-  padding: 12.5px 17.5px;
-  margin-bottom: 20px;
-
-  border-radius: 8px;
-  border: none;
-}
-
-.label input {
-  display: block;
-}
-
-.label {
-  color: #eceff4;
-  display: block;
-  margin-bottom: 1px;
-}
-
-/* Hack for arrow padding */
-
-select {
-  border-right: 17.5px solid transparent;
-}
-
-#submit {
-  width: 100%;
-  padding: 15px 20px;
-  background-color: var(--nord10);
-  border-radius: 8px;
-  border: none;
-  color: var(--nord5);
+.tutorName {
   font-weight: bold;
-  font-size: 1.1em;
-  margin-bottom: 0px;
+  font-size: 1.2em;
+}
+
+.tutorTags {
+  margin: 10px 0px;
+}
+
+.pills {
+  border: 1px var(--nord9) solid;
+  border-radius: 20px;
+  padding: 5px 20px;
+  background-color: var(--nord3);
+}
+
+.tutorTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 @media screen and (max-width: 700px) {
