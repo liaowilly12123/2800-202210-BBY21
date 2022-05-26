@@ -89,6 +89,11 @@ async function main() {
 
     return res.send(doc);
   });
+  
+  app.get('*', function(req, res){
+    const doc = fs.readFileSync('./public/html/error.html', 'utf8');
+    res.status(404).send(doc);
+  });
 }
 
 app.listen(PORT, main);
