@@ -1,8 +1,8 @@
-"use strict";
-const router = require("express").Router();
+'use strict';
+const router = require('express').Router();
 const mongoose = require('mongoose');
-const Tutor = require("../../models/Tutor.js");
-const Rating = require("../../models/Rating.js");
+const Tutor = require('../../models/Tutor.js');
+const Rating = require('../../models/Rating.js');
 const validate = require('../../utils/validationUtils.js');
 
 router.get('/info', async function (req, res) {
@@ -17,7 +17,7 @@ router.get('/info', async function (req, res) {
 
   const info = await Tutor.findOne({ user_id: userId });
   if (info === null) {
-    return res.success({});
+    return res.fail('Tutor not found');
   }
   return res.success(info);
 });
@@ -97,7 +97,7 @@ router.post('/ratings', async function (req, res) {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
   }
-  
+
   const userId = req.query.userId;
   const rating = req.body.rating;
 
@@ -142,7 +142,7 @@ router.get('/ratings', async function (req, res) {
   // https://jsshowcase.com/question/how-to-sum-field-values-in-collections-in-mongoose
   const totalRatingValue = await Rating.aggregate([
     {
-      $match: { 
+      $match: {
         user_id: mongoose.Types.ObjectId(userId),
       },
     },
@@ -179,7 +179,7 @@ router.put('/tutorRating', async function (req, res) {
       setDefaultsOnInsert: true,
       new: true,
       upsert: true,
-      returnDocument: "after",
+      returnDocument: 'after',
     },
     function (err, result) {
       if (err) {
@@ -189,7 +189,6 @@ router.put('/tutorRating', async function (req, res) {
     }
   );
 });
-
 
 /**
  * Removes undefined, null, and empty values

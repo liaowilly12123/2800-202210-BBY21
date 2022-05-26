@@ -341,12 +341,12 @@ main {
   direction: rtl;
 }
 
-.fa-star {
+.ratingStar {
   font-size: 25px;
   color: var(--nord4);
 }
 
-.fa-star:hover {
+.ratingStar:hover {
   transform: scale(1.3);
   color: gold;
 }
@@ -374,6 +374,7 @@ main {
 .star-filled {
   color: gold;
 }
+
 #nameType {
   display: flex;
   flex-direction: column;
@@ -394,6 +395,16 @@ main {
   border-radius: 20px;
   padding: 5px 15px;
   background-color: var(--nord3);
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.ratingValue {
+  color: var(--nord6);
+  font-weight: 700;
 }
 
 @media screen and (max-width: 700px) {

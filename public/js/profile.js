@@ -136,9 +136,15 @@ async function setBookmarkedTutors() {
         '.pricing'
       ).innerText = `$${tutor.rating.$numberDecimal}/hr`;
 
-      tutorTemplate.querySelector(
-        '.rating'
-      ).innerText = `Rating: ${tutor.rating.$numberDecimal}`;
+      const stars = tutorTemplate.querySelector('.rating').children;
+
+      for (let i = 0; i < Math.floor(tutor.rating.$numberDecimal ?? 0); i++) {
+        stars[i].classList.add('star-filled');
+      }
+
+      tutorTemplate.querySelector('.ratingValue').innerText = `${parseInt(
+        tutor.rating.$numberDecimal
+      ).toFixed(1)}`;
 
       const tagsContainer = tutorTemplate.querySelector('.tutorTags');
       for (const topic of tutor.topics) {
