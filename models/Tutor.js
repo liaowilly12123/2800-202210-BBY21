@@ -14,6 +14,9 @@ const tutorSchema = new mongoose.Schema({
   experience: {
     type: String,
   },
+  contact: {
+    type: String,
+  },
   rating: {
     type: mongoose.Decimal128,
     default: 0.00
