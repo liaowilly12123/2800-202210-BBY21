@@ -77,7 +77,7 @@ async function main() {
   app.get('/main', function (req, res) {
     let doc;
 
-    if (!req.session.userType) {
+    if (!req.session.loggedIn) {
       return res.redirect('/');
     }
 
