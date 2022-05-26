@@ -437,6 +437,7 @@ if (userInfo.success) {
   } else {
     if (!isTutor) {
       document.getElementById('addQualificationsButton').style.display = 'none';
+      document.getElementById('tutorInfo').style.display = 'none';
     }
     document.getElementById('bookmarkButton').style.display = 'none';
   }

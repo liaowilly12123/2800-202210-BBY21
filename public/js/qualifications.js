@@ -2,6 +2,9 @@
 import Modal from '/js/modal/modal.js';
 import { showToast } from '/js/toast.js';
 
+const params = new URLSearchParams(location.search);
+const userId = params.get('userId');
+
 const qualificationsModal = new Modal(
   'tutorQualifications',
   document.getElementById('tutorQualificationsForm')
@@ -58,7 +61,26 @@ registerForm.addEventListener('submit', async (e) => {
   const responseJson = await res.json();
   if (responseJson.success) {
     showToast('success', 'Information Updated');
+    setTutorInfo();
+    qualificationsModal.hide();
   } else {
     showToast('error', responseJson.payload);
   }
 });
+
+async function setTutorInfo() {
+  const qualificationsRes = await fetch(`/api/tutor/info?userId=${userId}`);
+  const qualificationsJson = await qualificationsRes.json();
+
+  if (qualificationsJson.success) {
+    const pload = qualificationsJson.payload;
+    document.getElementById('pricing').innerText =
+      '$' + pload.pricing.$numberDecimal + '/hr' ?? '';
+    document.getElementById('highestEducation').innerText =
+      pload.higherEducation ?? '';
+  } else {
+    showToast('error', qualificationsJson.payload);
+  }
+}
+
+await setTutorInfo();

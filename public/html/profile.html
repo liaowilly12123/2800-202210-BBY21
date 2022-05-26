@@ -162,7 +162,7 @@
       <label class="label" for="tutor-info">Expected Pay in dollars</label>
       <input type="number" name="tutor-info" id="tutor-info" />
 
-      <input type="submit" value="Update" id="tutor-submit"/>
+      <input type="submit" value="Update" id="tutor-submit" />
     </form>
 
     <div id="nav-holder"></div>
@@ -176,10 +176,24 @@
           />
           <div id="nameType">
             <div id="fullName">
-              <h1 id="fname">FName</h1>
-              <h1 id="lname">LName</h1>
+              <h1 id="fname"></h1>
+              <h1 id="lname"></h1>
             </div>
-            <p id="userType">Type</p>
+            <div class="row">
+              <i class="fa-solid fa-user"></i>
+              <p id="userType"></p>
+            </div>
+            <div id="tutorInfo">
+              <div class="row">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <p id="pricing"></p>
+              </div>
+              <div class="row">
+                <i class="fa-solid fa-atom"></i>
+                <p id="highestEducation"></p>
+              </div>
+            </div>
+            <div id="topics"></div>
           </div>
         </div>
 
