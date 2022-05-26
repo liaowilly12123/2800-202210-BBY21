@@ -548,6 +548,16 @@ async function setRating() {
   if (numRating !== 0) {
     totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
     rating = totalRating / numRating;
+    await fetch(`/api/tutor/tutorRating?userId=${profileId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rating: rating,
+      }),
+    })
   } else {
     rating = 0;
   }
@@ -564,6 +574,7 @@ function clearStarRating() {
     stars[i].classList.remove('star-filled');
   }
 }
+
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
 function removeEmpty(obj) {

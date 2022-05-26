@@ -138,9 +138,40 @@ router.get('/ratings', async function (req, res) {
     },
     { $unset: ['_id'] },
   ]);
-  
+
   res.success({ count: numRatings, totalRating: totalRatingValue });
 });
+
+router.put('/tutorRating', async function (req, res) {
+  if (!req.session.loggedIn) {
+    return res.fail('User not logged in');
+  }
+
+  let userId = req.query.userId === 'null' ? req.body.userId : req.query.userId;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.fail(`${userId} is an invalid id`);
+  }
+
+  // Finds tutor document by user ID and updates if found, else create a new document.
+  Tutor.findOneAndUpdate(
+    { user_id: userId },
+    { ...removeEmpty(req.body) },
+    {
+      setDefaultsOnInsert: true,
+      new: true,
+      upsert: true,
+      returnDocument: "after",
+    },
+    function (err, result) {
+      if (err) {
+        return res.fail(`${err}. Unable to create/update tutor info`);
+      }
+      return res.success(result);
+    }
+  );
+});
+
 
 /**
  * Removes undefined, null, and empty values
