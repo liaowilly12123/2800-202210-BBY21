@@ -74,7 +74,10 @@ async function main() {
     return res.send(doc);
   });
 
-  app.get('/main', function (_, res) {
+  app.get('/main', function (req, res) {
+    if (!req.session.userType) {
+      return res.redirect('/');
+    }
     let doc = fs.readFileSync('./public/html/main.html', 'utf-8');
     return res.send(doc);
   });
