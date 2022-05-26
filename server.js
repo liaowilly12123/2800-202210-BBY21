@@ -74,8 +74,19 @@ async function main() {
     return res.send(doc);
   });
 
-  app.get('/main', function (_, res) {
-    let doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+  app.get('/main', function (req, res) {
+    let doc;
+
+    if (!req.session.loggedIn) {
+      return res.redirect('/');
+    }
+
+    if (req.session.userType === 'admin') {
+      doc = fs.readFileSync('./public/html/dashboard.html', 'utf8');
+    } else {
+      doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+    }
+
     return res.send(doc);
   });
 }
