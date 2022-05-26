@@ -75,10 +75,18 @@ async function main() {
   });
 
   app.get('/main', function (req, res) {
+    let doc;
+
     if (!req.session.userType) {
       return res.redirect('/');
     }
-    let doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+
+    if (req.session.userType === 'admin') {
+      doc = fs.readFileSync('./public/html/dashboard.html', 'utf8');
+    } else {
+      doc = fs.readFileSync('./public/html/main.html', 'utf-8');
+    }
+
     return res.send(doc);
   });
 }
