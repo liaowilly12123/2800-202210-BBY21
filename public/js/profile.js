@@ -438,6 +438,7 @@ if (userInfo.success) {
     if (!isTutor) {
       document.getElementById('addQualificationsButton').style.display = 'none';
       document.getElementById('tutorInfo').style.display = 'none';
+      document.getElementById('topics').style.display = 'none';
     }
     document.getElementById('bookmarkButton').style.display = 'none';
   }

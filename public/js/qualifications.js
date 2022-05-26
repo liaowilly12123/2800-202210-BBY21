@@ -84,6 +84,17 @@ async function setTutorInfo() {
       '$' + pload.pricing.$numberDecimal + '/hr' ?? '';
     document.getElementById('highestEducation').innerText =
       pload.higherEducation ?? '';
+
+    const topicsElem = document.getElementById('topics');
+    topicsElem.replaceChildren();
+
+    pload.topics.forEach((topic) => {
+      let topicElem = document.createElement('div');
+      topicElem.innerText = topic;
+      topicElem.classList.add('topic');
+
+      topicsElem.appendChild(topicElem);
+    });
   } else {
     showToast('error', qualificationsJson.payload);
   }
