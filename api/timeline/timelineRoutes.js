@@ -36,7 +36,7 @@ router.get('/posts', async function (req, res) {
 router.post('/new', async function (req, res) {
   if (!req.session.loggedIn) {
     return res.fail('User not logged in');
-}
+  }
 
   if (req.session.userType === 'student') {
     return res.fail("Students can't make posts");
