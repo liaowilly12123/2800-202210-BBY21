@@ -134,7 +134,7 @@ async function setBookmarkedTutors() {
       ).innerText = `${tutor.user_id.firstName} ${tutor.user_id.lastName}`;
       tutorTemplate.querySelector(
         '.pricing'
-      ).innerText = `${tutor.rating.$numberDecimal}/hr`;
+      ).innerText = `$${tutor.rating.$numberDecimal}/hr`;
 
       tutorTemplate.querySelector(
         '.rating'
@@ -288,7 +288,7 @@ for (let i = 0; i < stars.length; i++) {
   stars[i].addEventListener('click', () => {
     const starNum = Math.abs(i - 4) + 1;
     updateRating(starNum);
-  })
+  });
 }
 
 if (userInfo.success) {
@@ -451,6 +451,7 @@ if (userInfo.success) {
       document.getElementById('addQualificationsButton').style.display = 'none';
       document.getElementById('tutorInfo').style.display = 'none';
       document.getElementById('topics').style.display = 'none';
+      document.getElementById('ratingContainer').style.display = 'none';
     }
     document.getElementById('bookmarkButton').style.display = 'none';
   }
@@ -539,18 +540,18 @@ async function updateRating(rating) {
   }
 }
 
-// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the 
+// Sets the star rating value to a decimal pulled from DB and fills in number of stars based on the
 // floor of the rating value
 async function setRating() {
   const res = await fetch(`/api/tutor/ratings?userId=${profileId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 
   const resJson = await res.json();
   let totalRating;
   let rating;
   const numRating = resJson.payload.count;
-  
+
   if (numRating !== 0) {
     totalRating = resJson.payload.totalRating[0].value.$numberDecimal;
     rating = totalRating / numRating;
@@ -563,7 +564,7 @@ async function setRating() {
       body: JSON.stringify({
         rating: rating,
       }),
-    })
+    });
   } else {
     rating = 0;
   }
@@ -580,7 +581,6 @@ function clearStarRating() {
     stars[i].classList.remove('star-filled');
   }
 }
-
 
 // https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
 function removeEmpty(obj) {
